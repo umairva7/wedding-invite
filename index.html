@@ -48,6 +48,8 @@
         <span class="story-roman-numeral" data-index="4">V</span>
         <span class="story-roman-dot">&bull;</span>
         <span class="story-roman-numeral" data-index="5">VI</span>
+        <span class="story-roman-dot">&bull;</span>
+        <span class="story-roman-numeral" data-index="6">VII</span>
     </div>
 
 
@@ -123,24 +125,7 @@
                     <div class="invitation-ornament-divider anim-item anim-fade-in delay-3">✦</div>
 
                     <div class="invitation-ceremony-meta anim-item anim-fade-up delay-4">
-                        <span class="meta-date">20 NOVEMBER 2026</span>
-                        <span class="meta-time">7:30 PM</span>
-                        <span class="meta-city">Lahore</span>
-                    </div>
-
-                    <div class="stationery-blessing-block anim-item anim-fade-up delay-4">
-                        <div class="blessing-stationery-header">
-                            <span class="blessing-title">OFFER A BLESSING</span>
-                            <span class="blessing-rose-icon">🌹</span>
-                            <p class="blessing-subtitle">Send a rose in celebration of Iqra &amp; Hamid</p>
-                        </div>
-                        <button id="offerFlowerBtn" class="stationery-petal-btn">
-                            <span>✦ SHOWER ROSE PETALS ✦</span>
-                        </button>
-                        <div class="blessing-counter-readout">
-                            <span class="flower-count" id="flowerCount">139</span>
-                            <span class="flower-label">blessings offered</span>
-                        </div>
+                        <span class="meta-date" style="font-size: 0.95rem; letter-spacing: 2px;">THE BARAAT CEREMONY</span>
                     </div>
 
                     <div class="swipe-hint-footer anim-item anim-fade-in delay-4">
@@ -162,7 +147,7 @@
                                 <span class="divider-ornament">✦</span>
                                 <span class="divider-line"></span>
                             </div>
-                            <p class="register-subtitle">Aristocratic Roll of Respected Family &amp; Dignitaries</p>
+                            <p class="register-subtitle">Aristocratic Roll of Respected Family &amp; Honoured Guests</p>
                         </div>
 
                         <div class="guest-register-scroll anim-item anim-fade-up delay-2">
@@ -230,17 +215,15 @@
 
                     <div class="scratch-card-section anim-item anim-zoom-in delay-1">
                         <div class="scratch-header">
-                            <span>✨</span>
-                            <h3>Secret Wedding Date</h3>
-                            <span>✨</span>
+                            <h3>BARAAT CEREMONY</h3>
+                            <p style="font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-style: italic; color: var(--color-maroon-main); margin-top: 4px;">Some details are meant to be revealed.</p>
                         </div>
                         <div class="scratch-wrapper" id="scratchWrapper">
-                            <div class="revealed-content">
-                                <div class="date-badge">BARAAT CEREMONY</div>
+                            <div class="revealed-content" style="padding-top: 5px;">
                                 <div class="revealed-date">
-                                    <span class="day-name">Friday</span>
-                                    <span class="date-main">20 Nov 2026</span>
-                                    <span class="time-main">⏰ 7:30 PM</span>
+                                    <span class="date-main">20 NOVEMBER 2026</span>
+                                    <span class="time-main">7:30 PM</span>
+                                    <span class="date-badge" style="margin-top: 6px;">LAHORE</span>
                                 </div>
                             </div>
                             <canvas id="scratchCanvas"></canvas>
@@ -252,13 +235,6 @@
                     </div>
 
                     <div class="editorial-date-section anim-item anim-fade-up delay-2">
-                        <div class="editorial-date-display">
-                            <span class="editorial-day">20</span>
-                            <span class="editorial-month">NOVEMBER</span>
-                            <span class="editorial-year">2026</span>
-                        </div>
-                        <div class="editorial-time">⏰ 7:30 PM</div>
-                        <div class="editorial-divider">✦</div>
                         <div class="editorial-countdown-block">
                             <span class="countdown-lead">The celebration begins in</span>
                             <div class="countdown-digits">
@@ -272,10 +248,32 @@
                 </div>
             </section>
 
-            <!-- CHAPTER IV: Venue -->
+            <!-- CHAPTER IV: Offer a Blessing -->
             <section class="page" data-page="3">
                 <div class="page-inner card-surface">
-                    <div class="story-chapter-badge anim-item anim-fade-down">CHAPTER IV • THE CELEBRATION</div>
+                    <div class="story-chapter-badge anim-item anim-fade-down">CHAPTER IV • OFFER A BLESSING</div>
+
+                    <div class="stationery-blessing-block anim-item anim-fade-up delay-1" style="margin-top: 40px;">
+                        <div class="blessing-stationery-header">
+                            <h2 class="venue-celebration-title" style="font-size: 1.1rem; color: var(--color-maroon-deep); margin-bottom: 5px;">OFFER A BLESSING</h2>
+                            <div class="venue-divider">✦ ⚜ ✦</div>
+                            <p class="blessing-subtitle">Send a rose in celebration of Iqra &amp; Hamid.</p>
+                        </div>
+                        <button id="offerFlowerBtn" class="stationery-petal-btn">
+                            <span>✦ SHOWER ROSE PETALS ✦</span>
+                        </button>
+                        <div class="blessing-counter-readout">
+                            <span class="flower-count" id="flowerCount">139</span>
+                            <span class="flower-label">blessings have been offered</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CHAPTER V: Venue -->
+            <section class="page" data-page="4">
+                <div class="page-inner card-surface">
+                    <div class="story-chapter-badge anim-item anim-fade-down">CHAPTER V • THE CELEBRATION</div>
 
                     <div class="formal-venue-card anim-item anim-zoom-in delay-1">
                         <div class="venue-card-header">
@@ -295,11 +293,9 @@
 
                         <div class="venue-destination-actions">
                             <a href="https://maps.google.com/?q=Marina+Banquet+Hall+near+Barkat+Market+Lahore" target="_blank" rel="noopener noreferrer" class="destination-seal-btn">
-                                <span class="line-icon"></span>
                                 <span>VIEW LOCATION</span>
                             </a>
                             <button id="addToCalendarBtn" class="calendar-seal-btn">
-                                <span class="line-icon"></span>
                                 <span>ADD TO CALENDAR</span>
                             </button>
                         </div>
@@ -307,10 +303,10 @@
                 </div>
             </section>
 
-            <!-- CHAPTER V: Test of Memory -->
-            <section class="page" data-page="4">
+            <!-- CHAPTER VI: Test of Memory -->
+            <section class="page" data-page="5">
                 <div class="page-inner card-surface">
-                    <div class="story-chapter-badge anim-item anim-fade-down">CHAPTER V • A LITTLE TEST OF MEMORY</div>
+                    <div class="story-chapter-badge anim-item anim-fade-down">CHAPTER VI • A LITTLE TEST OF MEMORY</div>
 
                     <div class="memory-test-section anim-item anim-fade-up delay-1">
                         <div class="memory-header">
@@ -358,10 +354,10 @@
                 </div>
             </section>
 
-            <!-- CHAPTER VI: Until We Meet -->
-            <section class="page" data-page="5">
+            <!-- CHAPTER VII: Until We Meet -->
+            <section class="page" data-page="6">
                 <div class="page-inner card-surface">
-                    <div class="story-chapter-badge anim-item anim-fade-down">CHAPTER VI • UNTIL WE MEET</div>
+                    <div class="story-chapter-badge anim-item anim-fade-down">CHAPTER VII • UNTIL WE MEET</div>
 
                     <div class="until-we-meet-section anim-item anim-zoom-in delay-1">
                         <div class="until-header">
@@ -409,7 +405,6 @@
 
                         <div class="final-share-actions">
                             <button id="shareBtn" class="share-invitation-btn">
-                                <span class="share-icon">📲</span>
                                 <span>SHARE INVITATION</span>
                             </button>
                         </div>

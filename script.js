@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (flowerCountEl) flowerCountEl.innerText = count;
 
     function spawnPetalShower() {
-        const petals = ['🌹', '🌸', '🌹'];
+        const petals = ['🌹', '✨', '⚜️', '✦'];
         for (let i = 0; i < 20; i++) {
             const petal = document.createElement('div');
             petal.innerText = petals[Math.floor(Math.random() * petals.length)];
@@ -437,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // 2. Subtle Falling Rose Petals
-        const petals = ['🌸', '🌹', '✨'];
+        const petals = ['✨', '🌹', '✦', '⚜️'];
         for (let i = 0; i < 6; i++) {
             setTimeout(() => {
                 const petal = document.createElement('div');
