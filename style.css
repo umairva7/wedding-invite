@@ -27,10 +27,16 @@
     --color-text-muted: #6E4A50;
     --color-text-light: #F6F0E5;
 
-    --font-heading: 'Cinzel', serif;
-    --font-script: 'Great Vibes', cursive;
-    --font-title: 'Playfair Display', serif;
-    --font-body: 'Montserrat', sans-serif;
+    /* Typography System — 5 Tiers */
+    --font-display: 'Cormorant Garamond', 'Georgia', serif;
+    --font-heading: 'Cinzel', 'Times New Roman', serif;
+    --font-serif: 'Cormorant', 'Garamond', serif;
+    --font-body: 'Montserrat', 'Helvetica Neue', sans-serif;
+    --font-arabic: 'Amiri', 'Traditional Arabic', 'Noto Naskh Arabic', serif;
+
+    /* Legacy aliases for backward compatibility */
+    --font-title: var(--font-display);
+    --font-script: var(--font-display);
 
     --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.35);
     --shadow-gold: 0 0 20px rgba(198, 161, 91, 0.35);
@@ -61,8 +67,12 @@ html, body {
     background-color: var(--color-maroon-dark);
     color: var(--color-text-light);
     font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
     overflow: hidden; /* Lock scroll to scroll container */
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -476,12 +486,12 @@ body.is-unopened #musicToggle {
 }
 
 .instruction-lead {
-    font-family: var(--font-heading);
-    font-size: 0.62rem;
-    letter-spacing: 3px;
+    font-family: var(--font-body);
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
     color: var(--color-gold-deep);
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: 500;
     display: block;
     margin-bottom: 6px;
     opacity: 0.85;
@@ -638,6 +648,18 @@ body.is-unopened #musicToggle {
     position: relative;
 }
 
+/* Chapter Eyebrow Badge — Editorial Metadata */
+.story-chapter-badge {
+    font-family: var(--font-body);
+    font-size: 0.52rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: var(--color-gold-deep);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    opacity: 0.8;
+}
+
 /* Luxury Gold Foil Light Sheen Sweep Overlay */
 .gold-foil-sheen {
     position: absolute;
@@ -720,31 +742,34 @@ body.is-unopened #musicToggle {
 }
 
 .bismillah-text {
-    font-family: var(--font-title);
-    font-size: 1.68rem;
+    font-family: var(--font-arabic);
+    font-size: clamp(1.4rem, 5vw, 1.85rem);
     color: var(--color-gold-main);
     font-weight: 700;
-    letter-spacing: 0.8px;
-    line-height: 1.35;
+    letter-spacing: 0.5px;
+    line-height: 1.7;
 }
 
 .bismillah-translation {
-    font-size: 0.63rem;
+    font-family: var(--font-body);
+    font-size: 0.6rem;
     color: var(--color-gold-deep);
     text-transform: uppercase;
-    letter-spacing: 1.2px;
-    margin-top: 6px;
+    letter-spacing: 0.18em;
+    margin-top: 8px;
     font-weight: 500;
 }
 
 /* Chapter I Unified Stationery Invitation Layout */
 .family-invitation-lead {
-    font-family: var(--font-heading);
-    font-size: 0.72rem;
-    letter-spacing: 1px;
+    font-family: var(--font-serif);
+    font-size: 0.88rem;
+    letter-spacing: 0.04em;
     color: var(--color-gold-deep);
-    text-transform: uppercase;
-    margin: 6px 0 2px;
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    margin: 8px 0 4px;
 }
 
 .invitation-ornament-divider {
@@ -754,11 +779,12 @@ body.is-unopened #musicToggle {
 }
 
 .invitation-body-declaration p {
-    font-family: var(--font-title);
-    font-size: 0.86rem;
-    line-height: 1.45;
+    font-family: var(--font-serif);
+    font-size: clamp(0.88rem, 2.5vw, 1.05rem);
+    line-height: 1.65;
     color: var(--color-maroon-dark);
-    font-weight: 500;
+    font-weight: 400;
+    font-style: italic;
     max-width: 320px;
     margin: 0 auto;
 }
@@ -774,20 +800,20 @@ body.is-unopened #musicToggle {
 }
 
 .meta-date {
-    font-size: 0.95rem;
-    font-weight: 700;
-    letter-spacing: 1.5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
 }
 
 .meta-time {
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 1px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
 }
 
 .meta-city {
-    font-size: 0.75rem;
-    letter-spacing: 1.2px;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
     color: var(--color-gold-deep);
     text-transform: uppercase;
 }
@@ -821,11 +847,12 @@ body.is-unopened #musicToggle {
 }
 
 .blessing-subtitle {
-    font-family: var(--font-title);
-    font-size: 0.76rem;
+    font-family: var(--font-serif);
+    font-size: 0.82rem;
     color: var(--color-maroon-dark);
     font-style: italic;
-    margin-bottom: 6px;
+    font-weight: 400;
+    margin-bottom: 8px;
 }
 
 .stationery-petal-btn {
@@ -849,26 +876,30 @@ body.is-unopened #musicToggle {
 }
 
 .blessing-counter-readout {
-    font-family: var(--font-heading);
-    font-size: 0.64rem;
+    font-family: var(--font-body);
+    font-size: 0.6rem;
     color: var(--color-gold-deep);
-    letter-spacing: 1px;
-    margin-top: 5px;
+    letter-spacing: 0.08em;
+    margin-top: 6px;
+    font-weight: 400;
 }
 
 .blessing-counter-readout .flower-count {
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
     color: var(--color-maroon-deep);
-    margin-right: 3px;
+    margin-right: 4px;
 }
 
 .swipe-hint-footer {
-    font-family: var(--font-heading);
-    font-size: 0.62rem;
+    font-family: var(--font-body);
+    font-size: 0.58rem;
     color: var(--color-gold-deep);
-    letter-spacing: 1px;
-    margin-top: 6px;
-    opacity: 0.85;
+    letter-spacing: 0.15em;
+    margin-top: 8px;
+    opacity: 0.7;
+    font-weight: 400;
 }
 
 
@@ -1019,35 +1050,35 @@ body.is-unopened #musicToggle {
 }
 
 .name {
-    font-family: var(--font-title);
-    font-size: 2.15rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 8vw, 3.8rem);
     color: var(--color-maroon-deep);
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.3px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
 }
 
 .connector-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    margin: 4px 0;
+    gap: 14px;
+    margin: 6px 0;
 }
 
 .connector-wrapper .line {
-    width: 45px;
+    width: 50px;
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--color-gold-main), transparent);
 }
 
 .connector-wrapper .ampersand {
-    font-family: var(--font-script);
-    font-size: 2.3rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
     color: var(--color-gold-main);
     line-height: 1;
-    font-weight: 400;
+    font-weight: 300;
+    font-style: italic;
 }
 
 .invitation-text p {
@@ -1154,13 +1185,29 @@ body.is-unopened #musicToggle {
 
 .scratch-header {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    margin-bottom: 8px;
+    gap: 2px;
+    margin-bottom: 10px;
+}
+
+.scratch-header h3 {
     font-family: var(--font-heading);
-    font-size: 0.72rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     color: var(--color-maroon-main);
+    text-transform: uppercase;
+}
+
+.scratch-subtitle {
+    font-family: var(--font-serif);
+    font-size: 0.82rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-maroon-main);
+    margin-top: 4px;
 }
 
 .scratch-wrapper {
@@ -1196,43 +1243,44 @@ body.is-unopened #musicToggle {
 }
 
 .editorial-day-num {
-    font-family: var(--font-title);
-    font-size: 2.2rem;
-    font-weight: 800;
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 8vw, 3.6rem);
+    font-weight: 600;
     color: var(--color-maroon-deep);
-    line-height: 0.9;
-    letter-spacing: -1px;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
 }
 
 .editorial-month-name {
     font-family: var(--font-heading);
-    font-size: 0.82rem;
-    font-weight: 700;
-    letter-spacing: 3.5px;
+    font-size: clamp(0.62rem, 2vw, 0.78rem);
+    font-weight: 500;
+    letter-spacing: 0.3em;
     color: var(--color-gold-deep);
-    margin-top: 2px;
+    margin-top: 4px;
 }
 
 .editorial-year-num {
-    font-family: var(--font-heading);
-    font-size: 0.68rem;
-    letter-spacing: 2px;
+    font-family: var(--font-body);
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
     color: var(--color-text-muted);
+    font-weight: 400;
 }
 
 .editorial-hairline {
-    width: 60%;
+    width: 50%;
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--color-gold-main), transparent);
-    margin: 4px auto;
+    margin: 6px auto;
 }
 
 .editorial-meta-line {
-    font-family: var(--font-heading);
-    font-size: 0.64rem;
-    letter-spacing: 1.5px;
+    font-family: var(--font-body);
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
     color: var(--color-maroon-main);
-    font-weight: 600;
+    font-weight: 500;
     text-transform: uppercase;
 }
 
@@ -1344,42 +1392,45 @@ body.is-unopened #musicToggle {
 }
 
 .countdown-lead {
-    font-family: var(--font-title);
-    font-size: 0.74rem;
-    color: var(--color-maroon-dark);
-    font-style: italic;
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    color: var(--color-gold-deep);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 500;
     display: block;
-    margin-bottom: 2px;
+    margin-bottom: 6px;
 }
 
 .countdown-digits {
-    line-height: 1.1;
-    margin: 2px 0;
+    line-height: 1;
+    margin: 4px 0;
 }
 
 .countdown-main-num {
-    font-family: var(--font-title);
-    font-size: 1.55rem;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 6vw, 2.8rem);
+    font-weight: 600;
     color: var(--color-maroon-deep);
 }
 
 .unit-label {
-    font-family: var(--font-heading);
-    font-size: 0.76rem;
-    letter-spacing: 1.2px;
+    font-family: var(--font-body);
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
     color: var(--color-gold-deep);
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: 500;
+    margin-left: 4px;
 }
 
 .countdown-sub-readout {
-    font-family: var(--font-heading);
-    font-size: 0.61rem;
-    color: var(--color-gold-deep);
-    letter-spacing: 1px;
-    margin-top: 3px;
-    opacity: 0.85;
+    font-family: var(--font-body);
+    font-size: 0.6rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.08em;
+    margin-top: 6px;
+    font-weight: 400;
 }
 
 
@@ -1512,31 +1563,31 @@ body.is-unopened #musicToggle {
 }
 
 .editorial-section-tag {
-    font-family: var(--font-heading);
-    font-size: 0.65rem;
-    letter-spacing: 3px;
+    font-family: var(--font-body);
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
     color: var(--color-gold-deep);
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 500;
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .editorial-venue-title {
-    font-family: var(--font-title);
-    font-size: 1.65rem;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    font-weight: 500;
     color: var(--color-maroon-deep);
-    letter-spacing: -0.3px;
+    letter-spacing: -0.01em;
     margin-bottom: 8px;
-    line-height: 1.25;
+    line-height: 1.2;
 }
 
 .venue-celebration-title {
     font-family: var(--font-heading);
-    font-size: 1.05rem;
-    font-weight: 700;
-    letter-spacing: 2px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
     color: var(--color-maroon-deep);
     text-transform: uppercase;
 }
@@ -1556,10 +1607,11 @@ body.is-unopened #musicToggle {
 }
 
 .formal-venue-location {
-    font-family: var(--font-body);
-    font-size: 0.78rem;
+    font-family: var(--font-serif);
+    font-size: clamp(0.82rem, 2.2vw, 0.92rem);
     color: var(--color-text-muted);
-    line-height: 1.35;
+    line-height: 1.55;
+    font-weight: 400;
     max-width: 260px;
     margin: 0 auto 14px;
 }
@@ -1577,26 +1629,27 @@ body.is-unopened #musicToggle {
 }
 
 .venue-datetime-flow .flow-day {
-    font-family: var(--font-heading);
-    font-size: 0.72rem;
-    letter-spacing: 3px;
+    font-family: var(--font-body);
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
     color: var(--color-gold-deep);
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .venue-datetime-flow .flow-date {
-    font-family: var(--font-title);
-    font-size: 1.32rem;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 4vw, 1.65rem);
+    font-weight: 500;
     color: var(--color-maroon-deep);
-    letter-spacing: 0.3px;
+    letter-spacing: 0.01em;
 }
 
 .venue-datetime-flow .flow-time {
-    font-family: var(--font-body);
-    font-size: 0.76rem;
+    font-family: var(--font-serif);
+    font-size: clamp(0.78rem, 2vw, 0.88rem);
     font-style: italic;
+    font-weight: 400;
     color: var(--color-maroon-main);
 }
 
@@ -1615,10 +1668,10 @@ body.is-unopened #musicToggle {
     gap: 8px;
     padding: 10px 16px;
     border-radius: var(--radius-full);
-    font-family: var(--font-heading);
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 1.8px;
+    font-family: var(--font-body);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
@@ -1672,24 +1725,25 @@ body.is-unopened #musicToggle {
 
 .memory-title {
     font-family: var(--font-heading);
-    font-size: 1.05rem;
+    font-size: 0.88rem;
     color: var(--color-maroon-deep);
-    font-weight: 700;
-    letter-spacing: 2px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
 }
 
 .memory-divider {
     color: var(--color-gold-main);
-    font-size: 0.68rem;
-    margin: 3px 0 4px;
+    font-size: 0.65rem;
+    margin: 4px 0 6px;
 }
 
 .memory-subtitle {
-    font-family: var(--font-heading);
-    font-size: 0.6rem;
+    font-family: var(--font-body);
+    font-size: 0.62rem;
     color: var(--color-text-muted);
-    letter-spacing: 0.8px;
+    letter-spacing: 0.05em;
+    font-weight: 400;
 }
 
 .trivia-q {
@@ -1703,10 +1757,11 @@ body.is-unopened #musicToggle {
 }
 
 .q-text {
-    font-family: var(--font-title);
-    font-size: 0.85rem;
-    font-weight: 600;
+    font-family: var(--font-serif);
+    font-size: clamp(0.88rem, 2.4vw, 1rem);
+    font-weight: 500;
     color: var(--color-maroon-deep);
+    line-height: 1.5;
 }
 
 .q-options {
@@ -1716,21 +1771,22 @@ body.is-unopened #musicToggle {
 }
 
 .btn-opt {
-    background: #FFFDF9;
-    border: 1px solid rgba(198, 161, 91, 0.35);
-    padding: 9px 12px;
-    border-radius: var(--radius-sm);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(198, 161, 91, 0.3);
+    padding: 10px 8px;
+    border-radius: 0;
     font-family: var(--font-body);
-    font-size: 0.76rem;
+    font-size: 0.78rem;
     color: var(--color-maroon-dark);
     text-align: left;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: border-color 0.3s ease;
 }
 
 .btn-opt:hover {
-    border-color: var(--color-gold-main);
-    background: #FAF2E1;
+    border-bottom-color: var(--color-gold-main);
+    background: rgba(255, 253, 248, 0.6);
 }
 
 .btn-opt.correct {
@@ -1748,10 +1804,11 @@ body.is-unopened #musicToggle {
 }
 
 .memory-feedback {
-    font-family: var(--font-heading);
-    font-size: 0.65rem;
+    font-family: var(--font-serif);
+    font-size: 0.82rem;
     font-style: italic;
-    color: var(--color-gold-deep);
+    font-weight: 400;
+    color: var(--color-text-muted);
     text-align: center;
     min-height: 18px;
     margin-top: 4px;
@@ -1770,18 +1827,18 @@ body.is-unopened #musicToggle {
 
 .result-title {
     font-family: var(--font-heading);
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: 2px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     color: var(--color-maroon-deep);
     text-transform: uppercase;
 }
 
-.result-score {
-    font-family: var(--font-title);
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--color-gold-deep);
+.result-score-small {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--color-maroon-deep);
     margin: 4px 0;
 }
 
@@ -1847,10 +1904,10 @@ body.is-unopened #musicToggle {
 
 .ledger-title {
     font-family: var(--font-heading);
-    font-size: 1.15rem;
+    font-size: clamp(0.82rem, 2.5vw, 1rem);
     color: var(--color-maroon-deep);
-    font-weight: 700;
-    letter-spacing: 2px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
 }
 
@@ -1861,10 +1918,12 @@ body.is-unopened #musicToggle {
 }
 
 .ledger-subtitle {
-    font-family: var(--font-heading);
-    font-size: 0.62rem;
+    font-family: var(--font-serif);
+    font-size: 0.72rem;
     color: var(--color-text-muted);
-    letter-spacing: 0.8px;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0.02em;
 }
 
 .stationery-form {
@@ -1884,12 +1943,14 @@ body.is-unopened #musicToggle {
 }
 
 .stationery-label {
-    font-family: var(--font-heading);
+    font-family: var(--font-body);
     font-size: 0.58rem;
+    letter-spacing: 0.15em;
     color: var(--color-gold-deep);
     text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
+    font-weight: 500;
+    margin-bottom: 4px;
+    display: block;
 }
 
 .stationery-input,
@@ -1915,11 +1976,11 @@ body.is-unopened #musicToggle {
     background: linear-gradient(135deg, var(--color-maroon-deep), var(--color-maroon-dark));
     color: var(--color-gold-bright);
     border: 1.2px solid var(--color-gold-main);
-    font-family: var(--font-heading);
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    padding: 8px 12px;
+    font-family: var(--font-body);
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    padding: 9px 14px;
     border-radius: var(--radius-full);
     cursor: pointer;
     transition: all var(--transition-fast);
@@ -1941,11 +2002,12 @@ body.is-unopened #musicToggle {
 }
 
 .parchment-wall-title {
-    font-family: var(--font-heading);
-    font-size: 0.6rem;
+    font-family: var(--font-body);
+    font-size: 0.52rem;
     color: var(--color-gold-deep);
-    letter-spacing: 1.2px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
+    font-weight: 500;
     margin-bottom: 6px;
     text-align: center;
 }
@@ -2018,9 +2080,9 @@ body.is-unopened #musicToggle {
 
 .until-title {
     font-family: var(--font-heading);
-    font-size: 1.15rem;
-    font-weight: 700;
-    letter-spacing: 2px;
+    font-size: clamp(0.88rem, 2.8vw, 1.1rem);
+    font-weight: 500;
+    letter-spacing: 0.18em;
     color: var(--color-maroon-deep);
     text-transform: uppercase;
 }
@@ -2032,23 +2094,25 @@ body.is-unopened #musicToggle {
 }
 
 .blessing-calligraphy {
-    font-family: 'Amiri', 'Traditional Arabic', serif;
-    font-size: 1.35rem;
+    font-family: var(--font-arabic);
+    font-size: clamp(1.4rem, 5vw, 1.9rem);
     font-weight: 700;
     color: var(--color-gold-deep);
-    line-height: 1.6;
-    margin: 8px 0 4px;
+    line-height: 1.85;
+    margin: 16px 0 10px;
     direction: rtl;
+    letter-spacing: 0.5px;
 }
 
 .blessing-english {
-    font-family: var(--font-title);
-    font-size: 0.8rem;
+    font-family: var(--font-serif);
+    font-size: clamp(0.82rem, 2.2vw, 0.95rem);
     font-style: italic;
+    font-weight: 400;
     color: var(--color-maroon-dark);
-    line-height: 1.35;
-    max-width: 280px;
-    margin: 0 auto 12px;
+    line-height: 1.55;
+    max-width: 300px;
+    margin: 0 auto 20px;
 }
 
 .final-family-compliments {
@@ -2059,18 +2123,18 @@ body.is-unopened #musicToggle {
 }
 
 .compliment-label {
-    font-family: var(--font-heading);
-    font-size: 0.58rem;
-    letter-spacing: 1.5px;
+    font-family: var(--font-body);
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
     color: var(--color-gold-deep);
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .family-names {
-    font-family: var(--font-title);
-    font-size: 0.95rem;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: clamp(0.92rem, 2.8vw, 1.1rem);
+    font-weight: 500;
     color: var(--color-maroon-deep);
 }
 
@@ -2114,10 +2178,10 @@ body.is-unopened #musicToggle {
     color: var(--color-gold-bright);
     border: 1.2px solid var(--color-gold-main);
     border-radius: var(--radius-full);
-    font-family: var(--font-heading);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 1.8px;
+    font-family: var(--font-body);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     cursor: pointer;
     box-shadow: 0 4px 16px rgba(66, 10, 24, 0.25);
@@ -2213,10 +2277,10 @@ body.is-unopened #musicToggle {
 
 .register-title {
     font-family: var(--font-heading);
-    font-size: 1.15rem;
+    font-size: clamp(0.88rem, 2.8vw, 1.08rem);
     color: var(--color-maroon-deep);
-    font-weight: 700;
-    letter-spacing: 2px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
 }
 
@@ -2241,11 +2305,13 @@ body.is-unopened #musicToggle {
 }
 
 .register-subtitle {
-    font-family: var(--font-heading);
-    font-size: 0.58rem;
+    font-family: var(--font-serif);
+    font-size: 0.72rem;
     color: var(--color-text-muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
 }
 
 .guest-register-scroll {
@@ -2289,35 +2355,118 @@ body.is-unopened #musicToggle {
     }
 }
 
+/* ==========================================================================
+   VISUAL QA POLISH PASS RULES
+   ========================================================================== */
+
+/* ISSUE 2 — Chapter VII 3-Stage Layout & Natural Scroll Flow */
+.chapter-vii-scrollable {
+    overflow-y: auto !important;
+    justify-content: flex-start !important;
+    padding-top: 24px !important;
+    padding-bottom: 40px !important;
+}
+
+.closing-stage-spiritual {
+    margin: 8px 0 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.closing-stage-ledger {
+    width: 100%;
+    margin: 16px 0 20px;
+}
+
+.closing-stage-wishes {
+    width: 100%;
+    margin-top: 12px;
+}
+
+/* Guestbook Underline Fields */
+.stationery-input-line,
+.stationery-textarea-line {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid rgba(198, 161, 91, 0.4);
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    color: var(--color-maroon-dark);
+    padding: 8px 4px;
+    border-radius: 0;
+    transition: border-color 0.3s ease;
+    outline: none;
+}
+
+.stationery-input-line:focus,
+.stationery-textarea-line:focus {
+    border-bottom-color: var(--color-gold-main);
+}
+
+/* ISSUE 3 — Chapter II Clean Register Entries */
 .register-entry {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 6px 0;
-    border-bottom: 1px solid rgba(198, 161, 91, 0.2);
-    transition: border-color var(--transition-fast);
-}
-
-.register-entry:hover {
-    border-bottom-color: rgba(198, 161, 91, 0.5);
-}
-
-.entry-ornament {
-    color: var(--color-gold-main);
-    font-size: 0.52rem;
-    flex-shrink: 0;
-    opacity: 0.85;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(198, 161, 91, 0.18);
 }
 
 .entry-name {
-    font-family: var(--font-title);
-    font-size: 0.78rem;
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-size: clamp(0.82rem, 2.3vw, 0.95rem);
+    font-weight: 500;
     color: var(--color-maroon-dark);
-    letter-spacing: 0.3px;
-    line-height: 1.2;
+    letter-spacing: 0.01em;
     text-align: center;
+    line-height: 1.35;
+}
+
+/* ISSUE 4 — Interactive Buttons Stationery Styling */
+.stationery-petal-btn {
+    background: transparent;
+    color: var(--color-maroon-deep);
+    border: none;
+    border-bottom: 1.5px solid var(--color-gold-main);
+    border-radius: 0;
+    padding: 10px 20px;
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: auto;
+    margin: 12px auto;
+}
+
+.stationery-petal-btn:hover {
+    color: var(--color-gold-deep);
+    border-bottom-color: var(--color-gold-bright);
+}
+
+.btn-opt {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(198, 161, 91, 0.3);
+    padding: 10px 8px;
+    border-radius: 0;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    color: var(--color-maroon-dark);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.btn-opt:hover {
+    border-bottom-color: var(--color-gold-main);
+    background: rgba(255, 253, 248, 0.6);
 }
 
 /* ==========================================================================
