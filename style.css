@@ -523,19 +523,57 @@ html, body {
 
 .card-surface {
     background: var(--color-cream-card);
-    /* subtle paper grain + faint gold foil overlay */
     background-image:
-        url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==') repeat,
-        linear-gradient(135deg, rgba(255,215,0,0.02), transparent);
-    background-blend-mode: overlay;
+        linear-gradient(135deg, rgba(255, 253, 248, 0.98), rgba(244, 236, 222, 0.94)),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.035"/></svg>');
     color: var(--color-text-dark);
     border-radius: var(--radius-lg);
     border: 1.5px solid var(--color-gold-main);
-    /* extremely soft, natural shadow */
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15), inset 0 0 8px rgba(255, 215, 0, 0.04);
+    box-shadow: 
+        0 18px 45px rgba(10, 2, 5, 0.45),
+        0 4px 15px rgba(0, 0, 0, 0.2),
+        inset 0 0 0 4px rgba(255, 255, 255, 0.6),
+        inset 0 0 0 5px rgba(198, 161, 91, 0.35),
+        inset 0 0 25px rgba(198, 161, 91, 0.08);
     overflow: hidden;
     text-align: center;
     position: relative;
+}
+
+/* Luxury Gold Foil Light Sheen Sweep Overlay */
+.gold-foil-sheen {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+    border-radius: inherit;
+    overflow: hidden;
+}
+
+.gold-foil-sheen::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -130%;
+    width: 50%;
+    height: 200%;
+    background: linear-gradient(
+        110deg,
+        transparent 20%,
+        rgba(255, 248, 220, 0.04) 40%,
+        rgba(226, 199, 142, 0.38) 50%,
+        rgba(255, 248, 220, 0.04) 60%,
+        transparent 80%
+    );
+    transform: rotate(25deg);
+    animation: goldSheenSweep 5s infinite cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes goldSheenSweep {
+    0%, 65% { transform: translateX(-150%) rotate(25deg); opacity: 0; }
+    70% { opacity: 1; }
+    85% { transform: translateX(380%) rotate(25deg); opacity: 0; }
+    100% { opacity: 0; }
 }
 
 
