@@ -1166,7 +1166,8 @@ body.is-unopened #musicToggle {
 .scratch-wrapper {
     position: relative;
     width: 100%;
-    height: 95px;
+    min-height: 95px;
+    height: auto;
     border-radius: var(--radius-sm);
     overflow: hidden;
 }
@@ -1563,33 +1564,40 @@ body.is-unopened #musicToggle {
     margin: 0 auto 14px;
 }
 
-.venue-datetime-badge {
-    display: inline-flex;
+.venue-datetime-flow {
+    display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 3px;
+    margin: 18px 0 22px;
     background: transparent;
     border: none;
-    border-top: 1px solid rgba(212, 175, 55, 0.28);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.28);
-    border-radius: 0;
-    padding: 8px 0;
-    margin: 12px 0 18px;
+    padding: 0;
     width: 100%;
 }
 
-.venue-date {
+.venue-datetime-flow .flow-day {
     font-family: var(--font-heading);
     font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 1.5px;
+    letter-spacing: 3px;
     color: var(--color-gold-deep);
+    text-transform: uppercase;
+    font-weight: 600;
 }
 
-.venue-time {
+.venue-datetime-flow .flow-date {
+    font-family: var(--font-title);
+    font-size: 1.32rem;
+    font-weight: 700;
+    color: var(--color-maroon-deep);
+    letter-spacing: 0.3px;
+}
+
+.venue-datetime-flow .flow-time {
     font-family: var(--font-body);
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--color-text-dark);
+    font-size: 0.76rem;
+    font-style: italic;
+    color: var(--color-maroon-main);
 }
 
 .venue-destination-actions {
