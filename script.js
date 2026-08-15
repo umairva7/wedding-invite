@@ -517,8 +517,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1150);
     }
 
+    const tapInstruction = document.querySelector('.tap-instruction');
+    const envelopeContainer = document.querySelector('.envelope-container');
+
     if (waxSeal) waxSeal.addEventListener('click', openEnvelope);
     if (envelope) envelope.addEventListener('click', openEnvelope);
+    if (tapInstruction) tapInstruction.addEventListener('click', openEnvelope);
+    if (envelopeContainer) envelopeContainer.addEventListener('click', openEnvelope);
 
 
     /* ==========================================================================
