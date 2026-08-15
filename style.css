@@ -551,6 +551,9 @@ body.is-unopened #musicToggle {
 /* ==========================================================================
    FOLIO PAGE LAYOUT ENGINE — 3 ARCHETYPES
    ========================================================================== */
+/* ==========================================================================
+   FOLIO PAGE LAYOUT ENGINE — 3 BESPOKE ARCHETYPES
+   ========================================================================== */
 .page-inner {
     width: 100%;
     position: relative;
@@ -574,52 +577,64 @@ body.is-unopened #musicToggle {
     opacity: 1;
 }
 
-/* TYPE A: CEREMONIAL PAGE */
+/* TYPE A: CEREMONIAL PAGE SURFACE (Floating Manuscript / Printed Invitation Sheet) */
 .page-inner.archetype-ceremonial {
     max-width: 440px;
     height: 86%;
     height: 86dvh;
     max-height: 630px;
-    padding: 36px 24px;
+    padding: 38px 26px;
     justify-content: center;
+    background: linear-gradient(140deg, rgba(254, 250, 242, 0.97), rgba(246, 238, 224, 0.92));
+    border-radius: 4px;
+    border: 1px solid rgba(198, 161, 91, 0.28);
+    box-shadow: 
+        0 10px 30px rgba(10, 2, 5, 0.22),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    color: var(--color-text-dark);
+    text-align: center;
 }
 
-/* TYPE B: EDITORIAL / INFORMATION FOLIO */
+/* TYPE B: EDITORIAL FOLIO SURFACE (Crisp Vellum Layout Sheet) */
 .page-inner.archetype-editorial {
     max-width: 520px;
     height: 88%;
     height: 88dvh;
     max-height: 680px;
-    padding: 28px 24px;
+    padding: 30px 24px;
     justify-content: flex-start;
+    background: linear-gradient(135deg, rgba(255, 253, 248, 0.99), rgba(245, 237, 222, 0.95));
+    border-radius: 8px;
+    border: 1px solid rgba(198, 161, 91, 0.35);
+    box-shadow: 
+        0 14px 38px rgba(10, 2, 5, 0.3),
+        inset 0 0 0 2px rgba(255, 255, 255, 0.7);
+    color: var(--color-text-dark);
+    text-align: center;
 }
 
-/* TYPE C: INTERACTIVE INSERT */
+/* TYPE C: INTERACTIVE INSERT SURFACE (Outer Paper Folio Holding an Inset Card) */
 .page-inner.archetype-interactive {
     max-width: 460px;
     height: 88%;
     height: 88dvh;
     max-height: 670px;
-    padding: 26px 20px;
+    padding: 24px 20px;
     justify-content: space-between;
+    background: linear-gradient(150deg, rgba(247, 240, 228, 0.94), rgba(238, 228, 210, 0.9));
+    border-radius: 12px;
+    border: 1px solid rgba(198, 161, 91, 0.22);
+    box-shadow: 
+        0 8px 24px rgba(10, 2, 5, 0.2),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+    color: var(--color-text-dark);
+    text-align: center;
 }
 
 .card-surface {
-    background: var(--color-cream-card);
-    background-image:
-        linear-gradient(135deg, rgba(255, 253, 248, 0.98), rgba(244, 236, 222, 0.94)),
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.035"/></svg>');
+    /* Legacy fallback class */
     color: var(--color-text-dark);
-    border-radius: var(--radius-lg);
-    border: 1.5px solid var(--color-gold-main);
-    box-shadow: 
-        0 18px 45px rgba(10, 2, 5, 0.45),
-        0 4px 15px rgba(0, 0, 0, 0.2),
-        inset 0 0 0 4px rgba(255, 255, 255, 0.6),
-        inset 0 0 0 5px rgba(198, 161, 91, 0.35),
-        inset 0 0 25px rgba(198, 161, 91, 0.08);
     overflow: hidden;
-    text-align: center;
     position: relative;
 }
 
@@ -1167,36 +1182,57 @@ body.is-unopened #musicToggle {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 6px 12px;
     box-shadow: inset 0 0 15px rgba(198, 161, 91, 0.15);
 }
 
-.date-badge {
-    font-family: var(--font-heading);
-    font-size: 0.62rem;
-    letter-spacing: 2px;
-    color: var(--color-gold-deep);
-    font-weight: 700;
-    margin-bottom: 2px;
-}
-
-.revealed-date {
+.editorial-date-artwork {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
-.date-main {
+.editorial-day-num {
     font-family: var(--font-title);
-    font-size: 1.35rem;
-    font-weight: 700;
+    font-size: 2.2rem;
+    font-weight: 800;
     color: var(--color-maroon-deep);
+    line-height: 0.9;
+    letter-spacing: -1px;
 }
 
-.time-main {
-    font-family: var(--font-body);
-    font-size: 0.78rem;
+.editorial-month-name {
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 3.5px;
+    color: var(--color-gold-deep);
+    margin-top: 2px;
+}
+
+.editorial-year-num {
+    font-family: var(--font-heading);
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    color: var(--color-text-muted);
+}
+
+.editorial-hairline {
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold-main), transparent);
+    margin: 4px auto;
+}
+
+.editorial-meta-line {
+    font-family: var(--font-heading);
+    font-size: 0.64rem;
+    letter-spacing: 1.5px;
+    color: var(--color-maroon-main);
     font-weight: 600;
-    color: var(--color-text-dark);
+    text-transform: uppercase;
 }
 
 #scratchCanvas {
@@ -1472,6 +1508,27 @@ body.is-unopened #musicToggle {
     width: 100%;
     text-align: center;
     box-shadow: none;
+}
+
+.editorial-section-tag {
+    font-family: var(--font-heading);
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--color-gold-deep);
+    text-transform: uppercase;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.editorial-venue-title {
+    font-family: var(--font-title);
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--color-maroon-deep);
+    letter-spacing: -0.3px;
+    margin-bottom: 8px;
+    line-height: 1.25;
 }
 
 .venue-celebration-title {
@@ -2199,6 +2256,21 @@ body.is-unopened #musicToggle {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px 14px;
+    width: 100%;
+}
+
+/* TYPE C INTERACTIVE INSET RESPONSE CARDS */
+.stationery-blessing-block,
+.memory-test-section,
+.royal-ledger-section {
+    background: rgba(255, 253, 248, 0.98);
+    border: 1px solid rgba(198, 161, 91, 0.38);
+    border-radius: 10px;
+    box-shadow: 
+        0 6px 20px rgba(10, 2, 5, 0.12),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    padding: 20px 16px;
+    margin: auto 0;
     width: 100%;
 }
 
