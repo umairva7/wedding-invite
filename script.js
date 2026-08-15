@@ -1,10 +1,8 @@
-document.addEventListener('DOMContentLoaded', () => {
     /* ==========================================================================
-       1. SPARKLE BACKGROUND CANVAS
+       1. LIVING ATMOSPHERIC CANVAS ENGINE (MULTI-LAYER WIND & PETALS)
        ========================================================================== */
     const sparkleCanvas = document.getElementById('sparkleCanvas');
     const sCtx = sparkleCanvas.getContext('2d');
-    let sparkles = [];
 
     function resizeSparkleCanvas() {
         sparkleCanvas.width = window.innerWidth;
@@ -13,50 +11,175 @@ document.addEventListener('DOMContentLoaded', () => {
     resizeSparkleCanvas();
     window.addEventListener('resize', resizeSparkleCanvas);
 
-    class Sparkle {
-        constructor() {
-            this.reset();
+    // Global Wind & Environmental State Engine
+    const wind = {
+        speedX: 0.38,
+        speedY: 0.14,
+        swayTime: 0,
+        swayAmp: 0.75,
+        get currentSway() {
+            return Math.sin(this.swayTime * 0.0012) * this.swayAmp;
         }
-        reset() {
+    };
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Layer 1: Gold Dust Particles
+    class GoldDust {
+        constructor() {
+            this.reset(true);
+        }
+        reset(initial = false) {
             this.x = Math.random() * sparkleCanvas.width;
-            this.y = Math.random() * sparkleCanvas.height;
-            this.size = Math.random() * 1.6 + 0.5;
-            this.speedY = Math.random() * 0.25 + 0.08;
-            this.opacity = Math.random();
-            this.pulseSpeed = Math.random() * 0.015 + 0.004;
+            this.y = initial ? Math.random() * sparkleCanvas.height : -10;
+            this.depth = Math.random() * 0.5 + 0.3;
+            this.size = (Math.random() * 1.5 + 0.6) * this.depth;
+            this.opacity = Math.random() * 0.5 + 0.2;
+            this.pulseSpeed = Math.random() * 0.015 + 0.005;
+            this.speedX = wind.speedX * this.depth;
+            this.speedY = (Math.random() * 0.3 + 0.1) * this.depth;
         }
         update() {
-            this.y -= this.speedY;
-            if (this.y < 0) this.y = sparkleCanvas.height;
+            if (prefersReducedMotion) return;
+            const sway = wind.currentSway * this.depth;
+            this.x += this.speedX + sway;
+            this.y += this.speedY;
+
+            if (this.x > sparkleCanvas.width + 20) this.x = -10;
+            if (this.y > sparkleCanvas.height + 20) this.reset();
+
             this.opacity += this.pulseSpeed;
-            if (this.opacity > 1 || this.opacity < 0.2) {
+            if (this.opacity > 0.8 || this.opacity < 0.15) {
                 this.pulseSpeed = -this.pulseSpeed;
             }
         }
-        draw() {
-            sCtx.beginPath();
-            sCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            sCtx.fillStyle = `rgba(212, 175, 55, ${Math.abs(this.opacity) * 0.4})`;
-            sCtx.shadowBlur = 6;
-            sCtx.shadowColor = '#D4AF37';
-            sCtx.fill();
+        draw(ctx) {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(226, 199, 142, ${Math.abs(this.opacity)})`;
+            ctx.shadowBlur = 4 * this.depth;
+            ctx.shadowColor = '#C6A15B';
+            ctx.fill();
+            ctx.shadowBlur = 0;
         }
     }
 
-    // Reduced from 40 to 14 extremely subtle, gold ambient particles
-    for (let i = 0; i < 14; i++) {
-        sparkles.push(new Sparkle());
+    // Layers 2 & 3: Floating Rose & Botanical Petals
+    class WindPetal {
+        constructor(isBurst = false, originX, originY) {
+            this.reset(isBurst, originX, originY);
+        }
+        reset(isBurst = false, originX, originY) {
+            this.depth = Math.random() * 0.7 + 0.3;
+            this.x = isBurst ? (originX || sparkleCanvas.width / 2) + (Math.random() - 0.5) * 140 : (Math.random() * (sparkleCanvas.width + 200) - 100);
+            this.y = isBurst ? (originY || sparkleCanvas.height / 2) + (Math.random() - 0.5) * 80 : (Math.random() * -sparkleCanvas.height);
+
+            this.size = (Math.random() * 11 + 7) * this.depth;
+            this.angle = Math.random() * Math.PI * 2;
+            this.rotSpeed = (Math.random() - 0.5) * 0.02 * this.depth;
+            this.tilt = Math.random() * 0.8 + 0.2;
+            this.opacity = (Math.random() * 0.45 + 0.35) * (this.depth > 0.6 ? 1 : 0.65);
+
+            this.speedX = (wind.speedX + Math.random() * 0.3) * (this.depth * 1.2);
+            this.speedY = (wind.speedY + Math.random() * 0.4 + 0.2) * (this.depth * 1.1);
+
+            const colors = ['#8B1B32', '#A8233C', '#6E0E21', '#B83A52', '#C6A15B'];
+            this.color = colors[Math.floor(Math.random() * colors.length)];
+        }
+        update() {
+            if (prefersReducedMotion) return;
+            this.angle += this.rotSpeed;
+            this.tilt = Math.sin(this.angle) * 0.6 + 0.4;
+
+            const sway = wind.currentSway * (this.depth * 1.5);
+            this.x += this.speedX + sway;
+            this.y += this.speedY;
+
+            if (this.y > sparkleCanvas.height + 40 || this.x > sparkleCanvas.width + 60) {
+                this.reset(false);
+            }
+        }
+        draw(ctx) {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.angle);
+            ctx.scale(1, Math.max(0.15, Math.abs(this.tilt)));
+
+            ctx.beginPath();
+            const s = this.size;
+            ctx.moveTo(0, -s);
+            ctx.bezierCurveTo(s * 0.75, -s * 0.6, s * 0.85, s * 0.5, 0, s);
+            ctx.bezierCurveTo(-s * 0.85, s * 0.5, -s * 0.75, -s * 0.6, 0, -s);
+
+            ctx.fillStyle = this.color;
+            ctx.globalAlpha = this.opacity;
+            ctx.shadowBlur = 5 * this.depth;
+            ctx.shadowColor = 'rgba(24, 7, 12, 0.4)';
+            ctx.fill();
+
+            if (this.depth > 0.65) {
+                ctx.beginPath();
+                ctx.arc(0, -s * 0.7, s * 0.15, 0, Math.PI * 2);
+                ctx.fillStyle = '#E2C78E';
+                ctx.globalAlpha = this.opacity * 0.7;
+                ctx.fill();
+            }
+
+            ctx.restore();
+        }
     }
 
-    function animateSparkles() {
-        sCtx.clearRect(0, 0, sparkleCanvas.width, sparkleCanvas.height);
-        sparkles.forEach(s => {
-            s.update();
-            s.draw();
-        });
-        requestAnimationFrame(animateSparkles);
+    const goldDustParticles = [];
+    for (let i = 0; i < 26; i++) {
+        goldDustParticles.push(new GoldDust());
     }
-    animateSparkles();
+
+    const windPetals = [];
+    for (let i = 0; i < 24; i++) {
+        windPetals.push(new WindPetal());
+    }
+
+    function triggerCanvasPetalBurst(count = 25, originX, originY) {
+        if (prefersReducedMotion) return;
+        for (let i = 0; i < count; i++) {
+            windPetals.push(new WindPetal(true, originX, originY));
+        }
+        if (windPetals.length > 60) {
+            windPetals.splice(0, windPetals.length - 60);
+        }
+    }
+
+    function animateEnvironment(time) {
+        wind.swayTime = time;
+        sCtx.clearRect(0, 0, sparkleCanvas.width, sparkleCanvas.height);
+
+        const lightX = sparkleCanvas.width * 0.5 + Math.sin(time * 0.0006) * (sparkleCanvas.width * 0.15);
+        const lightY = sparkleCanvas.height * 0.35 + Math.cos(time * 0.0008) * (sparkleCanvas.height * 0.1);
+        
+        const ambientGrad = sCtx.createRadialGradient(
+            lightX, lightY, 40,
+            lightX, lightY, sparkleCanvas.width * 0.75
+        );
+        ambientGrad.addColorStop(0, 'rgba(90, 18, 36, 0.18)');
+        ambientGrad.addColorStop(0.5, 'rgba(40, 5, 12, 0.05)');
+        ambientGrad.addColorStop(1, 'rgba(15, 2, 5, 0)');
+
+        sCtx.fillStyle = ambientGrad;
+        sCtx.fillRect(0, 0, sparkleCanvas.width, sparkleCanvas.height);
+
+        goldDustParticles.forEach(p => {
+            p.update();
+            p.draw(sCtx);
+        });
+
+        windPetals.forEach(p => {
+            p.update();
+            p.draw(sCtx);
+        });
+
+        requestAnimationFrame(animateEnvironment);
+    }
+    requestAnimationFrame(animateEnvironment);
 
     /* ==========================================================================
        2. INTERACTIVE STORY ENGINE (HORIZONTAL PAGE TURNING)
@@ -267,34 +390,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (flowerCountEl) flowerCountEl.innerText = count;
 
-    function spawnPetalShower() {
-        const petals = ['🌹', '✨', '⚜️', '✦'];
-        for (let i = 0; i < 20; i++) {
-            const petal = document.createElement('div');
-            petal.innerText = petals[Math.floor(Math.random() * petals.length)];
-            petal.style.position = 'fixed';
-            petal.style.left = `${Math.random() * 90 + 5}vw`;
-            petal.style.top = `-25px`;
-            petal.style.fontSize = `${Math.random() * 0.9 + 0.9}rem`;
-            petal.style.opacity = '0.8';
-            petal.style.filter = 'blur(0.2px)';
-            petal.style.pointerEvents = 'none';
-            petal.style.zIndex = '9999';
-
-            document.body.appendChild(petal);
-
-            const duration = Math.random() * 2500 + 3000;
-            const horizontalMove = (Math.random() - 0.5) * 140;
-
-            petal.animate([
-                { transform: 'translate(0, 0) rotate(0deg) scale(0.8)', opacity: 0.8 },
-                { transform: `translate(${horizontalMove}px, 105vh) rotate(${Math.random() * 220 - 110}deg) scale(1)`, opacity: 0 }
-            ], {
-                duration: duration,
-                easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                fill: 'forwards'
-            }).onfinish = () => petal.remove();
-        }
+    function spawnPetalShower(originX, originY) {
+        triggerCanvasPetalBurst(30, originX || window.innerWidth / 2, originY || window.innerHeight / 3);
+        triggerGoldLightParticles(originX || window.innerWidth / 2, originY || window.innerHeight / 2);
     }
 
     if (offerFlowerBtn) {
@@ -303,8 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('iqra_hamid_flower_count', count);
             if (flowerCountEl) flowerCountEl.innerText = count;
 
-            spawnPetalShower();
-            triggerGoldLightParticles(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 2);
+            spawnPetalShower(e.clientX, e.clientY);
         });
     }
 
@@ -399,73 +496,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function triggerRoyalUnveiling() {
         if (envelopeStage) envelopeStage.classList.add('unveiling');
-
-        // 1. Tiny Gold Dust Particles (Delicate radial shimmer)
-        const goldTones = ['#E2C78E', '#C6A15B', '#FFFDF8', '#D4AF37'];
-        const originX = window.innerWidth / 2;
-        const originY = window.innerHeight / 2;
-
-        for (let i = 0; i < 30; i++) {
-            const dust = document.createElement('div');
-            dust.style.position = 'fixed';
-            dust.style.left = `${originX}px`;
-            dust.style.top = `${originY}px`;
-            dust.style.width = `${Math.random() * 2 + 1}px`;
-            dust.style.height = `${Math.random() * 2 + 1}px`;
-            dust.style.backgroundColor = goldTones[Math.floor(Math.random() * goldTones.length)];
-            dust.style.borderRadius = '50%';
-            dust.style.boxShadow = '0 0 6px rgba(226, 199, 142, 0.8)';
-            dust.style.pointerEvents = 'none';
-            dust.style.zIndex = '9999';
-
-            document.body.appendChild(dust);
-
-            const angle = Math.random() * Math.PI * 2;
-            const dist = Math.random() * 110 + 25;
-            const destX = Math.cos(angle) * dist;
-            const destY = Math.sin(angle) * dist - 50;
-
-            dust.animate([
-                { transform: 'translate(0, 0) scale(0.5)', opacity: 0 },
-                { transform: `translate(${destX * 0.4}px, ${destY * 0.4}px) scale(1.2)`, opacity: 0.85, offset: 0.3 },
-                { transform: `translate(${destX}px, ${destY - 35}px) scale(0.6)`, opacity: 0 }
-            ], {
-                duration: Math.random() * 1400 + 1600,
-                easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                fill: 'forwards'
-            }).onfinish = () => dust.remove();
-        }
-
-        // 2. Subtle Falling Rose Petals
-        const petals = ['✨', '🌹', '✦', '⚜️'];
-        for (let i = 0; i < 6; i++) {
-            setTimeout(() => {
-                const petal = document.createElement('div');
-                petal.innerText = petals[Math.floor(Math.random() * petals.length)];
-                petal.style.position = 'fixed';
-                petal.style.left = `${Math.random() * 60 + 20}vw`;
-                petal.style.top = `${Math.random() * 15 + 10}vh`;
-                petal.style.fontSize = `${Math.random() * 0.8 + 0.8}rem`;
-                petal.style.opacity = '0.65';
-                petal.style.pointerEvents = 'none';
-                petal.style.zIndex = '9998';
-                petal.style.filter = 'blur(0.3px)';
-
-                document.body.appendChild(petal);
-
-                const duration = Math.random() * 2000 + 3200;
-                const horiz = (Math.random() - 0.5) * 80;
-
-                petal.animate([
-                    { transform: 'translate(0, 0) rotate(0deg)', opacity: 0.65 },
-                    { transform: `translate(${horiz}px, 60vh) rotate(${Math.random() * 180}deg)`, opacity: 0 }
-                ], {
-                    duration: duration,
-                    easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
-                    fill: 'forwards'
-                }).onfinish = () => petal.remove();
-            }, i * 140);
-        }
+        triggerCanvasPetalBurst(25, window.innerWidth / 2, window.innerHeight * 0.4);
+        triggerGoldLightParticles(window.innerWidth / 2, window.innerHeight / 2);
     }
 
     function openEnvelope() {
