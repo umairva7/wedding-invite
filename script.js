@@ -77,12 +77,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             this.size = (Math.random() * 11 + 7) * this.depth;
             this.angle = Math.random() * Math.PI * 2;
-            this.rotSpeed = (Math.random() - 0.5) * 0.02 * this.depth;
+            this.rotSpeed = (Math.random() - 0.5) * 0.012 * this.depth;
             this.tilt = Math.random() * 0.8 + 0.2;
-            this.opacity = (Math.random() * 0.45 + 0.35) * (this.depth > 0.6 ? 1 : 0.65);
+            this.opacity = (Math.random() * 0.3 + 0.2) * (this.depth > 0.6 ? 1 : 0.55);
 
-            this.speedX = (wind.speedX + Math.random() * 0.3) * (this.depth * 1.2);
-            this.speedY = (wind.speedY + Math.random() * 0.4 + 0.2) * (this.depth * 1.1);
+            this.speedX = (wind.speedX + Math.random() * 0.2) * (this.depth * 0.8);
+            this.speedY = (wind.speedY + Math.random() * 0.2 + 0.1) * (this.depth * 0.7);
 
             const colors = ['#8B1B32', '#A8233C', '#6E0E21', '#B83A52', '#C6A15B'];
             this.color = colors[Math.floor(Math.random() * colors.length)];
@@ -229,11 +229,17 @@ document.addEventListener('DOMContentLoaded', () => {
         pages.forEach((p, idx) => {
             if (idx === currentStoryPage) {
                 p.classList.add('active-story');
+                p.classList.remove('past-story');
                 if (p.querySelector('#scratchCanvas')) {
                     setTimeout(initScratchCanvas, 150);
                 }
             } else {
                 p.classList.remove('active-story');
+                if (idx < currentStoryPage) {
+                    p.classList.add('past-story');
+                } else {
+                    p.classList.remove('past-story');
+                }
             }
         });
 
@@ -392,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (flowerCountEl) flowerCountEl.innerText = count;
 
     function spawnPetalShower(originX, originY) {
-        triggerCanvasPetalBurst(30, originX || window.innerWidth / 2, originY || window.innerHeight / 3);
+        triggerCanvasPetalBurst(12, originX || window.innerWidth / 2, originY || window.innerHeight / 3);
         triggerGoldLightParticles(originX || window.innerWidth / 2, originY || window.innerHeight / 2);
     }
 
@@ -500,7 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function triggerRoyalUnveiling() {
         if (envelopeStage) envelopeStage.classList.add('unveiling');
-        triggerCanvasPetalBurst(25, window.innerWidth / 2, window.innerHeight * 0.4);
+        triggerCanvasPetalBurst(12, window.innerWidth / 2, window.innerHeight * 0.4);
         triggerGoldLightParticles(window.innerWidth / 2, window.innerHeight / 2);
     }
 
@@ -687,6 +693,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (scratchedPercent > 35) {
             canvasCleared = true;
             scratchCanvas.style.opacity = '0';
+            if (scratchWrapper) scratchWrapper.classList.add('scratched');
             setTimeout(() => {
                 scratchCanvas.style.display = 'none';
             }, 500);
@@ -705,36 +712,54 @@ document.addEventListener('DOMContentLoaded', () => {
         const y = originY || window.innerHeight / 2;
         const goldShades = ['#E2C78E', '#C6A15B', '#FFFDF8', '#D4AF37'];
 
-        // 12-14 delicate micro light particles with soft physical momentum
-        for (let i = 0; i < 14; i++) {
+        // 8-10 delicate micro light particles with soft physical momentum
+        for (let i = 0; i < 9; i++) {
             const particle = document.createElement('div');
             particle.style.position = 'fixed';
             particle.style.left = `${x}px`;
             particle.style.top = `${y}px`;
-            particle.style.width = `${Math.random() * 2 + 1.5}px`;
-            particle.style.height = `${Math.random() * 2 + 1.5}px`;
+            particle.style.width = `${Math.random() * 2 + 1.2}px`;
+            particle.style.height = `${Math.random() * 2 + 1.2}px`;
             particle.style.backgroundColor = goldShades[Math.floor(Math.random() * goldShades.length)];
             particle.style.borderRadius = '50%';
-            particle.style.boxShadow = '0 0 6px rgba(226, 199, 142, 0.7)';
+            particle.style.boxShadow = '0 0 5px rgba(226, 199, 142, 0.6)';
             particle.style.pointerEvents = 'none';
             particle.style.zIndex = '9999';
 
             document.body.appendChild(particle);
 
             const angle = Math.random() * Math.PI * 2;
-            const velocity = Math.random() * 65 + 20;
+            const velocity = Math.random() * 30 + 15;
             const destX = Math.cos(angle) * velocity;
-            const destY = Math.sin(angle) * velocity - 25; // Physical upward momentum
+            const destY = Math.sin(angle) * velocity - 12; // Muted upward momentum
 
             particle.animate([
                 { transform: 'translate(0, 0) scale(0.6)', opacity: 0 },
-                { transform: `translate(${destX * 0.5}px, ${destY * 0.5}px) scale(1.1)`, opacity: 0.85, offset: 0.3 },
+                { transform: `translate(${destX * 0.5}px, ${destY * 0.5}px) scale(1.05)`, opacity: 0.8, offset: 0.35 },
                 { transform: `translate(${destX}px, ${destY}px) scale(0.4)`, opacity: 0 }
             ], {
-                duration: Math.random() * 800 + 1000,
-                easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                duration: Math.random() * 600 + 1100,
+                easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
                 fill: 'forwards'
             }).onfinish = () => particle.remove();
+        }
+    }
+
+
+    function setCountdownValue(element, newValue) {
+        if (!element) return;
+        const currentValue = element.innerText;
+        if (currentValue !== newValue) {
+            element.innerText = newValue;
+            if (typeof element.animate === 'function') {
+                element.animate([
+                    { opacity: 0.35, transform: 'translateY(-2px)' },
+                    { opacity: 1, transform: 'translateY(0)' }
+                ], {
+                    duration: 350,
+                    easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+                });
+            }
         }
     }
 
@@ -761,10 +786,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-        if (daysEl) daysEl.innerText = days < 10 ? `0${days}` : days;
-        if (hoursEl) hoursEl.innerText = hours < 10 ? `0${hours}` : hours;
-        if (minutesEl) minutesEl.innerText = minutes < 10 ? `0${minutes}` : minutes;
-        if (secondsEl) secondsEl.innerText = seconds < 10 ? `0${seconds}` : seconds;
+        if (daysEl) setCountdownValue(daysEl, days < 10 ? `0${days}` : String(days));
+        if (hoursEl) setCountdownValue(hoursEl, hours < 10 ? `0${hours}` : String(hours));
+        if (minutesEl) setCountdownValue(minutesEl, minutes < 10 ? `0${minutes}` : String(minutes));
+        if (secondsEl) setCountdownValue(secondsEl, seconds < 10 ? `0${seconds}` : String(seconds));
     }
 
     updateCountdown();
