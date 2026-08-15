@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', () => {
     /* ==========================================================================
        1. LIVING ATMOSPHERIC CANVAS ENGINE (MULTI-LAYER WIND & PETALS)
        ========================================================================== */
