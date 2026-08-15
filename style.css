@@ -50,6 +50,12 @@
     --transition-fast: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-smooth: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     --transition-bounce: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Luxury Motion Design System */
+    --ease-invitation: cubic-bezier(.22, 1, .36, 1);
+    --motion-fast: 350ms;
+    --motion-medium: 700ms;
+    --motion-slow: 1000ms;
 }
 
 /* ==========================================================================
@@ -107,31 +113,39 @@ html, body {
     cursor: pointer;
     backdrop-filter: blur(6px);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
-    transition: transform var(--transition-fast), opacity var(--transition-fast), border-color var(--transition-fast);
-    opacity: 0.78;
+    transition: opacity var(--motion-fast) var(--ease-invitation), border-color var(--motion-fast) var(--ease-invitation), background var(--motion-fast) var(--ease-invitation);
+    opacity: 0.75;
 }
 
-/* Hover grows slightly */
+.music-btn .music-icon {
+    display: inline-block;
+    transition: transform var(--motion-medium) var(--ease-invitation);
+}
+
 .music-btn:hover {
-    transform: scale(1.07);
-    opacity: 0.92;
+    transform: none !important;
+    opacity: 0.95;
+    border-color: var(--color-gold-bright);
 }
 
-/* When music is playing – subtle glow and slightly higher opacity */
+/* When music is playing */
 .music-btn.playing {
-    opacity: 0.94;
-    box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+    opacity: 0.95;
+    background: rgba(94, 30, 45, 0.6);
+}
+
+.music-btn.playing .music-icon {
+    transform: rotate(15deg);
 }
 
 /* Muted/paused state – dimmer appearance */
 .music-btn.paused {
-    opacity: 0.55;
-    background: rgba(94, 30, 45, 0.3);
+    opacity: 0.5;
+    background: rgba(94, 30, 45, 0.2);
 }
 
-
 .music-btn:hover, .music-btn:active {
-    transform: scale(1.08);
+    transform: none !important;
 }
 
 /* ==========================================================================
@@ -222,32 +236,40 @@ html, body {
 /* Staggered Entrance Animations for Story Mode */
 .anim-item {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
+    transform: translateY(18px);
+    transition: opacity var(--motion-medium) var(--ease-invitation), 
+                transform var(--motion-medium) var(--ease-invitation),
+                filter var(--motion-medium) var(--ease-invitation);
+    will-change: opacity, transform, filter;
 }
 
 .anim-fade-down {
-    transform: translateY(-20px);
+    transform: translateY(-18px);
 }
 
 .anim-fade-up {
-    transform: translateY(25px);
+    transform: translateY(18px);
 }
 
 .anim-zoom-in {
-    transform: scale(0.9);
+    transform: translateY(18px) scale(0.97);
+}
+
+.anim-fade-in {
+    transform: translateY(10px);
 }
 
 .page.active-story .anim-item {
     opacity: 1;
-    transform: translate(0, 0) scale(1);
+    transform: translateY(0) scale(1);
+    filter: blur(0);
 }
 
-.delay-1 { transition-delay: 0.12s; }
-.delay-2 { transition-delay: 0.25s; }
-.delay-3 { transition-delay: 0.38s; }
-.delay-4 { transition-delay: 0.5s; }
+.delay-1 { transition-delay: 120ms; }
+.delay-2 { transition-delay: 240ms; }
+.delay-3 { transition-delay: 360ms; }
+.delay-4 { transition-delay: 480ms; }
+.delay-5 { transition-delay: 600ms; }
 
 /* ==========================================================================
    STAGE 1: THE ENVELOPE (LANDING SCREEN)
@@ -335,7 +357,7 @@ body.is-unopened #musicToggle {
         inset 0 0 20px rgba(0, 0, 0, 0.4);
     cursor: pointer;
     z-index: 2;
-    transition: transform 0.4s ease;
+    transition: transform var(--motion-fast) var(--ease-invitation);
 }
 
 .envelope:hover {
@@ -352,7 +374,7 @@ body.is-unopened #musicToggle {
     border-right: 180px solid transparent;
     border-top: 125px solid #5A081B;
     transform-origin: top center;
-    transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform var(--motion-slow) var(--ease-invitation);
     z-index: 5;
     filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
 }
@@ -433,18 +455,18 @@ body.is-unopened #musicToggle {
         0 2px 6px rgba(0, 0, 0, 0.4),
         inset 0 1px 2px rgba(255, 255, 255, 0.4),
         inset 0 -2px 4px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+    transition: transform var(--motion-fast) var(--ease-invitation), opacity var(--motion-medium) var(--ease-invitation);
     cursor: pointer;
     animation: sealBreathe 3.2s infinite ease-in-out;
 }
 
 @keyframes sealBreathe {
-    0%, 100% { transform: translate(-50%, -45%) scale(1); }
-    50% { transform: translate(-50%, -45%) scale(1.025); }
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 1; }
 }
 
 .wax-seal.seal-pressed {
-    transform: translate(-50%, -45%) scale(0.92) !important;
+    transform: translate(-50%, -45%) scale(0.95) !important;
     animation: none;
 }
 
@@ -509,8 +531,8 @@ body.is-unopened #musicToggle {
 }
 
 @keyframes gentleBreath {
-    0%, 100% { opacity: 0.65; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.02); }
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.95; }
 }
 
 
@@ -567,15 +589,19 @@ body.is-unopened #musicToggle {
 .page-inner {
     width: 100%;
     position: relative;
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    transform: scale(0.96);
-    opacity: 0.85;
+    transition: transform var(--motion-slow) var(--ease-invitation), 
+                opacity var(--motion-slow) var(--ease-invitation),
+                filter var(--motion-slow) var(--ease-invitation);
+    opacity: 0;
+    transform: translateY(25px);
+    filter: blur(3px);
     overflow-y: auto;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
     display: flex;
     flex-direction: column;
     align-items: center;
+    will-change: transform, opacity, filter;
 }
 
 .page-inner::-webkit-scrollbar {
@@ -583,8 +609,15 @@ body.is-unopened #musicToggle {
 }
 
 .page.active-story .page-inner {
-    transform: scale(1);
+    transform: translateY(0);
     opacity: 1;
+    filter: blur(0);
+}
+
+.page.past-story .page-inner {
+    opacity: 0;
+    transform: translateY(-15px);
+    filter: blur(3px);
 }
 
 /* TYPE A: CEREMONIAL PAGE SURFACE (Floating Manuscript / Printed Invitation Sheet) */
@@ -866,13 +899,16 @@ body.is-unopened #musicToggle {
     padding: 7px 18px;
     border-radius: var(--radius-full);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--motion-fast) var(--ease-invitation);
 }
 
 .stationery-petal-btn:hover {
-    background: rgba(198, 161, 91, 0.18);
-    border-color: var(--color-gold-bright);
-    box-shadow: 0 4px 12px rgba(198, 161, 91, 0.2);
+    background: rgba(198, 161, 91, 0.14) !important;
+    border-color: var(--color-gold-bright) !important;
+    transform: none !important;
+    box-shadow: none !important;
+    letter-spacing: 1.6px !important;
+    opacity: 0.95 !important;
 }
 
 .blessing-counter-readout {
@@ -1030,22 +1066,27 @@ body.is-unopened #musicToggle {
 .couple-names {
     margin: 8px 0 12px;
     width: 100%;
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(20px);
+    will-change: opacity, filter, transform;
 }
 
 .page.active-story .couple-names {
-    animation: heroNameReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: heroNameReveal var(--motion-slow) var(--ease-invitation) forwards;
+    animation-delay: 240ms;
 }
 
 @keyframes heroNameReveal {
     0% {
         opacity: 0;
         filter: blur(8px);
-        transform: translateY(16px) scale(0.97);
+        transform: translateY(20px);
     }
     100% {
         opacity: 1;
         filter: blur(0);
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
     }
 }
 
@@ -1292,6 +1333,8 @@ body.is-unopened #musicToggle {
     height: 100%;
     z-index: 3;
     touch-action: none;
+    transition: opacity var(--motion-medium) var(--ease-invitation);
+    will-change: opacity;
 }
 
 .scratch-hint {
@@ -1675,7 +1718,7 @@ body.is-unopened #musicToggle {
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: all var(--motion-fast) var(--ease-invitation);
 }
 
 .destination-seal-btn {
@@ -1686,9 +1729,11 @@ body.is-unopened #musicToggle {
 }
 
 .destination-seal-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(198, 161, 91, 0.4);
-    border-color: var(--color-gold-bright);
+    transform: none !important;
+    box-shadow: 0 4px 14px rgba(66, 10, 24, 0.25) !important;
+    border-color: var(--color-gold-bright) !important;
+    letter-spacing: 0.24em !important;
+    opacity: 0.95 !important;
 }
 
 .calendar-seal-btn {
@@ -1698,8 +1743,10 @@ body.is-unopened #musicToggle {
 }
 
 .calendar-seal-btn:hover {
-    background: rgba(198, 161, 91, 0.08);
-    transform: translateY(-1px);
+    background: rgba(198, 161, 91, 0.12) !important;
+    transform: none !important;
+    letter-spacing: 0.24em !important;
+    opacity: 0.95 !important;
 }
 
 .seal-icon {
@@ -1983,13 +2030,16 @@ body.is-unopened #musicToggle {
     padding: 9px 14px;
     border-radius: var(--radius-full);
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: all var(--motion-fast) var(--ease-invitation);
     text-transform: uppercase;
 }
 
 .ledger-submit-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(198, 161, 91, 0.35);
+    transform: none !important;
+    box-shadow: none !important;
+    border-color: var(--color-gold-bright) !important;
+    letter-spacing: 0.24em !important;
+    opacity: 0.95 !important;
 }
 
 .parchment-wall {
@@ -2185,12 +2235,15 @@ body.is-unopened #musicToggle {
     text-transform: uppercase;
     cursor: pointer;
     box-shadow: 0 4px 16px rgba(66, 10, 24, 0.25);
-    transition: all var(--transition-fast);
+    transition: all var(--motion-fast) var(--ease-invitation);
 }
 
 .share-invitation-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(198, 161, 91, 0.4);
+    transform: none !important;
+    box-shadow: 0 4px 16px rgba(66, 10, 24, 0.25) !important;
+    border-color: var(--color-gold-bright) !important;
+    letter-spacing: 0.24em !important;
+    opacity: 0.95 !important;
 }
 
 
@@ -2436,18 +2489,26 @@ body.is-unopened #musicToggle {
     letter-spacing: 2px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: letter-spacing var(--motion-fast) var(--ease-invitation),
+                opacity var(--motion-fast) var(--ease-invitation),
+                border-color var(--motion-fast) var(--ease-invitation),
+                color var(--motion-fast) var(--ease-invitation);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
     width: auto;
     margin: 12px auto;
+    will-change: letter-spacing, opacity, border-color, color;
 }
 
 .stationery-petal-btn:hover {
-    color: var(--color-gold-deep);
-    border-bottom-color: var(--color-gold-bright);
+    color: var(--color-gold-deep) !important;
+    border-bottom-color: var(--color-gold-bright) !important;
+    letter-spacing: 2.3px !important;
+    opacity: 0.95 !important;
+    transform: none !important;
+    box-shadow: none !important;
 }
 
 .btn-opt {
@@ -2461,12 +2522,17 @@ body.is-unopened #musicToggle {
     color: var(--color-maroon-dark);
     text-align: left;
     cursor: pointer;
-    transition: border-color 0.3s ease;
+    transition: border-color var(--motion-fast) var(--ease-invitation),
+                background var(--motion-fast) var(--ease-invitation),
+                letter-spacing var(--motion-fast) var(--ease-invitation),
+                color var(--motion-fast) var(--ease-invitation);
+    will-change: border-color, background, letter-spacing, color;
 }
 
 .btn-opt:hover {
-    border-bottom-color: var(--color-gold-main);
-    background: rgba(255, 253, 248, 0.6);
+    border-bottom-color: var(--color-gold-bright) !important;
+    background: rgba(255, 253, 248, 0.8) !important;
+    letter-spacing: 0.02em !important;
 }
 
 /* ==========================================================================
