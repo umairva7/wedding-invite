@@ -495,35 +495,50 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardStage = document.getElementById('cardStage');
     let envelopeOpened = false;
 
+    // Hide navigation and music controls prior to envelope opening
+    document.body.classList.add('is-unopened');
+
     function triggerRoyalUnveiling() {
         if (envelopeStage) envelopeStage.classList.add('unveiling');
         triggerCanvasPetalBurst(25, window.innerWidth / 2, window.innerHeight * 0.4);
         triggerGoldLightParticles(window.innerWidth / 2, window.innerHeight / 2);
     }
 
-    function openEnvelope() {
+    function openEnvelope(e) {
+        if (e && e.preventDefault) {
+            // Prevent duplicate touch/click triggering
+        }
         if (envelopeOpened) return;
         envelopeOpened = true;
 
-        playGentleTune();
-        envelope.classList.add('open');
-        triggerRoyalUnveiling();
+        if (waxSeal) waxSeal.classList.add('seal-pressed');
 
+        // Step 1 & 2: Compression followed by flap opening & subtle audio
         setTimeout(() => {
-            envelopeStage.classList.add('fade-out');
-            cardStage.classList.add('active');
+            playGentleTune();
+            if (envelope) envelope.classList.add('open');
+            triggerRoyalUnveiling();
+        }, 140);
+
+        // Step 3, 4 & 5: Envelope fade out, story page reveal, navigation & hero title reveal
+        setTimeout(() => {
+            if (envelopeStage) envelopeStage.classList.add('fade-out');
+            if (cardStage) cardStage.classList.add('active');
+            document.body.classList.remove('is-unopened');
             goToStoryPage(0);
             initScratchCanvas();
-        }, 1150);
+        }, 1200);
     }
 
     const tapInstruction = document.querySelector('.tap-instruction');
     const envelopeContainer = document.querySelector('.envelope-container');
 
-    if (waxSeal) waxSeal.addEventListener('click', openEnvelope);
-    if (envelope) envelope.addEventListener('click', openEnvelope);
-    if (tapInstruction) tapInstruction.addEventListener('click', openEnvelope);
-    if (envelopeContainer) envelopeContainer.addEventListener('click', openEnvelope);
+    [waxSeal, envelope, tapInstruction, envelopeContainer].forEach(el => {
+        if (el) {
+            el.addEventListener('click', openEnvelope);
+            el.addEventListener('touchstart', openEnvelope, { passive: true });
+        }
+    });
 
 
     /* ==========================================================================
