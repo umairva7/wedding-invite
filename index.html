@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wedding Invitation | Iqra & Hamid</title>
+    <meta name="description" content="You are cordially invited to celebrate the wedding of Iqra Imran & Hamid Ali on 20th November 2026 in Lahore.">
+
+    <meta property="og:title" content="Wedding Invitation | Iqra & Hamid">
+    <meta property="og:description" content="Join us in celebrating the Baraat of Iqra Imran & Hamid Ali.">
+    <meta property="og:image" content="caricature/illustration.webp">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Ambient Sparkle Canvas -->
+    <canvas id="sparkleCanvas"></canvas>
+
+    <!-- Parallax Floral Layers -->
+    <div class="parallax-container" id="parallaxContainer">
+        <div class="parallax-layer layer-mandala" data-speed="0.12"></div>
+        <div class="parallax-layer layer-floral-tl" data-speed="-0.18"></div>
+        <div class="parallax-layer layer-floral-tr" data-speed="-0.15"></div>
+        <div class="parallax-layer layer-floral-bl" data-speed="0.22"></div>
+        <div class="parallax-layer layer-floral-br" data-speed="0.18"></div>
+    </div>
+
+    <!-- Music Toggle -->
+    <button id="musicToggle" class="music-btn" aria-label="Toggle Background Music">
+        <span class="music-icon">🎵</span>
+    </button>
+
+    <!-- Royal Roman Numeral Progress Indicator -->
+    <div class="story-progress-container" id="storyProgressBar">
+        <span class="story-roman-numeral active" data-index="0">I</span>
+        <span class="story-roman-dot">&bull;</span>
+        <span class="story-roman-numeral" data-index="1">II</span>
+        <span class="story-roman-dot">&bull;</span>
+        <span class="story-roman-numeral" data-index="2">III</span>
+        <span class="story-roman-dot">&bull;</span>
+        <span class="story-roman-numeral" data-index="3">IV</span>
+        <span class="story-roman-dot">&bull;</span>
+        <span class="story-roman-numeral" data-index="4">V</span>
+        <span class="story-roman-dot">&bull;</span>
+        <span class="story-roman-numeral" data-index="5">VI</span>
+    </div>
+
+
+    <!-- ================= STAGE 1: ENVELOPE ================= -->
+    <section id="envelopeStage" class="stage-envelope active">
+        <div class="envelope-container">
+            <div class="envelope-light-bloom" id="envelopeBloom"></div>
+            <div class="envelope" id="envelope">
+                <div class="flap top-flap"></div>
+                <div class="pocket-lining"></div>
+                <div class="card-preview">
+                    <div class="card-preview-header">
+                        <span class="arabic-bismillah">﷽</span>
+                        <h3>Iqra &amp; Hamid</h3>
+                    </div>
+                </div>
+                <div class="pocket front-pocket"></div>
+                <div class="wax-seal" id="waxSeal">
+                    <div class="seal-inner">
+                        <span class="seal-monogram">H &amp; I</span>
+                    </div>
+                    <div class="seal-pulse"></div>
+                </div>
+            </div>
+            <div class="tap-instruction">
+                <div class="tap-hand">👆</div>
+                <p class="pulse-text">Tap seal to open invitation</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= STAGE 2: INVITATION PAGES (STORY MODE) ================= -->
+    <div id="cardStage" class="stage-card">
+        <div class="pages-scroll-container" id="pagesContainer">
+
+            <!-- CHAPTER I: Formal Wedding Invitation -->
+            <section class="page" data-page="0">
+                <div class="page-inner card-surface">
+                    <div class="story-chapter-badge anim-item anim-fade-down">CHAPTER I • THE INVITATION</div>
+                    
+                    <div class="corner-flourish top-left"></div>
+                    <div class="corner-flourish top-right"></div>
+                    <div class="corner-flourish bottom-left"></div>
+                    <div class="corner-flourish bottom-right"></div>
+
+                    <div class="bismillah-container anim-item anim-zoom-in delay-1">
+                        <p class="bismillah-text">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+                        <p class="bismillah-translation">In the name of Allah, the Most Gracious, the Most Merciful</p>
+                    </div>
+
+                    <div class="invitation-ornament-divider anim-item anim-fade-in delay-2">✦</div>
+
+                    <div class="family-invitation-lead anim-item anim-fade-in delay-2">
+                        <p>Together with their families</p>
+                    </div>
+
+                    <div class="couple-names anim-item anim-fade-in delay-2">
+                        <h1 class="name bride-name">Iqra Imran</h1>
+                        <div class="connector-wrapper">
+                            <span class="line"></span>
+                            <span class="ampersand">&amp;</span>
+                            <span class="line"></span>
+                        </div>
+                        <h1 class="name groom-name">Hamid Ali</h1>
+                    </div>
+
+                    <div class="invitation-ornament-divider anim-item anim-fade-in delay-3">✦</div>
+
+                    <div class="invitation-body-declaration anim-item anim-fade-up delay-3">
+                        <p>cordially invite you to share in the joy and blessings of their Baraat ceremony</p>
+                    </div>
+
+                    <div class="invitation-ornament-divider anim-item anim-fade-in delay-3">✦</div>
+
+                    <div class="invitation-ceremony-meta anim-item anim-fade-up delay-4">
+                        <span class="meta-date">20 NOVEMBER 2026</span>
+                        <span class="meta-time">7:30 PM</span>
+                        <span class="meta-city">Lahore</span>
+                    </div>
+
+                    <div class="stationery-blessing-block anim-item anim-fade-up delay-4">
+                        <div class="blessing-stationery-header">
+                            <span class="blessing-title">OFFER A BLESSING</span>
+                            <span class="blessing-rose-icon">🌹</span>
+                            <p class="blessing-subtitle">Send a rose in celebration of Iqra &amp; Hamid</p>
+                        </div>
+                        <button id="offerFlowerBtn" class="stationery-petal-btn">
+                            <span>✦ SHOWER ROSE PETALS ✦</span>
+                        </button>
+                        <div class="blessing-counter-readout">
+                            <span class="flower-count" id="flowerCount">139</span>
+                            <span class="flower-label">blessings offered</span>
+                        </div>
+                    </div>
+
+                    <div class="swipe-hint-footer anim-item anim-fade-in delay-4">
+                        <span>Swipe to continue &rarr;</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CHAPTER II: Special Honored Guests -->
+            <section class="page" data-page="1">
+                <div class="page-inner card-surface">
+                    <div class="story-chapter-badge anim-item anim-fade-down">CHAPTER II • HONOURED GUESTS</div>
+
+                    <div class="guest-register-section anim-item anim-fade-in delay-1">
+                        <div class="register-header">
+                            <h2 class="register-title">HONOURED GUESTS</h2>
+                            <div class="register-divider">
+                                <span class="divider-line"></span>
+                                <span class="divider-ornament">✦</span>
+                                <span class="divider-line"></span>
+                            </div>
+                            <p class="register-subtitle">Aristocratic Roll of Respected Family &amp; Dignitaries</p>
+                        </div>
+
+                        <div class="guest-register-scroll anim-item anim-fade-up delay-2">
+                            <ul class="guest-register-list">
+                                <li class="register-entry">
+                                    <span class="entry-ornament">✦</span>
+                                    <span class="entry-name">Mr. &amp; Mrs. Tariq Mahmood</span>
+                                    <span class="entry-ornament">✦</span>
+                                </li>
+                                <li class="register-entry">
+                                    <span class="entry-ornament">✦</span>
+                                    <span class="entry-name">Mr. &amp; Mrs. Salman Khan</span>
+                                    <span class="entry-ornament">✦</span>
+                                </li>
+                                <li class="register-entry">
+                                    <span class="entry-ornament">✦</span>
+                                    <span class="entry-name">Mr. &amp; Mrs. Kamran Ali</span>
+                                    <span class="entry-ornament">✦</span>
+                                </li>
+                                <li class="register-entry">
+                                    <span class="entry-ornament">✦</span>
+                                    <span class="entry-name">Mr. &amp; Mrs. Bilal Hassan</span>
+                                    <span class="entry-ornament">✦</span>
+                                </li>
+                                <li class="register-entry">
+                                    <span class="entry-ornament">✦</span>
+                                    <span class="entry-name">Mr. &amp; Mrs. Usman Raza</span>
+                                    <span class="entry-ornament">✦</span>
+                                </li>
+                                <li class="register-entry">
+                                    <span class="entry-ornament">✦</span>
+                                    <span class="entry-name">Mr. &amp; Mrs. Hamza Farooq</span>
+                                    <span class="entry-ornament">✦</span>
+                                </li>
+                                <li class="register-entry">
+                                    <span class="entry-ornament">✦</span>
+                                    <span class="entry-name">Mr. &amp; Mrs. Asad Malik</span>
+                                    <span class="entry-ornament">✦</span>
+                                </li>
+                                <li class="register-entry">
+                                    <span class="entry-ornament">✦</span>
+                                    <span class="entry-name">Mr. &amp; Mrs. Zubair Ahmed</span>
+                                    <span class="entry-ornament">✦</span>
+                                </li>
+                                <li class="register-entry">
+                                    <span class="entry-ornament">✦</span>
+                                    <span class="entry-name">Mr. &amp; Mrs. Fawad Sheikh</span>
+                                    <span class="entry-ornament">✦</span>
+                                </li>
+                                <li class="register-entry">
+                                    <span class="entry-ornament">✦</span>
+                                    <span class="entry-name">Mr. &amp; Mrs. Adnan Qureshi</span>
+                                    <span class="entry-ornament">✦</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CHAPTER III: Scratch-Off Date + Countdown -->
+            <section class="page" data-page="2">
+                <div class="page-inner card-surface">
+                    <div class="story-chapter-badge anim-item anim-fade-down">CHAPTER III • DISCOVER THE DATE</div>
+
+                    <div class="scratch-card-section anim-item anim-zoom-in delay-1">
+                        <div class="scratch-header">
+                            <span>✨</span>
+                            <h3>Secret Wedding Date</h3>
+                            <span>✨</span>
+                        </div>
+                        <div class="scratch-wrapper" id="scratchWrapper">
+                            <div class="revealed-content">
+                                <div class="date-badge">BARAAT CEREMONY</div>
+                                <div class="revealed-date">
+                                    <span class="day-name">Friday</span>
+                                    <span class="date-main">20 Nov 2026</span>
+                                    <span class="time-main">⏰ 7:30 PM</span>
+                                </div>
+                            </div>
+                            <canvas id="scratchCanvas"></canvas>
+                            <div class="scratch-hint" id="scratchHint">
+                                <span>REVEAL THE DATE</span>
+                            </div>
+                        </div>
+                        <div class="scratch-progress"><div class="progress-bar" id="progressBar"></div></div>
+                    </div>
+
+                    <div class="editorial-date-section anim-item anim-fade-up delay-2">
+                        <div class="editorial-date-display">
+                            <span class="editorial-day">20</span>
+                            <span class="editorial-month">NOVEMBER</span>
+                            <span class="editorial-year">2026</span>
+                        </div>
+                        <div class="editorial-time">⏰ 7:30 PM</div>
+                        <div class="editorial-divider">✦</div>
+                        <div class="editorial-countdown-block">
+                            <span class="countdown-lead">The celebration begins in</span>
+                            <div class="countdown-digits">
+                                <span class="countdown-main-num" id="days">00</span><span class="unit-label"> days</span>
+                            </div>
+                            <div class="countdown-sub-readout">
+                                <span id="hours">00</span> hours &middot; <span id="minutes">00</span> minutes &middot; <span id="seconds">00</span> seconds
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CHAPTER IV: Venue -->
+            <section class="page" data-page="3">
+                <div class="page-inner card-surface">
+                    <div class="story-chapter-badge anim-item anim-fade-down">CHAPTER IV • THE CELEBRATION</div>
+
+                    <div class="formal-venue-card anim-item anim-zoom-in delay-1">
+                        <div class="venue-card-header">
+                            <h2 class="venue-celebration-title">THE CELEBRATION</h2>
+                            <div class="venue-divider">✦ ⚜ ✦</div>
+                        </div>
+
+                        <div class="venue-details">
+                            <h3 class="formal-venue-name">Marina Banquet Hall</h3>
+                            <p class="formal-venue-location">Near Barkat Market, New Garden Town, Lahore</p>
+                        </div>
+
+                        <div class="venue-datetime-badge">
+                            <span class="venue-date">20 NOVEMBER 2026</span>
+                            <span class="venue-time">7:30 PM</span>
+                        </div>
+
+                        <div class="venue-destination-actions">
+                            <a href="https://maps.google.com/?q=Marina+Banquet+Hall+near+Barkat+Market+Lahore" target="_blank" rel="noopener noreferrer" class="destination-seal-btn">
+                                <span class="line-icon"></span>
+                                <span>VIEW LOCATION</span>
+                            </a>
+                            <button id="addToCalendarBtn" class="calendar-seal-btn">
+                                <span class="line-icon"></span>
+                                <span>ADD TO CALENDAR</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CHAPTER V: Test of Memory -->
+            <section class="page" data-page="4">
+                <div class="page-inner card-surface">
+                    <div class="story-chapter-badge anim-item anim-fade-down">CHAPTER V • A LITTLE TEST OF MEMORY</div>
+
+                    <div class="memory-test-section anim-item anim-fade-up delay-1">
+                        <div class="memory-header">
+                            <h2 class="memory-title">A LITTLE TEST OF MEMORY</h2>
+                            <div class="memory-divider">✦ ⚜ ✦</div>
+                            <p class="memory-subtitle">An optional test of wedding details</p>
+                        </div>
+                        <div class="memory-body">
+                            <div class="trivia-q active" data-q="0">
+                                <p class="q-text">1. Where is the Baraat ceremony taking place?</p>
+                                <div class="q-options">
+                                    <button class="btn-opt" data-correct="false">A) DHA Phase 5, Lahore</button>
+                                    <button class="btn-opt" data-correct="true">B) Marina Banquet Hall, New Garden Town</button>
+                                    <button class="btn-opt" data-correct="false">C) Gulberg Main Boulevard</button>
+                                </div>
+                                <div class="memory-feedback"></div>
+                            </div>
+                            <div class="trivia-q" data-q="1">
+                                <p class="q-text">2. What is the date of the wedding celebration?</p>
+                                <div class="q-options">
+                                    <button class="btn-opt" data-correct="true">A) 20th November 2026</button>
+                                    <button class="btn-opt" data-correct="false">B) 14th August 2026</button>
+                                    <button class="btn-opt" data-correct="false">C) 25th December 2026</button>
+                                </div>
+                                <div class="memory-feedback"></div>
+                            </div>
+                            <div class="trivia-q" data-q="2">
+                                <p class="q-text">3. What time do the festivities commence?</p>
+                                <div class="q-options">
+                                    <button class="btn-opt" data-correct="false">A) 5:00 PM</button>
+                                    <button class="btn-opt" data-correct="true">B) 7:30 PM</button>
+                                    <button class="btn-opt" data-correct="false">C) 10:00 PM</button>
+                                </div>
+                                <div class="memory-feedback"></div>
+                            </div>
+                            <div class="trivia-result hidden" id="triviaResult">
+                                <div class="result-crest">✦ ⚜ ✦</div>
+                                <h3 class="result-title">A TRUE WEDDING GUEST</h3>
+                                <p class="result-msg">You remembered the details.</p>
+                                <div class="result-score-small"><span id="quizScore">0</span> / 3</div>
+                                <button id="resetQuizBtn" class="btn reset-memory-btn">TRY AGAIN ✦</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CHAPTER VI: Until We Meet -->
+            <section class="page" data-page="5">
+                <div class="page-inner card-surface">
+                    <div class="story-chapter-badge anim-item anim-fade-down">CHAPTER VI • UNTIL WE MEET</div>
+
+                    <div class="until-we-meet-section anim-item anim-zoom-in delay-1">
+                        <div class="until-header">
+                            <h2 class="until-title">UNTIL WE MEET</h2>
+                            <div class="until-divider">✦ ⚜ ✦</div>
+                        </div>
+
+                        <div class="blessing-calligraphy">
+                            بارَكَ اللهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ
+                        </div>
+                        <p class="blessing-english">"May Allah bless you both and shower His blessings upon you, and unite you in goodness."</p>
+
+                        <div class="royal-ledger-section" style="width:100%; margin: 10px 0;">
+                            <form id="guestbookForm" class="stationery-form">
+                                <div class="stationery-field">
+                                    <label for="guestName" class="stationery-label">Your Respected Name</label>
+                                    <input type="text" id="guestName" name="guestName" class="stationery-input" placeholder="e.g. Tariq &amp; Family" required autocomplete="off">
+                                </div>
+                                <div class="stationery-field">
+                                    <label for="guestMessage" class="stationery-label">Your Prayer / Blessing</label>
+                                    <textarea id="guestMessage" name="guestMessage" class="stationery-textarea" rows="2" placeholder="Write your warm prayers and blessings..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn ledger-submit-btn" id="submitWishBtn">
+                                    <span class="btn-text">LEAVE BLESSING ✦</span>
+                                    <span class="btn-loader hidden"></span>
+                                </button>
+                            </form>
+
+                            <div class="parchment-wall">
+                                <h4 class="parchment-wall-title">BLESSINGS FROM LOVED ONES</h4>
+                                <div class="parchment-list" id="wishesList"></div>
+                            </div>
+                        </div>
+
+                        <div class="final-family-compliments">
+                            <span class="compliment-label">WITH BEST COMPLIMENTS</span>
+                            <p class="family-names">Imran Family &amp; Ali Family</p>
+                        </div>
+
+                        <div class="final-monogram-box">
+                            <div class="final-monogram-seal">
+                                <span class="monogram-text">H &amp; I</span>
+                            </div>
+                        </div>
+
+                        <div class="final-share-actions">
+                            <button id="shareBtn" class="share-invitation-btn">
+                                <span class="share-icon">📲</span>
+                                <span>SHARE INVITATION</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        
+        <!-- Subtle Prev / Next Page Controls -->
+        <div class="story-subtle-nav" id="storyBottomControls">
+            <button class="subtle-nav-btn hidden-nav" id="storyPrevBtn" aria-label="Previous Page">‹</button>
+            <button class="subtle-nav-btn" id="storyNextBtn" aria-label="Next Page">›</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
