@@ -637,7 +637,7 @@ body.is-unopened #musicToggle {
     height: 86%;
     height: 86dvh;
     max-height: 630px;
-    padding: 38px 26px;
+    padding: 32px 26px;
     justify-content: center;
     background:
         radial-gradient(ellipse at 50% 30%, rgba(255, 252, 243, 0.6) 0%, transparent 65%),
@@ -787,8 +787,8 @@ body.is-unopened #musicToggle {
    PAGE 1: HEROFRAME / FLIP CARD FIT
    ========================================================================== */
 .bismillah-container {
-    margin: 8px 0 14px;
-    padding-bottom: 12px;
+    margin: 6px 0 10px;
+    padding-bottom: 10px;
     border-bottom: 1px solid rgba(198, 161, 91, 0.3);
     width: 100%;
     position: relative;
@@ -817,13 +817,27 @@ body.is-unopened #musicToggle {
 /* Chapter I Unified Stationery Invitation Layout */
 .family-invitation-lead {
     font-family: var(--font-serif);
-    font-size: 0.88rem;
-    letter-spacing: 0.04em;
-    color: var(--color-gold-deep);
+    font-size: clamp(0.78rem, 2.2vw, 0.92rem);
+    letter-spacing: 0.03em;
+    color: var(--color-maroon-dark);
     font-style: italic;
     font-weight: 400;
     text-transform: none;
-    margin: 8px 0 4px;
+    margin: 4px 0 2px;
+    line-height: 1.6;
+    max-width: 320px;
+    align-self: center;
+}
+
+.invitation-parents-name {
+    font-family: var(--font-heading);
+    font-size: clamp(0.62rem, 1.8vw, 0.72rem);
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: var(--color-maroon-deep);
+    text-transform: uppercase;
+    font-style: normal;
+    margin-bottom: 4px;
 }
 
 .invitation-ornament-divider {
@@ -1087,7 +1101,7 @@ body.is-unopened #musicToggle {
    PAGE 2: NAMES & BLESSING
    ========================================================================== */
 .couple-names {
-    margin: 8px 0 12px;
+    margin: 4px 0 6px;
     width: 100%;
     opacity: 0;
     filter: blur(8px);
@@ -1117,11 +1131,21 @@ body.is-unopened #musicToggle {
 
 .name {
     font-family: var(--font-display);
-    font-size: clamp(2.4rem, 8vw, 3.8rem);
+    font-size: clamp(2rem, 7vw, 3.2rem);
     color: var(--color-maroon-deep);
     font-weight: 500;
     line-height: 1.08;
     letter-spacing: -0.01em;
+}
+
+.groom-parentage {
+    font-family: var(--font-serif);
+    font-size: clamp(0.72rem, 2vw, 0.85rem);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    letter-spacing: 0.03em;
+    margin-top: 4px;
 }
 
 .connector-wrapper {
@@ -1129,7 +1153,7 @@ body.is-unopened #musicToggle {
     align-items: center;
     justify-content: center;
     gap: 14px;
-    margin: 6px 0;
+    margin: 3px 0;
 }
 
 .connector-wrapper .line {
@@ -1138,9 +1162,10 @@ body.is-unopened #musicToggle {
     background: linear-gradient(90deg, transparent, var(--color-gold-main), transparent);
 }
 
-.connector-wrapper .ampersand {
+.connector-wrapper .ampersand,
+.connector-wrapper .connector-word {
     font-family: var(--font-display);
-    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-size: clamp(1.1rem, 3.5vw, 1.5rem);
     color: var(--color-gold-main);
     line-height: 1;
     font-weight: 300;
