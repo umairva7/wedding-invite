@@ -1262,12 +1262,14 @@ body.is-unopened #musicToggle {
    PAGE 3: SCRATCH-OFF & COUNTDOWN
    ========================================================================== */
 .scratch-card-section {
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    padding: 0;
+    background: rgba(255, 253, 248, 0.95);
+    border: 1px solid rgba(198, 161, 91, 0.35);
+    border-radius: 12px;
+    padding: 18px 16px;
     width: 100%;
-    margin-bottom: 16px;
+    max-width: 480px;
+    margin: 10px auto;
+    box-shadow: 0 10px 30px rgba(10, 2, 5, 0.12), inset 0 0 15px rgba(198, 161, 91, 0.05);
     position: relative;
     z-index: 5;
 }
@@ -1646,13 +1648,15 @@ body.is-unopened #musicToggle {
    PAGE 4: VENUE & MAP STATIONERY CARD
    ========================================================================== */
 .formal-venue-card {
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    padding: 0;
+    background: rgba(255, 253, 248, 0.95);
+    border: 1px solid rgba(198, 161, 91, 0.35);
+    border-radius: 12px;
+    padding: 24px 18px;
     width: 100%;
+    max-width: 480px;
+    margin: 12px auto;
     text-align: center;
-    box-shadow: none;
+    box-shadow: 0 10px 30px rgba(10, 2, 5, 0.12), inset 0 0 15px rgba(198, 161, 91, 0.05);
     position: relative;
     z-index: 5;
 }
@@ -3264,6 +3268,36 @@ body.is-unopened #musicToggle {
 /* ==========================================================================
    MOBILE RESPONSIVE — DECORATION ADJUSTMENTS
    ========================================================================== */
+@media (max-width: 768px) {
+    .page {
+        min-height: auto;
+        padding: 46px 14px 38px;
+    }
+
+    .page[data-page="0"] {
+        min-height: 100dvh;
+        padding: 36px 14px 24px;
+    }
+
+    .page-inner {
+        max-width: 100%;
+    }
+
+    .formal-venue-card {
+        padding: 20px 14px;
+        margin: 6px auto;
+    }
+
+    .scratch-card-section {
+        padding: 16px 12px;
+        margin: 6px auto;
+    }
+
+    .editorial-venue-title {
+        font-size: clamp(1.35rem, 5vw, 1.8rem);
+    }
+}
+
 @media (max-width: 430px) {
     .card-palace-art {
         height: 45%;
