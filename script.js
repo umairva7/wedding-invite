@@ -193,10 +193,19 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentStoryPage = 0;
     const totalStoryPages = pages.length || 7;
 
+    // Cache page offsets to eliminate synchronous layout thrashing during scroll
+    let pageOffsets = [];
+    function cachePageOffsets() {
+        if (!pages.length) return;
+        pageOffsets = Array.from(pages).map(p => p.offsetTop);
+    }
+    cachePageOffsets();
+    window.addEventListener('resize', cachePageOffsets, { passive: true });
+
     function updateParallax(scrolledY) {
         parallaxLayers.forEach(layer => {
             const speed = parseFloat(layer.getAttribute('data-speed')) || 0.1;
-            const yPos = -(scrolledY * speed * 0.4);
+            const yPos = -(scrolledY * speed * 0.3);
             layer.style.transform = `translate3d(0, ${yPos}px, 0)`;
         });
     }
@@ -238,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const targetPage = pages[index];
         if (targetPage && pagesContainer) {
-            const targetY = targetPage.offsetTop;
+            const targetY = pageOffsets[index] !== undefined ? pageOffsets[index] : targetPage.offsetTop;
             pagesContainer.scrollTo({
                 top: targetY,
                 behavior: 'smooth'
@@ -255,30 +264,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Vertical Scroll Listener to update active story state dynamically
+    // High-Performance RAF-Throttled Scroll Listener
     if (pagesContainer) {
-        let isScrollingTimer;
+        let isScrollTicking = false;
         pagesContainer.addEventListener('scroll', () => {
-            const scrollTop = pagesContainer.scrollTop;
-            const containerHeight = pagesContainer.clientHeight || window.innerHeight;
+            if (!isScrollTicking) {
+                window.requestAnimationFrame(() => {
+                    const scrollTop = pagesContainer.scrollTop;
 
-            updateParallax(scrollTop);
+                    updateParallax(scrollTop);
 
-            // Compute active index based on scroll position center
-            let activeIndex = 0;
-            let minDistance = Infinity;
+                    // Compute active index using cached page offsets
+                    let activeIndex = 0;
+                    let minDistance = Infinity;
 
-            pages.forEach((p, idx) => {
-                const pageTop = p.offsetTop;
-                const distance = Math.abs(pageTop - scrollTop);
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    activeIndex = idx;
-                }
-            });
+                    for (let idx = 0; idx < pageOffsets.length; idx++) {
+                        const distance = Math.abs(pageOffsets[idx] - scrollTop);
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            activeIndex = idx;
+                        }
+                    }
 
-            if (activeIndex !== currentStoryPage) {
-                updateActiveStoryState(activeIndex);
+                    if (activeIndex !== currentStoryPage) {
+                        updateActiveStoryState(activeIndex);
+                    }
+                    isScrollTicking = false;
+                });
+                isScrollTicking = true;
             }
         }, { passive: true });
     }
