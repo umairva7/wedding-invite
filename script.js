@@ -183,49 +183,27 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(animateEnvironment);
 
     /* ==========================================================================
-       2. INTERACTIVE STORY ENGINE (HORIZONTAL PAGE TURNING)
+       2. INTERACTIVE STORY ENGINE (VERTICAL CINEMATIC JOURNEY)
        ========================================================================== */
     const pagesContainer = document.getElementById('pagesContainer');
     const pages = document.querySelectorAll('.page');
     const storySegments = document.querySelectorAll('.story-roman-numeral');
-    const storyPrevBtn = document.getElementById('storyPrevBtn');
-    const storyNextBtn = document.getElementById('storyNextBtn');
     const parallaxLayers = document.querySelectorAll('.parallax-layer');
 
     let currentStoryPage = 0;
-    const totalStoryPages = document.querySelectorAll('.page').length || 6;
+    const totalStoryPages = pages.length || 7;
 
-    // Make Roman Numerals clickable for direct chapter jumping
-    storySegments.forEach((segment, idx) => {
-        segment.addEventListener('click', () => {
-            goToStoryPage(idx);
-        });
-    });
-
-    function updateParallax(scrolled) {
+    function updateParallax(scrolledY) {
         parallaxLayers.forEach(layer => {
             const speed = parseFloat(layer.getAttribute('data-speed')) || 0.1;
-            const xPos = -(scrolled * speed);
-            layer.style.transform = `translate3d(${xPos}px, 0, 0)`;
+            const yPos = -(scrolledY * speed * 0.4);
+            layer.style.transform = `translate3d(0, ${yPos}px, 0)`;
         });
     }
 
-    function goToStoryPage(index) {
-        if (index < 0) index = 0;
-        if (index >= totalStoryPages) index = totalStoryPages - 1;
-
+    function updateActiveStoryState(index) {
         currentStoryPage = index;
 
-        // Scroll horizontally to page
-        const pageWidth = pagesContainer ? (pagesContainer.clientWidth || window.innerWidth) : window.innerWidth;
-        if (pagesContainer) {
-            pagesContainer.scrollTo({
-                left: currentStoryPage * pageWidth,
-                behavior: 'smooth'
-            });
-        }
-
-        // Update active story classes for animation reset
         pages.forEach((p, idx) => {
             if (idx === currentStoryPage) {
                 p.classList.add('active-story');
@@ -243,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Update Segmented Story Progress Bar
+        // Update Segmented Story Progress Bar (I - VII)
         storySegments.forEach((segment, idx) => {
             segment.classList.remove('active', 'completed');
             if (idx < currentStoryPage) {
@@ -252,73 +230,71 @@ document.addEventListener('DOMContentLoaded', () => {
                 segment.classList.add('active');
             }
         });
+    }
 
-        // Update Subtle Prev/Next Controls Visibility
-        if (storyPrevBtn) {
-            storyPrevBtn.classList.toggle('hidden-nav', currentStoryPage === 0);
+    function goToStoryPage(index) {
+        if (index < 0) index = 0;
+        if (index >= totalStoryPages) index = totalStoryPages - 1;
+
+        const targetPage = pages[index];
+        if (targetPage && pagesContainer) {
+            const targetY = targetPage.offsetTop;
+            pagesContainer.scrollTo({
+                top: targetY,
+                behavior: 'smooth'
+            });
         }
-        if (storyNextBtn) {
-            storyNextBtn.classList.toggle('hidden-nav', currentStoryPage === totalStoryPages - 1);
-        }
+        updateActiveStoryState(index);
     }
 
-    // Scroll listener to update active page state smoothly during swipe / drag
-    if (pagesContainer) {
-        let isScrollingTimer;
-        pagesContainer.addEventListener('scroll', () => {
-            const scrollLeft = pagesContainer.scrollLeft;
-            const pageWidth = pagesContainer.clientWidth || window.innerWidth;
-            const activeIndex = Math.round(scrollLeft / pageWidth);
-
-            updateParallax(scrollLeft);
-
-            clearTimeout(isScrollingTimer);
-            isScrollingTimer = setTimeout(() => {
-                if (activeIndex !== currentStoryPage) {
-                    goToStoryPage(activeIndex);
-                }
-            }, 80);
-        }, { passive: true });
-
-        // Smart Tap Navigation: tap left 25% or right 75% outside interactive elements to turn page
-        pagesContainer.addEventListener('click', (e) => {
-            if (e.target.closest('button, a, input, textarea, canvas, .flip-card, .btn-opt, .gallery-nav, .dot, .subtle-nav-btn, .music-btn, .scratch-wrapper, .guest-register-scroll, .flower-blessing-card, .guestbook-section')) {
-                return;
-            }
-
-            const clickX = e.clientX;
-            const screenWidth = window.innerWidth;
-            if (clickX < screenWidth * 0.25) {
-                goToStoryPage(currentStoryPage - 1);
-            } else {
-                goToStoryPage(currentStoryPage + 1);
-            }
-        });
-    }
-
-    if (storyPrevBtn) {
-        storyPrevBtn.addEventListener('click', () => goToStoryPage(currentStoryPage - 1));
-    }
-
-    if (storyNextBtn) {
-        storyNextBtn.addEventListener('click', () => goToStoryPage(currentStoryPage + 1));
-    }
-
-    storySegments.forEach(segment => {
+    // Click Roman Numerals for direct chapter jumping
+    storySegments.forEach((segment) => {
         segment.addEventListener('click', () => {
-            const idx = parseInt(segment.getAttribute('data-index'));
+            const idx = parseInt(segment.getAttribute('data-index')) || 0;
             goToStoryPage(idx);
         });
     });
+
+    // Vertical Scroll Listener to update active story state dynamically
+    if (pagesContainer) {
+        let isScrollingTimer;
+        pagesContainer.addEventListener('scroll', () => {
+            const scrollTop = pagesContainer.scrollTop;
+            const containerHeight = pagesContainer.clientHeight || window.innerHeight;
+
+            updateParallax(scrollTop);
+
+            // Compute active index based on scroll position center
+            let activeIndex = 0;
+            let minDistance = Infinity;
+
+            pages.forEach((p, idx) => {
+                const pageTop = p.offsetTop;
+                const distance = Math.abs(pageTop - scrollTop);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    activeIndex = idx;
+                }
+            });
+
+            if (activeIndex !== currentStoryPage) {
+                updateActiveStoryState(activeIndex);
+            }
+        }, { passive: true });
+    }
 
     // Keyboard Arrow Keys Navigation
     window.addEventListener('keydown', (e) => {
         const cardStage = document.getElementById('cardStage');
         if (cardStage && !cardStage.classList.contains('active')) return;
-        if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
-            goToStoryPage(currentStoryPage + 1);
-        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-            goToStoryPage(currentStoryPage - 1);
+        if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+            if (currentStoryPage < totalStoryPages - 1) {
+                goToStoryPage(currentStoryPage + 1);
+            }
+        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+            if (currentStoryPage > 0) {
+                goToStoryPage(currentStoryPage - 1);
+            }
         }
     });
 
