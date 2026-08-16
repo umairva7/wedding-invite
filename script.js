@@ -457,25 +457,105 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    function showQuizResult() {
-        if (triviaResult) {
-            triviaResult.classList.remove('hidden');
-            if (quizScoreEl) quizScoreEl.innerText = score;
-            const quizMsg = document.getElementById('quizMsg');
-            if (quizMsg) {
-                if (score === 3) quizMsg.innerText = "You know every detail of our celebration.";
-                else if (score === 2) quizMsg.innerText = "You remembered most of the ceremony details.";
-                else quizMsg.innerText = "A little more wedding homework is required.";
-            }
-            triggerGoldLightParticles(window.innerWidth / 2, window.innerHeight / 2);
+    function triggerVipCelebrationBurst() {
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const goldShades = ['#FAD980', '#D4AF37', '#FFFDF8', '#E2C78E', '#C6A15B'];
+
+        for (let i = 0; i < 24; i++) {
+            const confetti = document.createElement('div');
+            const size = Math.random() * 5 + 3;
+            confetti.style.position = 'fixed';
+            confetti.style.left = `${centerX}px`;
+            confetti.style.top = `${centerY - 40}px`;
+            confetti.style.width = `${size}px`;
+            confetti.style.height = `${size * (Math.random() > 0.5 ? 1.4 : 1)}px`;
+            confetti.style.backgroundColor = goldShades[Math.floor(Math.random() * goldShades.length)];
+            confetti.style.borderRadius = Math.random() > 0.4 ? '50%' : '1px';
+            confetti.style.boxShadow = '0 0 6px rgba(226, 199, 142, 0.7)';
+            confetti.style.pointerEvents = 'none';
+            confetti.style.zIndex = '9999';
+
+            document.body.appendChild(confetti);
+
+            const angle = (Math.random() - 0.5) * Math.PI * 1.4 - Math.PI / 2;
+            const velocity = Math.random() * 140 + 70;
+            const destX = Math.cos(angle) * velocity;
+            const destY = Math.sin(angle) * velocity + Math.random() * 40;
+
+            confetti.animate([
+                { transform: 'translate(0, 0) rotate(0deg) scale(0.4)', opacity: 0 },
+                { transform: `translate(${destX * 0.4}px, ${destY * 0.4 - 20}px) rotate(180deg) scale(1.1)`, opacity: 0.95, offset: 0.3 },
+                { transform: `translate(${destX}px, ${destY + 60}px) rotate(420deg) scale(0.5)`, opacity: 0 }
+            ], {
+                duration: Math.random() * 800 + 1400,
+                easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                fill: 'forwards'
+            }).onfinish = () => confetti.remove();
         }
+
+        triggerGoldLightParticles(centerX, centerY);
+        if (typeof spawnPetalShower === 'function') {
+            spawnPetalShower(centerX, centerY - 60);
+        }
+    }
+
+    function showQuizResult() {
+        if (!triviaResult) return;
+
+        const quizScoreEl = document.getElementById('quizScore');
+        const quizCrest = document.getElementById('quizCrest');
+        const quizTitle = document.getElementById('quizTitle');
+        const quizMsgLead = document.getElementById('quizMsgLead');
+        const quizMsgSub = document.getElementById('quizMsgSub');
+
+        if (quizScoreEl) quizScoreEl.innerText = score;
+
+        triviaResult.classList.remove('vip-celebration', 'score-2', 'score-1', 'score-0');
+
+        if (score === 3) {
+            triviaResult.classList.add('vip-celebration');
+            if (quizCrest) quizCrest.innerText = "✨ ✦ ⚜ ✦ ✨";
+            if (quizTitle) quizTitle.innerText = "✨ You are truly a VIP Guest! ✨";
+            if (quizMsgLead) quizMsgLead.innerText = "You know the couple well — and you're officially on the VIP list.";
+            if (quizMsgSub) quizMsgSub.innerText = "We can't wait to celebrate this beautiful day with you!";
+
+            triggerVipCelebrationBurst();
+        } else if (score === 2) {
+            triviaResult.classList.add('score-2');
+            if (quizCrest) quizCrest.innerText = "✦ ⚜ ✦";
+            if (quizTitle) quizTitle.innerText = "Almost a VIP! ✨";
+            if (quizMsgLead) quizMsgLead.innerText = "You know the couple pretty well… but there are still a few secrets left to discover.";
+            if (quizMsgSub) quizMsgSub.innerHTML = "We’ll see you at the wedding! ❤️";
+
+            triggerGoldLightParticles(window.innerWidth / 2, window.innerHeight / 2);
+        } else if (score === 1) {
+            triviaResult.classList.add('score-1');
+            if (quizCrest) quizCrest.innerText = "✦ ⚜ ✦";
+            if (quizTitle) quizTitle.innerText = "Looks like you need to know the couple a little better! 😄";
+            if (quizMsgLead) quizMsgLead.innerText = "Don't worry — there’s still plenty of time to become a VIP guest.";
+            if (quizMsgSub) quizMsgSub.innerHTML = "See you at the celebration! ❤️";
+
+            triggerGoldLightParticles(window.innerWidth / 2, window.innerHeight / 2);
+        } else {
+            triviaResult.classList.add('score-0');
+            if (quizCrest) quizCrest.innerText = "✦ ⚜ ✦";
+            if (quizTitle) quizTitle.innerText = "Well… we definitely need to introduce you to the couple! 😂";
+            if (quizMsgLead) quizMsgLead.innerText = "But don't worry — you're still invited!";
+            if (quizMsgSub) quizMsgSub.innerHTML = "Come celebrate, eat, and make memories with us. ❤️";
+        }
+
+        triviaResult.classList.remove('hidden');
     }
 
     if (resetQuizBtn) {
         resetQuizBtn.addEventListener('click', () => {
             currentQ = 0;
             score = 0;
-            if (triviaResult) triviaResult.classList.add('hidden');
+            if (triviaResult) {
+                triviaResult.classList.add('hidden');
+                triviaResult.classList.remove('vip-celebration', 'score-2', 'score-1', 'score-0');
+            }
             triviaQuestions.forEach(q => {
                 q.classList.remove('active');
                 const fb = q.querySelector('.memory-feedback');
