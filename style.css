@@ -2393,12 +2393,13 @@ body.is-unopened #musicToggle {
 }
 
 .layer-mandala {
-    top: 22%;
+    top: 50%;
     left: 50%;
     width: 360px;
     height: 360px;
     margin-left: -180px;
-    opacity: 0.16;
+    margin-top: -180px;
+    opacity: 0.18;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400' fill='none' stroke='%23C6A15B' stroke-width='0.8'%3E%3Ccircle cx='200' cy='200' r='130' stroke-width='1'/%3E%3Ccircle cx='200' cy='200' r='124' stroke-dasharray='3,3' opacity='0.7'/%3E%3Ccircle cx='200' cy='200' r='118'/%3E%3Cpath d='M 180 64 Q 200 40 200 30 Q 200 40 220 64 Z' fill='%23C6A15B' opacity='0.8'/%3E%3Ccircle cx='200' cy='24' r='4' fill='%23C6A15B'/%3E%3Cpath d='M 175 140 L 175 260 M 165 140 L 185 140 M 165 260 L 185 260' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M 180 200 Q 200 170 200 200 Q 200 230 220 200' stroke-width='1.2' opacity='0.8'/%3E%3Cpath d='M 215 140 L 215 260 M 245 140 L 245 260 M 215 200 L 245 200 M 205 140 L 225 140 M 235 140 L 255 140 M 205 260 L 225 260 M 235 260 L 255 260' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M 60 200 Q 80 120 140 80 Q 90 150 110 220 Q 80 270 140 320' stroke-width='1.2'/%3E%3Cpath d='M 90 140 Q 110 130 115 150 Q 100 160 90 140' fill='%23C6A15B' opacity='0.4'/%3E%3Cpath d='M 80 220 Q 95 210 100 230 Q 85 240 80 220' fill='%23C6A15B' opacity='0.4'/%3E%3Ccircle cx='75' cy='180' r='6' fill='%23C6A15B' opacity='0.5'/%3E%3Ccircle cx='105' cy='275' r='5' fill='%23C6A15B' opacity='0.5'/%3E%3Cpath d='M 340 200 Q 320 120 260 80 Q 310 150 290 220 Q 320 270 260 320' stroke-width='1.2'/%3E%3Cpath d='M 310 140 Q 290 130 285 150 Q 300 160 310 140' fill='%23C6A15B' opacity='0.4'/%3E%3Cpath d='M 320 220 Q 305 210 300 230 Q 315 240 320 220' fill='%23C6A15B' opacity='0.4'/%3E%3Ccircle cx='325' cy='180' r='6' fill='%23C6A15B' opacity='0.5'/%3E%3Ccircle cx='295' cy='275' r='5' fill='%23C6A15B' opacity='0.5'/%3E%3Cpath d='M 200 336 L 204 346 L 214 350 L 204 354 L 200 364 L 196 354 L 186 350 L 196 346 Z' fill='%23C6A15B'/%3E%3C/svg%3E");
 }
 
@@ -3300,6 +3301,13 @@ body.is-unopened #musicToggle {
 }
 
 @media (max-width: 430px) {
+    .layer-mandala {
+        width: 300px;
+        height: 300px;
+        margin-left: -150px;
+        margin-top: -150px;
+        opacity: 0.16;
+    }
     .card-palace-art {
         height: 45%;
         opacity: 0.07;
