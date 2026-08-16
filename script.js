@@ -1065,7 +1065,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
                 navigator.clipboard.writeText(window.location.href);
-                alert("Invitation link copied to clipboard! 📋");
+                alert("Invitation link copied to clipboard.");
             }
         });
     }
