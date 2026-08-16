@@ -989,4 +989,65 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+
+    /* ==========================================================================
+       15. FLOATING BREEZE PETAL GENERATION (CSS-ANIMATED DOM ELEMENTS)
+       ========================================================================== */
+    (function initBreezePetals() {
+        if (prefersReducedMotion) return;
+
+        const container = document.getElementById('petalBreezeContainer');
+        if (!container) return;
+
+        const isMobile = window.innerWidth <= 430;
+        const petalCount = isMobile ? 10 : 18;
+        const screenW = window.innerWidth;
+
+        const petalColors = [
+            'radial-gradient(ellipse at 40% 30%, #B82038 0%, #8B1528 55%, #5E0E1E 100%)',
+            'radial-gradient(ellipse at 35% 25%, #A01D30 0%, #741222 50%, #4E0B18 100%)',
+            'radial-gradient(ellipse at 45% 35%, #C4263E 0%, #941A2D 55%, #6A1020 100%)',
+            'radial-gradient(ellipse at 38% 28%, #9C1B2E 0%, #6E1020 50%, #450A16 100%)',
+            'radial-gradient(ellipse at 42% 32%, #D1324A 0%, #A22038 55%, #781625 100%)'
+        ];
+
+        const animations = ['petalBreeze', 'petalBreezeAlt', 'petalBreezeEdge'];
+
+        for (let i = 0; i < petalCount; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'breeze-petal';
+
+            // Randomize size
+            const size = Math.random() * 12 + 10; // 10-22px
+            const height = size * (1.1 + Math.random() * 0.4);
+            petal.style.width = size + 'px';
+            petal.style.height = height + 'px';
+
+            // Randomize color from crimson palette
+            petal.style.background = petalColors[Math.floor(Math.random() * petalColors.length)];
+
+            // Randomize shadow
+            petal.style.boxShadow = `1px 2px ${3 + Math.random() * 4}px rgba(24, 7, 12, ${0.2 + Math.random() * 0.2})`;
+
+            // Randomize horizontal start position
+            const startX = (Math.random() - 0.5) * screenW * 0.6;
+            petal.style.left = (Math.random() * 100) + '%';
+
+            // CSS custom properties for animation variation
+            petal.style.setProperty('--petal-start-x', startX + 'px');
+            petal.style.setProperty('--petal-duration', (8 + Math.random() * 10) + 's');
+            petal.style.setProperty('--petal-delay', -(Math.random() * 16) + 's'); // negative for immediate start at random point
+            petal.style.setProperty('--petal-max-opacity', (0.5 + Math.random() * 0.35).toFixed(2));
+
+            // Pick animation variant
+            const animName = animations[Math.floor(Math.random() * animations.length)];
+            const duration = 8 + Math.random() * 10;
+            const delay = -(Math.random() * 16);
+            petal.style.animation = `${animName} ${duration}s ${delay}s ease-in-out infinite`;
+
+            container.appendChild(petal);
+        }
+    })();
+
 });
