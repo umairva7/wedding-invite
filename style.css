@@ -1651,36 +1651,36 @@ body.is-unopened #musicToggle {
    ========================================================================== */
 .formal-venue-card {
     background: rgba(255, 253, 248, 0.95);
-    border: 1px solid rgba(198, 161, 91, 0.35);
-    border-radius: 12px;
-    padding: 24px 18px;
+    border: 1.5px solid rgba(198, 161, 91, 0.4);
+    border-radius: 14px;
+    padding: 34px 22px;
     width: 100%;
-    max-width: 480px;
-    margin: 12px auto;
+    max-width: 520px;
+    margin: 14px auto;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(10, 2, 5, 0.12), inset 0 0 15px rgba(198, 161, 91, 0.05);
+    box-shadow: 0 14px 35px rgba(10, 2, 5, 0.14), inset 0 0 25px rgba(198, 161, 91, 0.06);
     position: relative;
     z-index: 5;
 }
 
 .editorial-section-tag {
     font-family: var(--font-body);
-    font-size: 0.58rem;
+    font-size: 0.62rem;
     letter-spacing: 0.3em;
     color: var(--color-gold-deep);
     text-transform: uppercase;
     font-weight: 500;
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
 
 .editorial-venue-title {
     font-family: var(--font-display);
-    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    font-size: clamp(1.6rem, 5.5vw, 2.4rem);
     font-weight: 500;
     color: var(--color-maroon-deep);
     letter-spacing: -0.01em;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     line-height: 1.2;
 }
 
@@ -1696,7 +1696,7 @@ body.is-unopened #musicToggle {
 .venue-divider {
     color: var(--color-gold-main);
     font-size: 0.7rem;
-    margin: 4px 0 10px;
+    margin: 6px 0 12px;
 }
 
 .formal-venue-name {
@@ -1704,17 +1704,17 @@ body.is-unopened #musicToggle {
     font-size: 1.3rem;
     font-weight: 700;
     color: var(--color-maroon-deep);
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 .formal-venue-location {
     font-family: var(--font-serif);
-    font-size: clamp(0.82rem, 2.2vw, 0.92rem);
+    font-size: clamp(0.85rem, 2.2vw, 0.95rem);
     color: var(--color-text-muted);
-    line-height: 1.55;
+    line-height: 1.6;
     font-weight: 400;
-    max-width: 260px;
-    margin: 0 auto 14px;
+    max-width: 300px;
+    margin: 0 auto 18px;
 }
 
 .venue-datetime-flow {
@@ -3288,8 +3288,8 @@ body.is-unopened #musicToggle {
     }
 
     .formal-venue-card {
-        padding: 20px 14px;
-        margin: 6px auto;
+        padding: 28px 18px;
+        margin: 10px auto;
     }
 
     .scratch-card-section {
