@@ -2836,8 +2836,8 @@ body.is-unopened #musicToggle {
     left: 0;
     right: 0;
     height: 55%;
-    opacity: 0.06;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 400' fill='none' stroke='%23B8943E' stroke-width='0.8'%3E%3C!-- Central large dome --%3E%3Cpath d='M400 80 Q400 20 440 20 Q480 20 480 80'/%3E%3Cpath d='M320 80 Q320 20 360 20 Q400 20 400 80'/%3E%3Cpath d='M320 80 L320 200 L480 200 L480 80'/%3E%3C!-- Central arch --%3E%3Cpath d='M350 200 Q400 130 450 200'/%3E%3C!-- Left minaret --%3E%3Crect x='240' y='60' width='30' height='160' rx='2'/%3E%3Ccircle cx='255' cy='55' r='12'/%3E%3Cpath d='M252 43 L255 30 L258 43'/%3E%3C!-- Right minaret --%3E%3Crect x='530' y='60' width='30' height='160' rx='2'/%3E%3Ccircle cx='545' cy='55' r='12'/%3E%3Cpath d='M542 43 L545 30 L548 43'/%3E%3C!-- Left secondary dome --%3E%3Cpath d='M200 120 Q200 80 230 80 Q260 80 260 120'/%3E%3Crect x='200' y='120' width='60' height='100' rx='1'/%3E%3Cpath d='M210 220 Q230 170 250 220'/%3E%3C!-- Right secondary dome --%3E%3Cpath d='M540 120 Q540 80 570 80 Q600 80 600 120'/%3E%3Crect x='540' y='120' width='60' height='100' rx='1'/%3E%3Cpath d='M550 220 Q570 170 590 220'/%3E%3C!-- Far-left small structure --%3E%3Crect x='100' y='160' width='50' height='60' rx='1'/%3E%3Cpath d='M100 160 Q125 120 150 160'/%3E%3C!-- Far-right small structure --%3E%3Crect x='650' y='160' width='50' height='60' rx='1'/%3E%3Cpath d='M650 160 Q675 120 700 160'/%3E%3C!-- Ground line --%3E%3Cline x1='60' y1='220' x2='740' y2='220'/%3E%3C!-- Decorative arched gallery --%3E%3Cpath d='M280 200 Q295 180 310 200'/%3E%3Cpath d='M490 200 Q505 180 520 200'/%3E%3C!-- Small pinnacles --%3E%3Cpath d='M340 80 L340 65 L342 55 L344 65 L344 80'/%3E%3Cpath d='M456 80 L456 65 L458 55 L460 65 L460 80'/%3E%3C!-- Crescent finials --%3E%3Cpath d='M395 18 Q398 10 405 14 Q400 12 395 18' fill='%23B8943E'/%3E%3C/svg%3E");
+    opacity: 0.1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 300' fill='none' stroke='%23B8943E' stroke-width='0.7'%3E%3Cpath d='M340 60 Q340 15 370 10 Q400 5 400 10 Q400 5 430 10 Q460 15 460 60'/%3E%3Cpath d='M360 60 Q360 28 400 22 Q440 28 440 60'/%3E%3Crect x='320' y='60' width='160' height='140' rx='1'/%3E%3Cpath d='M355 200 Q400 140 445 200'/%3E%3Cpath d='M370 200 Q400 160 430 200'/%3E%3Cpath d='M395 8 Q399 2 403 6' fill='%23B8943E'/%3E%3Crect x='245' y='50' width='22' height='155' rx='1'/%3E%3Cpath d='M245 50 Q256 20 267 50'/%3E%3Cpath d='M253 18 L256 8 L259 18'/%3E%3Crect x='533' y='50' width='22' height='155' rx='1'/%3E%3Cpath d='M533 50 Q544 20 555 50'/%3E%3Cpath d='M541 18 L544 8 L547 18'/%3E%3Cpath d='M190 100 Q190 65 215 60 Q240 65 240 100'/%3E%3Crect x='190' y='100' width='50' height='105' rx='1'/%3E%3Cpath d='M198 205 Q215 165 232 205'/%3E%3Cpath d='M210 58 L215 48 L220 58'/%3E%3Cpath d='M560 100 Q560 65 585 60 Q610 65 610 100'/%3E%3Crect x='560' y='100' width='50' height='105' rx='1'/%3E%3Cpath d='M568 205 Q585 165 602 205'/%3E%3Cpath d='M580 58 L585 48 L590 58'/%3E%3Cpath d='M120 140 Q120 112 145 108 Q170 112 170 140'/%3E%3Crect x='120' y='140' width='50' height='65' rx='1'/%3E%3Cpath d='M128 205 Q145 175 162 205'/%3E%3Cpath d='M630 140 Q630 112 655 108 Q680 112 680 140'/%3E%3Crect x='630' y='140' width='50' height='65' rx='1'/%3E%3Cpath d='M638 205 Q655 175 672 205'/%3E%3Crect x='80' y='170' width='30' height='35' rx='1'/%3E%3Cpath d='M80 170 Q95 148 110 170'/%3E%3Crect x='690' y='170' width='30' height='35' rx='1'/%3E%3Cpath d='M690 170 Q705 148 720 170'/%3E%3Cline x1='50' y1='205' x2='750' y2='205'/%3E%3Cpath d='M285 200 Q300 182 315 200'/%3E%3Cpath d='M485 200 Q500 182 515 200'/%3E%3Cpath d='M340 60 L340 48 L342 40 L344 48 L344 60'/%3E%3Cpath d='M456 60 L456 48 L458 40 L460 48 L460 60'/%3E%3Ccircle cx='400' cy='42' r='3' opacity='0.4' fill='%23B8943E'/%3E%3Cpath d='M50 205 L50 190 Q65 180 80 190 L80 205'/%3E%3Cpath d='M720 205 L720 190 Q735 180 750 190 L750 205'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: center bottom;
     background-size: 110% auto;
@@ -3082,7 +3082,7 @@ body.is-unopened #musicToggle {
 @media (max-width: 430px) {
     .card-palace-art {
         height: 45%;
-        opacity: 0.04;
+        opacity: 0.07;
     }
     .card-floral-art {
         opacity: 0.06;
@@ -3099,7 +3099,7 @@ body.is-unopened #musicToggle {
 @media (max-width: 360px) {
     .card-palace-art {
         height: 35%;
-        opacity: 0.03;
+        opacity: 0.05;
     }
     .card-floral-art {
         background-size: 50px 50px;
