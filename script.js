@@ -515,34 +515,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (score === 3) {
             triviaResult.classList.add('vip-celebration');
-            if (quizCrest) quizCrest.innerText = "✨ ✦ ⚜ ✦ ✨";
-            if (quizTitle) quizTitle.innerText = "✨ You are truly a VIP Guest! ✨";
-            if (quizMsgLead) quizMsgLead.innerText = "You know the couple well — and you're officially on the VIP list.";
-            if (quizMsgSub) quizMsgSub.innerText = "We can't wait to celebrate this beautiful day with you!";
+            if (quizCrest) quizCrest.innerText = "✦ ⚜ ✦";
+            if (quizTitle) quizTitle.innerText = "YOU ARE TRULY A VIP GUEST";
+            if (quizMsgLead) quizMsgLead.innerText = "You know the couple well — and you are officially on our VIP roll.";
+            if (quizMsgSub) quizMsgSub.innerText = "We look forward to celebrating this beautiful day with you!";
 
             triggerVipCelebrationBurst();
         } else if (score === 2) {
             triviaResult.classList.add('score-2');
             if (quizCrest) quizCrest.innerText = "✦ ⚜ ✦";
-            if (quizTitle) quizTitle.innerText = "Almost a VIP! ✨";
-            if (quizMsgLead) quizMsgLead.innerText = "You know the couple pretty well… but there are still a few secrets left to discover.";
-            if (quizMsgSub) quizMsgSub.innerHTML = "We’ll see you at the wedding! ❤️";
+            if (quizTitle) quizTitle.innerText = "ALMOST A VIP GUEST";
+            if (quizMsgLead) quizMsgLead.innerText = "You know the couple pretty well… though a few subtle details remain to be discovered.";
+            if (quizMsgSub) quizMsgSub.innerHTML = "We look forward to seeing you at the wedding!";
 
             triggerGoldLightParticles(window.innerWidth / 2, window.innerHeight / 2);
         } else if (score === 1) {
             triviaResult.classList.add('score-1');
             if (quizCrest) quizCrest.innerText = "✦ ⚜ ✦";
-            if (quizTitle) quizTitle.innerText = "Looks like you need to know the couple a little better! 😄";
-            if (quizMsgLead) quizMsgLead.innerText = "Don't worry — there’s still plenty of time to become a VIP guest.";
-            if (quizMsgSub) quizMsgSub.innerHTML = "See you at the celebration! ❤️";
+            if (quizTitle) quizTitle.innerText = "A WARM INVITATION TO KNOW US BETTER";
+            if (quizMsgLead) quizMsgLead.innerText = "Don't worry — there is still plenty of time to learn more about our celebration.";
+            if (quizMsgSub) quizMsgSub.innerHTML = "We look forward to celebrating with you!";
 
             triggerGoldLightParticles(window.innerWidth / 2, window.innerHeight / 2);
         } else {
             triviaResult.classList.add('score-0');
             if (quizCrest) quizCrest.innerText = "✦ ⚜ ✦";
-            if (quizTitle) quizTitle.innerText = "Well… we definitely need to introduce you to the couple! 😂";
-            if (quizMsgLead) quizMsgLead.innerText = "But don't worry — you're still invited!";
-            if (quizMsgSub) quizMsgSub.innerHTML = "Come celebrate, eat, and make memories with us. ❤️";
+            if (quizTitle) quizTitle.innerText = "A DELIGHTFUL FIRST INTRODUCTION";
+            if (quizMsgLead) quizMsgLead.innerText = "We definitely look forward to properly introducing you to the couple!";
+            if (quizMsgSub) quizMsgSub.innerHTML = "Come celebrate, share in the feast, and make memories with us.";
         }
 
         triviaResult.classList.remove('hidden');
