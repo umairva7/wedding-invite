@@ -590,7 +590,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Step 1 & 2: Compression followed by flap opening & subtle audio
         setTimeout(() => {
-            playGentleTune();
+            playNasheed();
             if (envelope) envelope.classList.add('open');
             triggerRoyalUnveiling();
         }, 140);
@@ -866,72 +866,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* ==========================================================================
-       12. AUDIO SYNTH MELODY LOOP
+       12. WEDDING NASHEED AUDIO CONTROLLER
        ========================================================================== */
     const musicToggle = document.getElementById('musicToggle');
-    let audioCtx = null;
-    let isPlaying = false;
-    let timerId = null;
+    const bgNasheed = document.getElementById('bgNasheed');
 
-    const melodyNotes = [
-        293.66, 329.63, 369.99, 440.00, 493.88, 554.37, 659.25, 739.99,
-        659.25, 554.37, 493.88, 440.00, 369.99, 329.63
-    ];
-
-    function playTone(freq, duration) {
-        if (!audioCtx) return;
-        try {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-            gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 0.1);
-            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
-
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-
-            osc.start();
-            osc.stop(audioCtx.currentTime + duration);
-        } catch (e) {
-            console.error(e);
-        }
+    function playNasheed() {
+        if (!bgNasheed) return;
+        bgNasheed.play().then(() => {
+            if (musicToggle) musicToggle.classList.add('playing');
+        }).catch(err => {
+            console.log('Autoplay prevented until user gesture:', err);
+        });
     }
 
-    function playGentleTune() {
-        if (!isPlaying) return;
-        let noteIndex = 0;
-        if (timerId) clearInterval(timerId);
-        timerId = setInterval(() => {
-            if (!isPlaying) {
-                clearInterval(timerId);
-                return;
-            }
-            playTone(melodyNotes[noteIndex], 1.2);
-            noteIndex = (noteIndex + 1) % melodyNotes.length;
-        }, 550);
+    function pauseNasheed() {
+        if (!bgNasheed) return;
+        bgNasheed.pause();
+        if (musicToggle) musicToggle.classList.remove('playing');
     }
 
     function toggleMusic() {
-        if (!audioCtx) {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            audioCtx = new AudioContext();
-        }
-
-        if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
-        }
-
-        isPlaying = !isPlaying;
-        if (isPlaying) {
-            musicToggle.classList.add('playing');
-            playGentleTune();
+        if (!bgNasheed) return;
+        if (bgNasheed.paused) {
+            playNasheed();
         } else {
-            musicToggle.classList.remove('playing');
-            if (timerId) clearInterval(timerId);
+            pauseNasheed();
         }
     }
 
