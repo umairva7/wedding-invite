@@ -701,13 +701,13 @@ body.is-unopened #musicToggle {
 /* Chapter Eyebrow Badge — Editorial Metadata */
 .story-chapter-badge {
     font-family: var(--font-body);
-    font-size: 0.52rem;
-    font-weight: 500;
-    letter-spacing: 0.35em;
+    font-size: clamp(0.7rem, 2vw, 0.78rem);
+    font-weight: 600;
+    letter-spacing: 0.3em;
     color: var(--color-gold-deep);
     text-transform: uppercase;
     margin-bottom: 12px;
-    opacity: 0.75;
+    opacity: 0.92;
     position: relative;
     z-index: 5;
 }
@@ -822,9 +822,9 @@ body.is-unopened #musicToggle {
 
 .invitation-parents-name {
     font-family: var(--font-heading);
-    font-size: clamp(0.62rem, 1.8vw, 0.72rem);
+    font-size: clamp(0.85rem, 2.5vw, 1.05rem);
     font-weight: 600;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.2em;
     color: var(--color-maroon-deep);
     text-transform: uppercase;
     font-style: normal;
@@ -1667,11 +1667,11 @@ body.is-unopened #musicToggle {
 
 .editorial-section-tag {
     font-family: var(--font-body);
-    font-size: 0.62rem;
-    letter-spacing: 0.3em;
+    font-size: clamp(0.72rem, 2vw, 0.78rem);
+    letter-spacing: 0.28em;
     color: var(--color-gold-deep);
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 600;
     display: block;
     margin-bottom: 12px;
 }
@@ -1878,12 +1878,12 @@ body.is-unopened #musicToggle {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 10px 16px;
+    padding: 11px 18px;
     border-radius: var(--radius-full);
     font-family: var(--font-body);
-    font-size: 0.62rem;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
@@ -2228,11 +2228,11 @@ body.is-unopened #musicToggle {
 
 .stationery-label {
     font-family: var(--font-body);
-    font-size: 0.58rem;
-    letter-spacing: 0.15em;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
     color: var(--color-gold-deep);
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 4px;
     display: block;
 }
@@ -2685,7 +2685,7 @@ body.is-unopened #musicToggle {
     border: none;
     border-bottom: 1.5px solid rgba(198, 161, 91, 0.4);
     font-family: var(--font-body);
-    font-size: 0.82rem;
+    font-size: 0.92rem;
     color: var(--color-maroon-dark);
     padding: 8px 4px;
     border-radius: 0;
