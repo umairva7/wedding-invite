@@ -1092,14 +1092,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const musicToggle = document.getElementById('musicToggle');
     const bgNasheed = document.getElementById('bgNasheed');
 
-    // Selected Section Timing Presets:
-    // Rank 1 (ROMANTIC - Recommended): 00:50 to 01:20 (START: 50.0, END: 80.0)
-    // Rank 2 (EMOTIONAL):             00:15 to 00:45 (START: 15.0, END: 45.0)
-    // Rank 3 (GRAND WEDDING):         01:22 to 01:52 (START: 82.0, END: 112.0)
-
-    const CLIP_START_TIME = 50.0;
-    const CLIP_END_TIME = 80.0;
-    const FADE_OUT_START = 78.0;
+    // Selected Section Timing:
+    // Main Chorus & Full Lyrical Peak: 01:12 to 01:45 (START: 72.0, END: 105.0)
+    const CLIP_START_TIME = 72.0;
+    const CLIP_END_TIME = 105.0;
+    const FADE_OUT_START = 102.0;
 
     // Volume Presets per Specification
     const VOL_ROMANTIC = 0.18;    // Chapter I & II (18%)
