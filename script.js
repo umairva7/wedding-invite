@@ -1092,11 +1092,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const musicToggle = document.getElementById('musicToggle');
     const bgNasheed = document.getElementById('bgNasheed');
 
-    // Selected Section Timing:
-    // Main Chorus & Full Lyrical Peak: 01:12 to 01:45 (START: 72.0, END: 105.0)
-    const CLIP_START_TIME = 72.0;
-    const CLIP_END_TIME = 105.0;
-    const FADE_OUT_START = 102.0;
+    // Extended Section Timing (60-Second Full Lyrical Passage):
+    // 01:10 to 02:10 (START: 70.0, END: 130.0)
+    const CLIP_START_TIME = 70.0;
+    const CLIP_END_TIME = 130.0;
+    const FADE_OUT_START = 125.0;
 
     // Volume Presets per Specification
     const VOL_ROMANTIC = 0.18;    // Chapter I & II (18%)
