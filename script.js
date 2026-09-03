@@ -961,7 +961,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function scratch(e) {
-        if (!isScratching || canvasCleared) return;
+        if (!isScratching || canvasCleared) {
+            if (canvasCleared) stopScratchAudio(true);
+            return;
+        }
         if (e && e.cancelable) e.preventDefault();
 
         const now = Date.now();
@@ -988,7 +991,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function stopScratch(e) {
-        if (!isScratching) return;
         isScratching = false;
 
         if (e && e.pointerId && scratchCanvas.releasePointerCapture) {
@@ -1019,13 +1021,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (scratchedPercent > 35) {
             canvasCleared = true;
-            stopScratchAudio();
+            isScratching = false;
+            if (scratchCanvas) {
+                scratchCanvas.style.pointerEvents = 'none';
+                scratchCanvas.style.opacity = '0';
+            }
+            stopScratchAudio(true); // Force immediate audio termination
             playRevealChime();
             triggerHapticFeedback([40, 60, 80]);
-            scratchCanvas.style.opacity = '0';
             if (scratchWrapper) scratchWrapper.classList.add('scratched');
             setTimeout(() => {
-                scratchCanvas.style.display = 'none';
+                if (scratchCanvas) scratchCanvas.style.display = 'none';
             }, 500);
 
             const rect = scratchWrapper.getBoundingClientRect();
