@@ -2789,48 +2789,9 @@ body.is-unopened #musicToggle {
 .scratch-wrapper .revealed-content .editorial-year-num,
 .scratch-wrapper .revealed-content .editorial-hairline,
 .scratch-wrapper .revealed-content .editorial-meta-line {
-    opacity: 0;
-    filter: blur(8px);
-    transform: translateY(8px) scale(0.97);
-    transition: opacity var(--motion-medium) var(--ease-invitation),
-                filter var(--motion-medium) var(--ease-invitation),
-                transform var(--motion-medium) var(--ease-invitation);
-    will-change: opacity, filter, transform;
-}
-
-.scratch-wrapper.scratched .revealed-content .editorial-day-num {
     opacity: 1;
-    filter: blur(0);
-    transform: translateY(0) scale(1);
-    transition-delay: 100ms;
-}
-
-.scratch-wrapper.scratched .revealed-content .editorial-month-name {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0) scale(1);
-    transition-delay: 220ms;
-}
-
-.scratch-wrapper.scratched .revealed-content .editorial-year-num {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0) scale(1);
-    transition-delay: 340ms;
-}
-
-.scratch-wrapper.scratched .revealed-content .editorial-hairline {
-    opacity: 0.65;
-    filter: blur(0);
-    transform: translateY(0) scale(1);
-    transition-delay: 460ms;
-}
-
-.scratch-wrapper.scratched .revealed-content .editorial-meta-line {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0) scale(1);
-    transition-delay: 580ms;
+    filter: none;
+    transform: none;
 }
 
 .scratch-card-section {
