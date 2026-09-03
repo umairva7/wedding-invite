@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const parallaxLayers = document.querySelectorAll('.parallax-layer');
 
     let currentStoryPage = 0;
-    const totalStoryPages = pages.length || 6;
+    const totalStoryPages = pages.length || 7;
 
     // Cache page offsets to eliminate synchronous layout thrashing during scroll
     let pageOffsets = [];
@@ -391,13 +391,38 @@ document.addEventListener('DOMContentLoaded', () => {
         triggerGoldLightParticles(originX || window.innerWidth / 2, originY || window.innerHeight / 2);
     }
 
+    function showFloatingToast(message, x, y) {
+        const toast = document.createElement('div');
+        toast.className = 'floating-toast-msg';
+        toast.innerText = message;
+        toast.style.cssText = `
+            position: fixed;
+            left: ${x || window.innerWidth / 2}px;
+            top: ${(y || window.innerHeight / 2) - 20}px;
+            transform: translate(-50%, -50%);
+            color: var(--color-gold-bright, #FDF0A6);
+            font-family: var(--font-cinzel, 'Cinzel', serif);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.85);
+            pointer-events: none;
+            z-index: 10000;
+            animation: floatUpFade 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 1200);
+    }
+
     if (offerFlowerBtn) {
         offerFlowerBtn.addEventListener('click', (e) => {
             count++;
             localStorage.setItem('iqra_hamid_flower_count', count);
             if (flowerCountEl) flowerCountEl.innerText = count;
 
+            triggerHapticFeedback([15, 25, 15]);
             spawnPetalShower(e.clientX, e.clientY);
+            showFloatingToast("BarakAllah! +1 Rose Offered", e.clientX, e.clientY);
         });
     }
 
@@ -573,6 +598,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hide navigation and music controls prior to envelope opening
     document.body.classList.add('is-unopened');
 
+    /* Mobile Haptic Vibrations Helper */
+    function triggerHapticFeedback(pattern = 15) {
+        if ('vibrate' in navigator) {
+            try { navigator.vibrate(pattern); } catch (err) {}
+        }
+    }
+
     function triggerRoyalUnveiling() {
         if (envelopeStage) envelopeStage.classList.add('unveiling');
         triggerCanvasPetalBurst(12, window.innerWidth / 2, window.innerHeight * 0.4);
@@ -586,6 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (envelopeOpened) return;
         envelopeOpened = true;
 
+        triggerHapticFeedback([25, 40, 25]);
         if (waxSeal) waxSeal.classList.add('seal-pressed');
 
         // Step 1 & 2: Compression followed by flap opening & subtle audio
@@ -899,10 +932,26 @@ document.addEventListener('DOMContentLoaded', () => {
         musicToggle.addEventListener('click', toggleMusic);
     }
 
+    // Automatically pause music when opening external links (like Google Maps) or leaving the page/tab
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            pauseNasheed();
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('a[target="_blank"], a[href^="http"]');
+        if (link) {
+            pauseNasheed();
+        }
+    });
+
 
     /* ==========================================================================
-       13. GUESTBOOK LOCAL STORAGE
+       13. GUESTBOOK & GOOGLE SHEETS INTEGRATION
        ========================================================================== */
+    const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzzVPxMwPsRh_HHBbvlltgUvDmR8M5rbF7XKufFr3LsyrHWWsVVkciSMpg2mAy7RtUIqw/exec';
+
     const guestbookForm = document.getElementById('guestbookForm');
     const wishesList = document.getElementById('wishesList');
     const submitWishBtn = document.getElementById('submitWishBtn');
@@ -938,6 +987,54 @@ document.addEventListener('DOMContentLoaded', () => {
         }[m]));
     }
 
+    async function sendWishToGoogleSheets(name, message, attendance = '', guestCount = '') {
+        if (!GOOGLE_SHEETS_WEBHOOK_URL) return;
+        try {
+            const formData = new URLSearchParams();
+            formData.append('name', name);
+            formData.append('attendance', attendance);
+            formData.append('guestCount', guestCount);
+            formData.append('message', message);
+            formData.append('timestamp', new Date().toLocaleString());
+
+            await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData.toString()
+            });
+        } catch (err) {
+            console.log('Google Sheets Sync Error:', err);
+        }
+    }
+
+    // Royal Confirmation Modal Handlers
+    const wishModal = document.getElementById('wishConfirmationModal');
+    const closeWishModalBtn = document.getElementById('closeWishModalBtn');
+    const confirmWishModalBtn = document.getElementById('confirmWishModalBtn');
+
+    function openWishModal() {
+        if (!wishModal) return;
+        wishModal.classList.remove('hidden');
+        wishModal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeWishModal() {
+        if (!wishModal) return;
+        wishModal.classList.add('hidden');
+        wishModal.setAttribute('aria-hidden', 'true');
+    }
+
+    if (closeWishModalBtn) closeWishModalBtn.addEventListener('click', closeWishModal);
+    if (confirmWishModalBtn) confirmWishModalBtn.addEventListener('click', closeWishModal);
+    if (wishModal) {
+        wishModal.addEventListener('click', (e) => {
+            if (e.target === wishModal) closeWishModal();
+        });
+    }
+
     if (guestbookForm) {
         loadWishes();
 
@@ -946,9 +1043,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const nameInput = document.getElementById('guestName');
             const messageInput = document.getElementById('guestMessage');
+            const attendanceInput = document.getElementById('rsvpAttendance');
+            const guestCountInput = document.getElementById('guestCount');
 
             const name = nameInput.value.trim();
             const message = messageInput.value.trim();
+            const attendance = attendanceInput ? attendanceInput.value : '';
+            const guestCount = guestCountInput ? guestCountInput.value : '';
 
             if (!name || !message) return;
 
@@ -958,10 +1059,15 @@ document.addEventListener('DOMContentLoaded', () => {
             btnLoader.classList.remove('hidden');
             submitWishBtn.disabled = true;
 
+            triggerHapticFeedback([20, 40, 20]);
+
             const stored = localStorage.getItem('iqra_hamid_wedding_wishes');
             const wishes = stored ? JSON.parse(stored) : defaultWishes;
-            wishes.unshift({ name, message, time: "Just now" });
+            wishes.unshift({ name, message, attendance, guestCount, time: "Just now" });
             localStorage.setItem('iqra_hamid_wedding_wishes', JSON.stringify(wishes));
+
+            // Sync to Google Sheets
+            sendWishToGoogleSheets(name, message, attendance, guestCount);
 
             setTimeout(() => {
                 loadWishes();
@@ -974,6 +1080,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const rect = submitWishBtn.getBoundingClientRect();
                 triggerGoldLightParticles(rect.left + rect.width / 2, rect.top);
+
+                // Show Heartwarming Royal Confirmation Modal
+                openWishModal();
             }, 600);
         });
     }
@@ -982,21 +1091,50 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ==========================================================================
        14. CALENDAR & SHARE API
        ========================================================================== */
-    const addToCalendarBtn = document.getElementById('addToCalendarBtn');
     const shareBtn = document.getElementById('shareBtn');
 
-    if (addToCalendarBtn) {
-        addToCalendarBtn.addEventListener('click', () => {
-            const title = encodeURIComponent("Iqra & Hamid's Wedding Ceremony (Baraat)");
-            const details = encodeURIComponent("Join us for the Baraat of Iqra Imran & Hamid Ali at Marina Banquet Hall near Barkat Market Lahore.");
-            const location = encodeURIComponent("Marina Banquet Hall, near Barkat Market, New Garden Town, Lahore");
-            const startDate = "20261120T143000Z";
-            const endDate = "20261120T180000Z";
+    function handleAddToCalendar() {
+        triggerHapticFeedback([15, 30, 15]);
 
+        const isAppleDevice = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
+        const title = encodeURIComponent("Iqra & Hamid Royal Baraat Celebration");
+        const details = encodeURIComponent("Join us for the Nikkah & Baraat of Iqra Imran & Hamid Ali at Marina Banquet Hall, Lahore.");
+        const location = encodeURIComponent("Marina Banquet Hall, near Barkat Market, New Garden Town, Lahore");
+        const startDate = "20261120T140000Z";
+        const endDate = "20261120T180000Z";
+
+        if (isAppleDevice) {
+            const icsData = [
+                "BEGIN:VCALENDAR",
+                "VERSION:2.0",
+                "PRODID:-//Iqra & Hamid Wedding//EN",
+                "BEGIN:VEVENT",
+                "SUMMARY:Iqra & Hamid Royal Baraat Celebration",
+                "DESCRIPTION:Join us for the Nikkah & Baraat of Iqra Imran & Hamid Ali at Marina Banquet Hall, Lahore.",
+                "LOCATION:Marina Banquet Hall, near Barkat Market, New Garden Town, Lahore",
+                "DTSTART:20261120T140000Z",
+                "DTEND:20261120T180000Z",
+                "STATUS:CONFIRMED",
+                "END:VEVENT",
+                "END:VCALENDAR"
+            ].join("\r\n");
+
+            const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.setAttribute('download', 'Iqra_Hamid_Wedding.ics');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } else {
             const googleCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDate}/${endDate}&details=${details}&location=${location}`;
             window.open(googleCalUrl, '_blank');
-        });
+        }
     }
+
+    document.querySelectorAll('.add-calendar-trigger').forEach(btn => {
+        btn.addEventListener('click', handleAddToCalendar);
+    });
 
     if (shareBtn) {
         shareBtn.addEventListener('click', async () => {

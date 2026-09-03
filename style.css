@@ -101,9 +101,9 @@ html, body {
 /* Floating Music Button */
 .music-btn {
     position: fixed;
-    top: 24px;
-    right: 24px;
-    z-index: 100;
+    top: 14px;
+    left: 14px;
+    z-index: 105;
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -1421,108 +1421,110 @@ body.is-unopened #musicToggle {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 10px;
-    padding: 12px 0;
-    background: transparent;
-    border-radius: 0;
-    border-top: 1px solid rgba(198, 161, 91, 0.25);
-    border-bottom: 1px solid rgba(198, 161, 91, 0.25);
+    margin-top: 14px;
+    padding: 16px 12px;
+    background: rgba(255, 253, 248, 0.92);
+    border: 1.5px solid rgba(198, 161, 91, 0.4);
+    border-radius: 14px;
+    box-shadow: 0 10px 28px rgba(10, 2, 5, 0.12), inset 0 0 20px rgba(198, 161, 91, 0.08);
     width: 100%;
+    max-width: 480px;
     position: relative;
     z-index: 5;
 }
 
-.editorial-date-display {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 8px;
-    line-height: 1;
-}
-
-.editorial-day {
-    font-family: var(--font-title);
-    font-size: 2.1rem;
-    font-weight: 700;
-    color: var(--color-maroon-deep);
-}
-
-.editorial-month {
-    font-family: var(--font-heading);
-    font-size: 0.95rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    color: var(--color-gold-deep);
-    text-transform: uppercase;
-}
-
-.editorial-year {
-    font-family: var(--font-title);
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--color-maroon-main);
-}
-
-.editorial-time {
-    font-family: var(--font-body);
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: var(--color-text-muted);
-    margin-top: 4px;
-}
-
-.editorial-divider {
-    color: var(--color-gold-main);
-    font-size: 0.65rem;
-    margin: 6px 0 4px;
-}
-
 .editorial-countdown-block {
     text-align: center;
-    margin-top: 2px;
+    width: 100%;
+}
+
+.countdown-header-tag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.countdown-header-tag .tag-line {
+    flex: 1;
+    max-width: 42px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold-main), transparent);
 }
 
 .countdown-lead {
-    font-family: var(--font-body);
-    font-size: 0.65rem;
-    color: var(--color-gold-deep);
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    font-weight: 500;
-    display: block;
-    margin-bottom: 6px;
-}
-
-.countdown-digits {
-    line-height: 1;
-    margin: 4px 0;
-}
-
-.countdown-main-num {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 6vw, 2.8rem);
-    font-weight: 600;
+    font-family: var(--font-heading);
+    font-size: clamp(0.68rem, 2vw, 0.78rem);
     color: var(--color-maroon-deep);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-weight: 600;
+    display: inline-block;
 }
 
-.unit-label {
+.royal-countdown-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(4px, 1.8vw, 8px);
+    width: 100%;
+}
+
+.countdown-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #FFFDF9, #F5EBDC);
+    border: 1.5px solid rgba(198, 161, 91, 0.55);
+    border-radius: 10px;
+    padding: clamp(8px, 2.2vw, 12px) clamp(8px, 2.5vw, 14px);
+    min-width: clamp(56px, 17.5vw, 76px);
+    box-shadow: 0 4px 14px rgba(66, 10, 24, 0.09), inset 0 0 10px rgba(198, 161, 91, 0.18);
+    position: relative;
+    transition: transform var(--motion-fast) var(--ease-invitation), border-color var(--motion-fast) var(--ease-invitation);
+}
+
+.countdown-tile:hover {
+    border-color: var(--color-gold-main);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(66, 10, 24, 0.14), inset 0 0 14px rgba(198, 161, 91, 0.25);
+}
+
+.countdown-number {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 5.5vw, 2.4rem);
+    font-weight: 700;
+    color: var(--color-maroon-deep);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    text-shadow: 0 1px 2px rgba(198, 161, 91, 0.25);
+}
+
+.countdown-unit {
     font-family: var(--font-body);
-    font-size: 0.58rem;
+    font-size: clamp(0.52rem, 1.6vw, 0.62rem);
     letter-spacing: 0.2em;
     color: var(--color-gold-deep);
     text-transform: uppercase;
-    font-weight: 500;
-    margin-left: 4px;
+    font-weight: 600;
+    margin-top: 4px;
 }
 
-.countdown-sub-readout {
-    font-family: var(--font-body);
-    font-size: 0.6rem;
-    color: var(--color-text-muted);
-    letter-spacing: 0.08em;
-    margin-top: 6px;
+.countdown-separator {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 3.5vw, 1.8rem);
     font-weight: 400;
+    color: var(--color-gold-main);
+    line-height: 1;
+    margin-bottom: 12px;
+    animation: blinkSeparator 2s infinite ease-in-out;
+}
+
+@keyframes blinkSeparator {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.9); }
 }
 
 
@@ -3383,5 +3385,157 @@ body.is-unopened #musicToggle {
         max-width: 540px;
         padding: 32px 28px;
     }
+}
+
+
+/* ==========================================================================
+   ROYAL BLESSING CONFIRMATION MODAL
+   ========================================================================== */
+.royal-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(18, 4, 8, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s var(--ease-invitation), visibility 0.4s var(--ease-invitation);
+}
+
+.royal-modal-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.royal-modal-card {
+    background: linear-gradient(145deg, rgba(255, 253, 248, 0.98), rgba(247, 239, 226, 0.96));
+    border: 2px solid var(--color-gold-main);
+    border-radius: 18px;
+    padding: 34px 26px 28px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 24px 60px rgba(10, 2, 5, 0.5), inset 0 0 30px rgba(198, 161, 91, 0.15);
+    transform: scale(1);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.royal-modal-overlay.hidden .royal-modal-card {
+    transform: scale(0.92);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--color-gold-deep);
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.modal-close-btn:hover {
+    color: var(--color-maroon-deep);
+    transform: scale(1.15);
+}
+
+.modal-icon-wrapper {
+    margin-bottom: 8px;
+}
+
+.modal-crescent-star {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    color: var(--color-gold-main);
+    letter-spacing: 0.25em;
+}
+
+.modal-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    color: var(--color-maroon-deep);
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.modal-subtitle {
+    font-family: var(--font-heading);
+    font-size: 0.76rem;
+    letter-spacing: 0.22em;
+    color: var(--color-gold-deep);
+    text-transform: uppercase;
+    margin-top: 6px;
+    font-weight: 600;
+}
+
+.modal-divider {
+    height: 1px;
+    width: 70px;
+    margin: 16px auto;
+    background: linear-gradient(90deg, transparent, var(--color-gold-main), transparent);
+}
+
+.modal-message {
+    font-family: var(--font-serif);
+    font-size: clamp(0.9rem, 2.5vw, 1.02rem);
+    font-style: italic;
+    color: var(--color-maroon-main);
+    line-height: 1.65;
+    margin-bottom: 20px;
+}
+
+.modal-family-signature {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 22px;
+}
+
+.modal-family-signature strong {
+    color: var(--color-maroon-deep);
+    font-weight: 600;
+    font-size: 0.78rem;
+}
+
+.modal-action-btn {
+    background: linear-gradient(135deg, var(--color-maroon-deep), var(--color-maroon-dark));
+    color: var(--color-gold-bright);
+    border: 1.2px solid var(--color-gold-main);
+    padding: 12px 26px;
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(66, 10, 24, 0.3);
+    transition: all var(--motion-fast) var(--ease-invitation);
+    width: 100%;
+}
+
+.modal-action-btn:hover {
+    border-color: var(--color-gold-bright);
+    letter-spacing: 0.24em;
+    box-shadow: 0 6px 20px rgba(66, 10, 24, 0.4);
+}
+
+@keyframes floatUpFade {
+    0% { opacity: 0; transform: translate(-50%, 0) scale(0.8); }
+    20% { opacity: 1; transform: translate(-50%, -20px) scale(1.1); }
+    100% { opacity: 0; transform: translate(-50%, -60px) scale(1); }
 }
 
