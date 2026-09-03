@@ -1466,9 +1466,10 @@ body.is-unopened #musicToggle {
 .royal-countdown-grid {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: clamp(4px, 1.8vw, 8px);
+    justify-content: space-between;
+    gap: clamp(2px, 1.2vw, 6px);
     width: 100%;
+    box-sizing: border-box;
 }
 
 .countdown-tile {
@@ -1478,9 +1479,10 @@ body.is-unopened #musicToggle {
     justify-content: center;
     background: linear-gradient(145deg, #FFFDF9, #F5EBDC);
     border: 1.5px solid rgba(198, 161, 91, 0.55);
-    border-radius: 10px;
-    padding: clamp(8px, 2.2vw, 12px) clamp(8px, 2.5vw, 14px);
-    min-width: clamp(56px, 17.5vw, 76px);
+    border-radius: 8px;
+    padding: clamp(6px, 1.8vw, 10px) clamp(4px, 1.5vw, 10px);
+    flex: 1;
+    min-width: 0;
     box-shadow: 0 4px 14px rgba(66, 10, 24, 0.09), inset 0 0 10px rgba(198, 161, 91, 0.18);
     position: relative;
     transition: transform var(--motion-fast) var(--ease-invitation), border-color var(--motion-fast) var(--ease-invitation);
@@ -1494,31 +1496,34 @@ body.is-unopened #musicToggle {
 
 .countdown-number {
     font-family: var(--font-display);
-    font-size: clamp(1.6rem, 5.5vw, 2.4rem);
+    font-size: clamp(1.2rem, 4.5vw, 2.2rem);
     font-weight: 700;
     color: var(--color-maroon-deep);
-    line-height: 0.95;
+    line-height: 1;
     letter-spacing: -0.02em;
     text-shadow: 0 1px 2px rgba(198, 161, 91, 0.25);
 }
 
 .countdown-unit {
     font-family: var(--font-body);
-    font-size: clamp(0.52rem, 1.6vw, 0.62rem);
-    letter-spacing: 0.2em;
+    font-size: clamp(0.48rem, 1.4vw, 0.6rem);
+    letter-spacing: 0.12em;
     color: var(--color-gold-deep);
     text-transform: uppercase;
     font-weight: 600;
-    margin-top: 4px;
+    margin-top: 3px;
+    white-space: nowrap;
 }
 
 .countdown-separator {
     font-family: var(--font-display);
-    font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+    font-size: clamp(0.9rem, 3vw, 1.6rem);
     font-weight: 400;
     color: var(--color-gold-main);
     line-height: 1;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
+    padding: 0 1px;
+    flex-shrink: 0;
     animation: blinkSeparator 2s infinite ease-in-out;
 }
 
@@ -3296,6 +3301,11 @@ body.is-unopened #musicToggle {
     .scratch-card-section {
         padding: 16px 12px;
         margin: 6px auto;
+    }
+
+    .editorial-date-section {
+        padding: 12px 6px;
+        margin-top: 10px;
     }
 
     .editorial-venue-title {
