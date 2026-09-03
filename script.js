@@ -721,14 +721,14 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.lineWidth = 1;
         ctx.strokeRect(6, 6, width - 12, height - 12);
 
-        // 4. REVEAL THE DATE in Quiet Regal Typography
+        // 4. SCRATCH TO REVEAL THE DATE in Quiet Regal Typography
         ctx.fillStyle = '#3A0715';
         ctx.font = '600 11px Cinzel, serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.shadowColor = 'rgba(255, 245, 215, 0.6)';
         ctx.shadowBlur = 4;
-        ctx.fillText('REVEAL THE DATE', width / 2, height / 2);
+        ctx.fillText('✦ SCRATCH TO REVEAL THE DATE ✦', width / 2, height / 2);
         ctx.shadowBlur = 0;
     }
 
