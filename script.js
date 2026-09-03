@@ -625,37 +625,62 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!AudioCtx) return;
             scratchAudioCtx = new AudioCtx();
 
-            const bufferSize = scratchAudioCtx.sampleRate * 1.0;
+            // 1. Organic Granular Friction Buffer (Pink noise + Rubber friction grain)
+            const bufferSize = scratchAudioCtx.sampleRate * 1.5;
             const noiseBuffer = scratchAudioCtx.createBuffer(1, bufferSize, scratchAudioCtx.sampleRate);
             const output = noiseBuffer.getChannelData(0);
-            let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+            
+            let lastOut = 0.0;
             for (let i = 0; i < bufferSize; i++) {
                 const white = Math.random() * 2 - 1;
-                b0 = 0.99886 * b0 + white * 0.0555179;
-                b1 = 0.99332 * b1 + white * 0.0750759;
-                b2 = 0.96900 * b2 + white * 0.1538520;
-                b3 = 0.86650 * b3 + white * 0.3104856;
-                b4 = 0.55000 * b4 + white * 0.5329522;
-                b5 = -0.7616 * b5 - white * 0.0168980;
-                output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
-                output[i] *= 0.08;
-                b6 = white * 0.115926;
+                // Brown/pink noise integration for soft rubber eraser body
+                lastOut = (lastOut + (0.025 * white)) / 1.025;
+                // Blend rubber body with crisp surface foil grain
+                output[i] = (lastOut * 0.65) + (white * 0.12);
             }
 
             scratchNoiseNode = scratchAudioCtx.createBufferSource();
             scratchNoiseNode.buffer = noiseBuffer;
             scratchNoiseNode.loop = true;
 
+            // 2. Highpass Filter (Cleans sub-rumble below 320Hz)
+            const hpFilter = scratchAudioCtx.createBiquadFilter();
+            hpFilter.type = 'highpass';
+            hpFilter.frequency.value = 320;
+
+            // 3. Crisp Surface Friction Filter (2200Hz)
             scratchFilterNode = scratchAudioCtx.createBiquadFilter();
             scratchFilterNode.type = 'bandpass';
-            scratchFilterNode.frequency.value = 1800;
-            scratchFilterNode.Q.value = 2.5;
+            scratchFilterNode.frequency.value = 2200;
+            scratchFilterNode.Q.value = 1.8;
+
+            // 4. Rubber Eraser Body Filter (650Hz)
+            const bodyFilter = scratchAudioCtx.createBiquadFilter();
+            bodyFilter.type = 'bandpass';
+            bodyFilter.frequency.value = 650;
+            bodyFilter.Q.value = 2.0;
 
             scratchGainNode = scratchAudioCtx.createGain();
             scratchGainNode.gain.value = 0.0;
 
-            scratchNoiseNode.connect(scratchFilterNode);
+            // 5. Rubbing LFO (12Hz wobbly frequency modulation simulating physical stroke movement)
+            const lfo = scratchAudioCtx.createOscillator();
+            lfo.type = 'sine';
+            lfo.frequency.value = 12; // 12Hz back-and-forth stroke speed
+            const lfoGain = scratchAudioCtx.createGain();
+            lfoGain.gain.value = 550; // Modulates filter frequency +/- 550Hz
+            lfo.connect(lfoGain);
+            lfoGain.connect(scratchFilterNode.frequency);
+            lfo.start(0);
+
+            // Connect signal chain
+            scratchNoiseNode.connect(hpFilter);
+            hpFilter.connect(scratchFilterNode);
+            hpFilter.connect(bodyFilter);
+
             scratchFilterNode.connect(scratchGainNode);
+            bodyFilter.connect(scratchGainNode);
+
             scratchGainNode.connect(scratchAudioCtx.destination);
             scratchNoiseNode.start(0);
         } catch (e) {}
@@ -935,6 +960,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (now - lastScratchHapticTime > 65) {
             triggerHapticFeedback(12);
             lastScratchHapticTime = now;
+        }
+
+        // Dynamic acoustic pitch modulation based on physical scratching velocity
+        if (scratchFilterNode && scratchAudioCtx) {
+            const movement = Math.hypot(e.movementX || 0, e.movementY || 0);
+            const targetFreq = Math.min(3200, Math.max(1800, 2200 + movement * 35));
+            scratchFilterNode.frequency.setTargetAtTime(targetFreq, scratchAudioCtx.currentTime, 0.04);
         }
 
         const pos = getScratchPos(e);
