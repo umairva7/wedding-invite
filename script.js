@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const parallaxLayers = document.querySelectorAll('.parallax-layer');
 
     let currentStoryPage = 0;
-    const totalStoryPages = pages.length || 7;
+    const totalStoryPages = pages.length || 6;
 
     // Cache page offsets to eliminate synchronous layout thrashing during scroll
     let pageOffsets = [];
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Update Segmented Story Progress Bar (I - VII)
+        // Update Segmented Story Progress Bar (I - VI)
         storySegments.forEach((segment, idx) => {
             segment.classList.remove('active', 'completed');
             if (idx < currentStoryPage) {
