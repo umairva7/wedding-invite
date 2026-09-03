@@ -598,13 +598,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hide navigation and music controls prior to envelope opening
     document.body.classList.add('is-unopened');
 
-    /* Organic Audio Synthesizers & Haptic Helpers */
+    /* ==========================================================================
+       SCRATCH AUDIO ENGINE (Preloaded HTML Audio + Web Audio Synth Fallback)
+       ========================================================================== */
+    const scratchFileAudio = new Audio('assets/audio/scratch.mp3');
+    scratchFileAudio.loop = true;
+    scratchFileAudio.volume = 0.25; // 25% volume per specification
+    scratchFileAudio.preload = 'auto';
+
     let scratchAudioCtx = null;
     let scratchNoiseNode = null;
     let scratchGainNode = null;
     let scratchFilterNode = null;
+    let isScratchAudioPlaying = false;
+    let isFileAudioActive = false;
 
-    function initScratchAudio() {
+    function initScratchAudioSynth() {
         if (scratchAudioCtx) return;
         try {
             const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -624,7 +633,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 b4 = 0.55000 * b4 + white * 0.5329522;
                 b5 = -0.7616 * b5 - white * 0.0168980;
                 output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
-                output[i] *= 0.09;
+                output[i] *= 0.08;
                 b6 = white * 0.115926;
             }
 
@@ -647,21 +656,56 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {}
     }
 
-    function startScratchSound() {
-        if (!scratchAudioCtx) initScratchAudio();
-        if (scratchAudioCtx && scratchAudioCtx.state === 'suspended') {
-            scratchAudioCtx.resume();
-        }
-        if (scratchGainNode && scratchAudioCtx) {
-            scratchGainNode.gain.cancelScheduledValues(scratchAudioCtx.currentTime);
-            scratchGainNode.gain.setValueAtTime(0.18, scratchAudioCtx.currentTime);
+    function startScratchAudio() {
+        if (isScratchAudioPlaying) return;
+        isScratchAudioPlaying = true;
+
+        // Try preloaded audio asset (scratch.mp3) first
+        scratchFileAudio.currentTime = 0;
+        scratchFileAudio.volume = 0.25;
+        const promise = scratchFileAudio.play();
+
+        if (promise !== undefined) {
+            promise.then(() => {
+                isFileAudioActive = true;
+            }).catch(() => {
+                // Fallback to Web Audio paper noise synthesizer
+                isFileAudioActive = false;
+                initScratchAudioSynth();
+                if (scratchAudioCtx && scratchAudioCtx.state === 'suspended') {
+                    scratchAudioCtx.resume();
+                }
+                if (scratchGainNode && scratchAudioCtx) {
+                    scratchGainNode.gain.cancelScheduledValues(scratchAudioCtx.currentTime);
+                    scratchGainNode.gain.setValueAtTime(0.22, scratchAudioCtx.currentTime);
+                }
+            });
+        } else {
+            isFileAudioActive = true;
         }
     }
 
-    function stopScratchSound() {
-        if (scratchGainNode && scratchAudioCtx) {
-            scratchGainNode.gain.cancelScheduledValues(scratchAudioCtx.currentTime);
-            scratchGainNode.gain.linearRampToValueAtTime(0.0, scratchAudioCtx.currentTime + 0.08);
+    function stopScratchAudio() {
+        if (!isScratchAudioPlaying) return;
+        isScratchAudioPlaying = false;
+
+        if (isFileAudioActive) {
+            let vol = scratchFileAudio.volume;
+            const fadeTimer = setInterval(() => {
+                vol -= 0.06;
+                if (vol <= 0) {
+                    scratchFileAudio.volume = 0;
+                    scratchFileAudio.pause();
+                    clearInterval(fadeTimer);
+                } else {
+                    scratchFileAudio.volume = vol;
+                }
+            }, 10);
+        } else {
+            if (scratchGainNode && scratchAudioCtx) {
+                scratchGainNode.gain.cancelScheduledValues(scratchAudioCtx.currentTime);
+                scratchGainNode.gain.linearRampToValueAtTime(0.0, scratchAudioCtx.currentTime + 0.06);
+            }
         }
     }
 
@@ -681,6 +725,28 @@ document.addEventListener('DOMContentLoaded', () => {
             gain.connect(ctx.destination);
             osc.start();
             osc.stop(ctx.currentTime + 0.14);
+        } catch (e) {}
+    }
+
+    function playRevealChime() {
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            const ctx = new AudioCtx();
+            const notes = [523.25, 659.25, 783.99]; // Warm E5, G#5, B5 chime triad
+            notes.forEach((freq, idx) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.08);
+                gain.gain.setValueAtTime(0.0, ctx.currentTime + idx * 0.08);
+                gain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + idx * 0.08 + 0.04);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.08 + 0.6);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(ctx.currentTime + idx * 0.08);
+                osc.stop(ctx.currentTime + idx * 0.08 + 0.65);
+            });
         } catch (e) {}
     }
 
@@ -764,14 +830,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!scratchCanvas._listenersAttached) {
             scratchCanvas._listenersAttached = true;
-            scratchCanvas.addEventListener('mousedown', startScratch);
-            scratchCanvas.addEventListener('touchstart', startScratch, { passive: false });
 
-            window.addEventListener('mousemove', scratch);
-            window.addEventListener('touchmove', scratch, { passive: false });
+            // Unified Pointer Events for Touch, Mouse, Trackpad & Pen
+            scratchCanvas.addEventListener('pointerdown', startScratch);
+            scratchCanvas.addEventListener('pointermove', scratch);
 
-            window.addEventListener('mouseup', stopScratch);
-            window.addEventListener('touchend', stopScratch);
+            const handlePointerStop = (e) => stopScratch(e);
+            scratchCanvas.addEventListener('pointerup', handlePointerStop);
+            scratchCanvas.addEventListener('pointercancel', handlePointerStop);
+            scratchCanvas.addEventListener('pointerleave', handlePointerStop);
+
+            // Touch scrolling prevention on canvas area
+            scratchCanvas.addEventListener('touchstart', (e) => { if (e.cancelable) e.preventDefault(); }, { passive: false });
+            scratchCanvas.addEventListener('touchmove', (e) => { if (e.cancelable) e.preventDefault(); }, { passive: false });
         }
     }
 
@@ -840,7 +911,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function startScratch(e) {
         if (canvasCleared) return;
         isScratching = true;
-        startScratchSound();
+
+        if (e && e.pointerId && scratchCanvas.setPointerCapture) {
+            try { scratchCanvas.setPointerCapture(e.pointerId); } catch (err) {}
+        }
+
+        startScratchAudio();
         triggerHapticFeedback(25);
         if (scratchHintOverlay) scratchHintOverlay.classList.add('hidden');
         scratch(e);
@@ -848,7 +924,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function scratch(e) {
         if (!isScratching || canvasCleared) return;
-        if (e.cancelable) e.preventDefault();
+        if (e && e.cancelable) e.preventDefault();
 
         const now = Date.now();
         if (now - lastScratchHapticTime > 65) {
@@ -866,9 +942,15 @@ document.addEventListener('DOMContentLoaded', () => {
         checkScratchPercentage();
     }
 
-    function stopScratch() {
+    function stopScratch(e) {
+        if (!isScratching) return;
         isScratching = false;
-        stopScratchSound();
+
+        if (e && e.pointerId && scratchCanvas.releasePointerCapture) {
+            try { scratchCanvas.releasePointerCapture(e.pointerId); } catch (err) {}
+        }
+
+        stopScratchAudio();
     }
 
     function checkScratchPercentage() {
@@ -892,7 +974,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (scratchedPercent > 35) {
             canvasCleared = true;
-            stopScratchSound();
+            stopScratchAudio();
+            playRevealChime();
             triggerHapticFeedback([40, 60, 80]);
             scratchCanvas.style.opacity = '0';
             if (scratchWrapper) scratchWrapper.classList.add('scratched');
