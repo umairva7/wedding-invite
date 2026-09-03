@@ -1756,6 +1756,115 @@ body.is-unopened #musicToggle {
     color: var(--color-maroon-main);
 }
 
+/* ==========================================================================
+   VERTICAL GOLDEN CHAIN TIMELINE (CHAPTER III)
+   ========================================================================== */
+.vertical-chain-timeline {
+    position: relative;
+    max-width: 380px;
+    margin: 18px auto 22px;
+    padding: 6px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Central Continuous Golden Chain Line */
+.vertical-chain-timeline::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    background: linear-gradient(180deg, 
+        rgba(198, 161, 91, 0.1) 0%, 
+        var(--color-gold-main) 15%, 
+        var(--color-gold-dark) 50%, 
+        var(--color-gold-main) 85%, 
+        rgba(198, 161, 91, 0.1) 100%
+    );
+    box-shadow: 0 0 6px rgba(198, 161, 91, 0.35);
+    z-index: 1;
+}
+
+.chain-node-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    z-index: 2;
+}
+
+.chain-time-col {
+    flex: 1;
+    text-align: right;
+    padding-right: 16px;
+}
+
+.chain-time {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: clamp(0.78rem, 2.3vw, 0.88rem);
+    color: var(--color-maroon-deep);
+    letter-spacing: 0.05em;
+    display: block;
+}
+
+.chain-node {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #FAF2E1;
+    border: 1.8px solid var(--color-gold-main);
+    box-shadow: 0 0 10px rgba(198, 161, 91, 0.35), inset 0 0 5px rgba(198, 161, 91, 0.25);
+    flex-shrink: 0;
+    z-index: 3;
+    transition: transform 0.3s var(--ease-invitation), border-color 0.3s ease;
+}
+
+.chain-node-item:hover .chain-node {
+    transform: scale(1.18);
+    border-color: var(--color-gold-bright);
+    box-shadow: 0 0 14px rgba(198, 161, 91, 0.6);
+}
+
+.node-dot {
+    font-size: 0.55rem;
+    color: var(--color-gold-deep);
+    line-height: 1;
+}
+
+.chain-label-col {
+    flex: 1;
+    text-align: left;
+    padding-left: 16px;
+}
+
+.chain-event {
+    font-family: var(--font-heading);
+    font-size: clamp(0.68rem, 2vw, 0.76rem);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--color-gold-deep);
+    text-transform: uppercase;
+    display: block;
+}
+
+.chain-sub {
+    font-family: var(--font-serif);
+    font-size: 0.68rem;
+    font-style: italic;
+    color: var(--color-text-muted);
+    display: block;
+    margin-top: 1px;
+}
+
 .venue-destination-actions {
     display: flex;
     flex-direction: column;
