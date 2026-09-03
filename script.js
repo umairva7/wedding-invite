@@ -598,8 +598,94 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hide navigation and music controls prior to envelope opening
     document.body.classList.add('is-unopened');
 
+    /* Organic Audio Synthesizers & Haptic Helpers */
+    let scratchAudioCtx = null;
+    let scratchNoiseNode = null;
+    let scratchGainNode = null;
+    let scratchFilterNode = null;
+
+    function initScratchAudio() {
+        if (scratchAudioCtx) return;
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            scratchAudioCtx = new AudioCtx();
+
+            const bufferSize = scratchAudioCtx.sampleRate * 1.0;
+            const noiseBuffer = scratchAudioCtx.createBuffer(1, bufferSize, scratchAudioCtx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+            for (let i = 0; i < bufferSize; i++) {
+                const white = Math.random() * 2 - 1;
+                b0 = 0.99886 * b0 + white * 0.0555179;
+                b1 = 0.99332 * b1 + white * 0.0750759;
+                b2 = 0.96900 * b2 + white * 0.1538520;
+                b3 = 0.86650 * b3 + white * 0.3104856;
+                b4 = 0.55000 * b4 + white * 0.5329522;
+                b5 = -0.7616 * b5 - white * 0.0168980;
+                output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+                output[i] *= 0.09;
+                b6 = white * 0.115926;
+            }
+
+            scratchNoiseNode = scratchAudioCtx.createBufferSource();
+            scratchNoiseNode.buffer = noiseBuffer;
+            scratchNoiseNode.loop = true;
+
+            scratchFilterNode = scratchAudioCtx.createBiquadFilter();
+            scratchFilterNode.type = 'bandpass';
+            scratchFilterNode.frequency.value = 1800;
+            scratchFilterNode.Q.value = 2.5;
+
+            scratchGainNode = scratchAudioCtx.createGain();
+            scratchGainNode.gain.value = 0.0;
+
+            scratchNoiseNode.connect(scratchFilterNode);
+            scratchFilterNode.connect(scratchGainNode);
+            scratchGainNode.connect(scratchAudioCtx.destination);
+            scratchNoiseNode.start(0);
+        } catch (e) {}
+    }
+
+    function startScratchSound() {
+        if (!scratchAudioCtx) initScratchAudio();
+        if (scratchAudioCtx && scratchAudioCtx.state === 'suspended') {
+            scratchAudioCtx.resume();
+        }
+        if (scratchGainNode && scratchAudioCtx) {
+            scratchGainNode.gain.cancelScheduledValues(scratchAudioCtx.currentTime);
+            scratchGainNode.gain.setValueAtTime(0.18, scratchAudioCtx.currentTime);
+        }
+    }
+
+    function stopScratchSound() {
+        if (scratchGainNode && scratchAudioCtx) {
+            scratchGainNode.gain.cancelScheduledValues(scratchAudioCtx.currentTime);
+            scratchGainNode.gain.linearRampToValueAtTime(0.0, scratchAudioCtx.currentTime + 0.08);
+        }
+    }
+
+    function playWaxSnapSound() {
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            const ctx = new AudioCtx();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(480, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.14);
+            gain.gain.setValueAtTime(0.35, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.14);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.14);
+        } catch (e) {}
+    }
+
     /* Mobile Haptic Vibrations Helper */
-    function triggerHapticFeedback(pattern = 15) {
+    function triggerHapticFeedback(pattern = [30, 40, 30]) {
         if ('vibrate' in navigator) {
             try { navigator.vibrate(pattern); } catch (err) {}
         }
@@ -618,7 +704,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (envelopeOpened) return;
         envelopeOpened = true;
 
-        triggerHapticFeedback([25, 40, 25]);
+        playWaxSnapSound();
+        triggerHapticFeedback([40, 50, 40, 50, 80]);
         if (waxSeal) waxSeal.classList.add('seal-pressed');
 
         // Step 1 & 2: Compression followed by flap opening & subtle audio
@@ -748,9 +835,13 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    let lastScratchHapticTime = 0;
+
     function startScratch(e) {
         if (canvasCleared) return;
         isScratching = true;
+        startScratchSound();
+        triggerHapticFeedback(25);
         if (scratchHintOverlay) scratchHintOverlay.classList.add('hidden');
         scratch(e);
     }
@@ -759,11 +850,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isScratching || canvasCleared) return;
         if (e.cancelable) e.preventDefault();
 
+        const now = Date.now();
+        if (now - lastScratchHapticTime > 65) {
+            triggerHapticFeedback(12);
+            lastScratchHapticTime = now;
+        }
+
         const pos = getScratchPos(e);
 
         ctx.globalCompositeOperation = 'destination-out';
         ctx.beginPath();
-        ctx.arc(pos.x, pos.y, 20, 0, Math.PI * 2);
+        ctx.arc(pos.x, pos.y, 22, 0, Math.PI * 2);
         ctx.fill();
 
         checkScratchPercentage();
@@ -771,6 +868,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function stopScratch() {
         isScratching = false;
+        stopScratchSound();
     }
 
     function checkScratchPercentage() {
@@ -794,6 +892,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (scratchedPercent > 35) {
             canvasCleared = true;
+            stopScratchSound();
+            triggerHapticFeedback([40, 60, 80]);
             scratchCanvas.style.opacity = '0';
             if (scratchWrapper) scratchWrapper.classList.add('scratched');
             setTimeout(() => {
