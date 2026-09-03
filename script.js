@@ -239,6 +239,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 segment.classList.add('active');
             }
         });
+
+        // Chapter-aware cinematic audio management
+        if (typeof handleChapterAudioChange === 'function') {
+            handleChapterAudioChange(index);
+        }
     }
 
     function goToStoryPage(index) {
@@ -778,6 +783,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             if (envelope) envelope.classList.add('open');
             triggerRoyalUnveiling();
+            startCinematicTrack(CLIP_START_TIME, VOL_ROMANTIC);
         }, 140);
 
         // Step 3, 4 & 5: Envelope fade out, story page reveal, navigation & hero title reveal
@@ -1081,33 +1087,191 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* ==========================================================================
-       12. WEDDING NASHEED AUDIO CONTROLLER
+       12. CINEMATIC WEDDING MUSIC CONTROLLER — DIN SHAGNA DA (VOCALS ONLY)
        ========================================================================== */
     const musicToggle = document.getElementById('musicToggle');
     const bgNasheed = document.getElementById('bgNasheed');
 
-    function playNasheed() {
+    // Selected Section Timing (00:50 to 01:20)
+    const CLIP_START_TIME = 50.0;
+    const CLIP_END_TIME = 80.0;
+    const FADE_OUT_START = 78.0;
+
+    // Volume Presets per Specification
+    const VOL_ROMANTIC = 0.18;    // Chapter I & II (18%)
+    const VOL_SUBTLE = 0.12;      // Chapter III (12% for venue details)
+    const VOL_QUIZ = 0.0;         // Chapter IV (0% for interactive quiz)
+    const VOL_RSVP = 0.14;        // Chapter V (14% for guestbook)
+    const VOL_CLOSING = 0.0;      // Chapter VI (0% for peaceful closing dua)
+
+    // State Variables
+    let isMusicEnabledByUser = true;
+    let hasFinishedFirstPlay = false;
+    let audioFadeInterval = null;
+    let currentTargetVol = VOL_ROMANTIC;
+
+    function smoothFadeTo(targetVol, durationMs = 1500, onComplete = null) {
         if (!bgNasheed) return;
-        bgNasheed.volume = 0.15; // Soft ambient volume so scratch & interaction sounds remain prominent
-        bgNasheed.play().then(() => {
-            if (musicToggle) musicToggle.classList.add('playing');
-        }).catch(err => {
-            console.log('Autoplay prevented until user gesture:', err);
+        if (audioFadeInterval) clearInterval(audioFadeInterval);
+
+        const steps = 25;
+        const intervalMs = Math.max(20, Math.floor(durationMs / steps));
+        let currentVol = bgNasheed.volume;
+        const volStep = (targetVol - currentVol) / steps;
+        let currentStep = 0;
+
+        audioFadeInterval = setInterval(() => {
+            currentStep++;
+            currentVol += volStep;
+
+            if (currentStep >= steps || (volStep > 0 && currentVol >= targetVol) || (volStep < 0 && currentVol <= targetVol)) {
+                bgNasheed.volume = Math.max(0, Math.min(1, targetVol));
+                clearInterval(audioFadeInterval);
+                audioFadeInterval = null;
+                if (onComplete) onComplete();
+            } else {
+                bgNasheed.volume = Math.max(0, Math.min(1, currentVol));
+            }
+        }, intervalMs);
+    }
+
+    function startCinematicTrack(startTime = CLIP_START_TIME, initialVol = VOL_ROMANTIC) {
+        if (!bgNasheed || !isMusicEnabledByUser) return;
+
+        try {
+            bgNasheed.currentTime = startTime;
+            bgNasheed.volume = 0.0;
+            currentTargetVol = initialVol;
+
+            const playPromise = bgNasheed.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    if (musicToggle) musicToggle.classList.add('playing');
+                    smoothFadeTo(initialVol, 1800);
+                }).catch(err => {
+                    console.log('Audio playback waiting for user gesture:', err);
+                });
+            }
+        } catch (e) {
+            console.warn('Cinematic audio start failed:', e);
+        }
+    }
+
+    function pauseCinematicTrack(fadeDurationMs = 600) {
+        if (!bgNasheed) return;
+        smoothFadeTo(0.0, fadeDurationMs, () => {
+            bgNasheed.pause();
+            if (musicToggle) musicToggle.classList.remove('playing');
         });
     }
 
-    function pauseNasheed() {
-        if (!bgNasheed) return;
-        bgNasheed.pause();
-        if (musicToggle) musicToggle.classList.remove('playing');
+    // Time update listener enforcing 00:50 - 01:20 boundary & smooth fade-out
+    if (bgNasheed) {
+        bgNasheed.addEventListener('timeupdate', () => {
+            const currentTime = bgNasheed.currentTime;
+
+            // Keep within 00:50 - 01:20 clip boundaries
+            if (currentTime < CLIP_START_TIME - 0.5) {
+                bgNasheed.currentTime = CLIP_START_TIME;
+            }
+
+            // Smooth fade out in the final 2 seconds (78s - 80s)
+            if (currentTime >= FADE_OUT_START && currentTime < CLIP_END_TIME) {
+                const remainingRatio = Math.max(0, (CLIP_END_TIME - currentTime) / (CLIP_END_TIME - FADE_OUT_START));
+                bgNasheed.volume = Math.max(0, currentTargetVol * remainingRatio);
+            }
+
+            // Hard Stop at 01:20 (80s)
+            if (currentTime >= CLIP_END_TIME) {
+                bgNasheed.pause();
+                bgNasheed.currentTime = CLIP_START_TIME;
+                bgNasheed.volume = 0;
+                if (musicToggle) musicToggle.classList.remove('playing');
+                hasFinishedFirstPlay = true;
+            }
+        });
     }
 
+    // Chapter-Aware Audio Manager
+    function handleChapterAudioChange(chapterIndex) {
+        if (!bgNasheed || !isMusicEnabledByUser) return;
+
+        switch (chapterIndex) {
+            case 0: // Chapter I — THE INVITATION
+                currentTargetVol = VOL_ROMANTIC;
+                if (bgNasheed.paused && !hasFinishedFirstPlay) {
+                    startCinematicTrack(CLIP_START_TIME, VOL_ROMANTIC);
+                } else if (!bgNasheed.paused) {
+                    smoothFadeTo(VOL_ROMANTIC, 1200);
+                }
+                break;
+
+            case 1: // Chapter II — DISCOVER THE DATE
+                currentTargetVol = VOL_ROMANTIC;
+                if (!bgNasheed.paused) {
+                    smoothFadeTo(VOL_ROMANTIC, 1000);
+                }
+                // If clip has finished or is paused, remain silent
+                break;
+
+            case 2: // Chapter III — THE CELEBRATION
+                currentTargetVol = VOL_SUBTLE;
+                if (!bgNasheed.paused) {
+                    smoothFadeTo(VOL_SUBTLE, 1200);
+                }
+                // If clip has finished or is paused, remain silent
+                break;
+
+            case 3: // Chapter IV — A LITTLE TEST OF MEMORY (Quiz)
+                currentTargetVol = VOL_QUIZ;
+                if (!bgNasheed.paused) {
+                    pauseCinematicTrack(800);
+                }
+                break;
+
+            case 4: // Chapter V — GUESTBOOK & RSVP (Emotional Silence)
+                currentTargetVol = 0.0;
+                if (!bgNasheed.paused) {
+                    pauseCinematicTrack(800);
+                }
+                break;
+
+            case 5: // Chapter VI — UNTIL WE MEET (Intimate Closing & Dua)
+                currentTargetVol = VOL_CLOSING;
+                if (!bgNasheed.paused) {
+                    pauseCinematicTrack(1200);
+                }
+                break;
+        }
+    }
+
+    // Music Toggle Button Control
     function toggleMusic() {
         if (!bgNasheed) return;
-        if (bgNasheed.paused) {
-            playNasheed();
+
+        if (isMusicEnabledByUser && !bgNasheed.paused) {
+            // Turn OFF
+            isMusicEnabledByUser = false;
+            pauseCinematicTrack(400);
         } else {
-            pauseNasheed();
+            // Turn ON
+            isMusicEnabledByUser = true;
+
+            if (currentStoryPage === 3 || currentStoryPage === 5) {
+                // Quiz or Closing section — stay paused
+                if (musicToggle) musicToggle.classList.add('playing');
+                return;
+            }
+
+            const curr = bgNasheed.currentTime;
+            if (curr >= CLIP_START_TIME && curr < CLIP_END_TIME && !hasFinishedFirstPlay) {
+                bgNasheed.play().then(() => {
+                    if (musicToggle) musicToggle.classList.add('playing');
+                    smoothFadeTo(currentTargetVol, 1000);
+                });
+            } else {
+                startCinematicTrack(CLIP_START_TIME, currentTargetVol);
+            }
         }
     }
 
@@ -1115,17 +1279,17 @@ document.addEventListener('DOMContentLoaded', () => {
         musicToggle.addEventListener('click', toggleMusic);
     }
 
-    // Automatically pause music when opening external links (like Google Maps) or leaving the page/tab
+    // Automatically pause music when switching tabs or opening external links
     document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            pauseNasheed();
+        if (document.hidden && bgNasheed && !bgNasheed.paused) {
+            pauseCinematicTrack(300);
         }
     });
 
     document.addEventListener('click', (e) => {
         const link = e.target.closest('a[target="_blank"], a[href^="http"]');
-        if (link) {
-            pauseNasheed();
+        if (link && bgNasheed && !bgNasheed.paused) {
+            pauseCinematicTrack(300);
         }
     });
 
