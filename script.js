@@ -776,7 +776,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Step 1 & 2: Compression followed by flap opening & subtle audio
         setTimeout(() => {
-            playNasheed();
             if (envelope) envelope.classList.add('open');
             triggerRoyalUnveiling();
         }, 140);
@@ -1089,6 +1088,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function playNasheed() {
         if (!bgNasheed) return;
+        bgNasheed.volume = 0.15; // Soft ambient volume so scratch & interaction sounds remain prominent
         bgNasheed.play().then(() => {
             if (musicToggle) musicToggle.classList.add('playing');
         }).catch(err => {
