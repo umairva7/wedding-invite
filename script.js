@@ -1138,11 +1138,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const musicToggle = document.getElementById('musicToggle');
     const bgNasheed = document.getElementById('bgNasheed');
 
-    // Extended Section Timing (65-Second Full Lyrical Passage):
-    // 01:10 to 02:15 (START: 70.0, END: 135.0)
-    const CLIP_START_TIME = 70.0;
-    const CLIP_END_TIME = 135.0;
-    const FADE_OUT_START = 130.0;
+    // Cinematic Audio Segment:
+    // Starts at 00:50 (50.0s) with 7-8s gentle "hoo hoo" vocal harmony for Chapter I (Bismillah)
+    // and continues into lyrics through Chapter II & III (END: 115.0s / 01:55)
+    const CLIP_START_TIME = 50.0;
+    const CLIP_END_TIME = 115.0;
+    const FADE_OUT_START = 110.0;
 
     // Volume Presets per Specification
     const VOL_ROMANTIC = 0.18;    // Chapter I & II (18%)
