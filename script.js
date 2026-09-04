@@ -1141,9 +1141,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cinematic Audio Segment:
     // Starts at 00:50 (50.0s) with 7-8s gentle "hoo hoo" vocal harmony for Chapter I (Bismillah)
     // and continues into lyrics through Chapter II & III (END: 115.0s / 01:55)
-    const CLIP_START_TIME = 50.0;
-    const CLIP_END_TIME = 115.0;
-    const FADE_OUT_START = 110.0;
+    const CLIP_START_TIME = 60.0;
+    const CLIP_END_TIME = 150.0;
+    const FADE_OUT_START = 140.0;
 
     // Volume Presets per Specification
     const VOL_ROMANTIC = 0.18;    // Chapter I & II (18%)
