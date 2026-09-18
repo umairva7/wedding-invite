@@ -869,7 +869,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tapInstruction = document.querySelector('.tap-instruction');
     const sealContainer = document.getElementById('sealContainer');
 
-    [waxSeal, tapInstruction, sealContainer, envelope].forEach(el => {
+    [waxSeal, tapInstruction, sealContainer].forEach(el => {
         if (el) {
             el.addEventListener('click', openEnvelope);
             el.addEventListener('touchstart', openEnvelope, { passive: true });
