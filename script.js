@@ -797,47 +797,93 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function triggerRoyalUnveiling() {
         if (envelopeStage) envelopeStage.classList.add('unveiling');
-        triggerCanvasPetalBurst(12, window.innerWidth / 2, window.innerHeight * 0.4);
-        triggerGoldLightParticles(window.innerWidth / 2, window.innerHeight / 2);
+        // Very restrained, gentle petal breeze (not cartoon explosive particles)
+        triggerCanvasPetalBurst(6, window.innerWidth / 2, window.innerHeight * 0.45);
     }
 
     function openEnvelope(e) {
-        if (e && e.preventDefault) {
-            // Prevent duplicate touch/click triggering
+        if (e && e.preventDefault && e.type !== 'touchstart') {
+            e.preventDefault();
         }
         if (envelopeOpened) return;
         envelopeOpened = true;
 
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Sound and subtle haptics
         playWaxSnapSound();
-        triggerHapticFeedback([40, 50, 40, 50, 80]);
-        if (waxSeal) waxSeal.classList.add('seal-pressed');
+        triggerHapticFeedback([30, 40]);
 
-        // Step 1 & 2: Compression followed by flap opening & subtle audio
-        setTimeout(() => {
+        if (prefersReducedMotion) {
+            // Immediate transition for accessibility
+            if (waxSeal) waxSeal.classList.add('seal-broken');
             if (envelope) envelope.classList.add('open');
-            triggerRoyalUnveiling();
-            startCinematicTrack(CLIP_START_TIME, VOL_ROMANTIC);
-        }, 140);
-
-        // Step 3, 4 & 5: Envelope fade out, story page reveal, navigation & hero title reveal
-        setTimeout(() => {
-            if (envelopeStage) envelopeStage.classList.add('fade-out');
+            if (envelopeStage) {
+                envelopeStage.classList.add('fade-out');
+                envelopeStage.setAttribute('aria-hidden', 'true');
+            }
             if (cardStage) cardStage.classList.add('active');
             document.body.classList.remove('is-unopened');
             goToStoryPage(0);
             initScratchCanvas();
-        }, 1200);
+            startCinematicTrack(CLIP_START_TIME, VOL_ROMANTIC);
+            return;
+        }
+
+        // Step 1: Subtle physical compression (100ms)
+        if (waxSeal) waxSeal.classList.add('seal-pressed');
+
+        // Step 2: Wax cracks and separates into two pieces
+        setTimeout(() => {
+            if (waxSeal) {
+                waxSeal.classList.remove('seal-pressed');
+                waxSeal.classList.add('seal-broken');
+            }
+        }, 100);
+
+        // Step 3: Folio presentation panels part open, revealing the inner manuscript
+        setTimeout(() => {
+            if (envelope) envelope.classList.add('open');
+            triggerRoyalUnveiling();
+            startCinematicTrack(CLIP_START_TIME, VOL_ROMANTIC);
+        }, 220);
+
+        // Step 4: Smooth transition into Chapter I of the invitation
+        setTimeout(() => {
+            if (cardStage) cardStage.classList.add('active');
+            if (envelopeStage) envelopeStage.classList.add('fade-out');
+            document.body.classList.remove('is-unopened');
+            goToStoryPage(0);
+            initScratchCanvas();
+        }, 1050);
+
+        // Step 5: Clean up opening stage from accessibility tree and pointer events
+        setTimeout(() => {
+            if (envelopeStage) {
+                envelopeStage.setAttribute('aria-hidden', 'true');
+                envelopeStage.style.display = 'none';
+            }
+        }, 1450);
     }
 
     const tapInstruction = document.querySelector('.tap-instruction');
-    const envelopeContainer = document.querySelector('.envelope-container');
+    const sealContainer = document.getElementById('sealContainer');
 
-    [waxSeal, envelope, tapInstruction, envelopeContainer].forEach(el => {
+    [waxSeal, tapInstruction, sealContainer, envelope].forEach(el => {
         if (el) {
             el.addEventListener('click', openEnvelope);
             el.addEventListener('touchstart', openEnvelope, { passive: true });
         }
     });
+
+    if (waxSeal) {
+        waxSeal.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openEnvelope(e);
+            }
+        });
+    }
 
 
     /* ==========================================================================

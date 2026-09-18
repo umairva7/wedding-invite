@@ -70,30 +70,94 @@
     </div>
 
 
-    <!-- ================= STAGE 1: ENVELOPE ================= -->
-    <section id="envelopeStage" class="stage-envelope active">
-        <div class="envelope-container">
-            <div class="envelope-light-bloom" id="envelopeBloom"></div>
-            <div class="envelope" id="envelope">
-                <div class="flap top-flap"></div>
-                <div class="pocket-lining"></div>
-                <div class="card-preview">
-                    <div class="card-preview-header">
-                        <span class="arabic-bismillah">﷽</span>
-                        <h3>Iqra &amp; Hamid</h3>
-                    </div>
-                </div>
-                <div class="pocket front-pocket"></div>
-                <div class="wax-seal" id="waxSeal">
-                    <div class="seal-inner">
-                        <span class="seal-monogram">H &amp; I</span>
-                    </div>
-                    <div class="seal-pulse"></div>
-                </div>
+    <!-- ================= STAGE 1: CINEMATIC HEIRLOOM INVITATION ================= -->
+    <section id="envelopeStage" class="stage-envelope active" aria-label="Wedding Invitation Opening">
+        <!-- Ambient Setting Glow -->
+        <div class="heirloom-ambient-glow" id="envelopeBloom" aria-hidden="true"></div>
+
+        <!-- The Bespoke Invitation Card / Folio -->
+        <div class="heirloom-card" id="envelope">
+            <!-- Subtle Handcrafted Paper Grain Overlay -->
+            <div class="heirloom-paper-texture" aria-hidden="true"></div>
+
+            <!-- Inset Framing Rules & Corner Flourishes -->
+            <div class="heirloom-frame" aria-hidden="true"></div>
+            <div class="corner-flourish top-left" aria-hidden="true"></div>
+            <div class="corner-flourish top-right" aria-hidden="true"></div>
+            <div class="corner-flourish bottom-left" aria-hidden="true"></div>
+            <div class="corner-flourish bottom-right" aria-hidden="true"></div>
+
+            <!-- Faint Mughal Palace Silhouette Watermark -->
+            <div class="heirloom-watermark" aria-hidden="true"></div>
+
+            <!-- Left & Right Presentation Cover Panels (Part open when unsealed) -->
+            <div class="folio-panel folio-panel-left" id="folioLeft" aria-hidden="true">
+                <div class="folio-panel-edge"></div>
             </div>
-            <div class="tap-instruction">
-                <span class="instruction-lead">CORDIALLY INVITED</span>
-                <p class="pulse-text">BREAK THE WAX SEAL</p>
+            <div class="folio-panel folio-panel-right" id="folioRight" aria-hidden="true">
+                <div class="folio-panel-edge"></div>
+            </div>
+
+            <!-- Central Composition Flow -->
+            <div class="heirloom-cover-content" id="heirloomCoverContent">
+                <!-- 0.3s: Delicate Gold Foil Ornament -->
+                <div class="opening-ornament" id="openingOrnament" aria-hidden="true">
+                    <span class="ornament-mark">✦</span>
+                </div>
+
+                <!-- 0.7–0.9s: Monogram -->
+                <div class="opening-monogram" id="openingMonogram">
+                    <span class="monogram-letters">H &amp; I</span>
+                </div>
+
+                <!-- 1.1–1.5s: Ceremonial Names (Staggered Reveal) -->
+                <div class="opening-names-block" id="openingNames">
+                    <span class="opening-name bride-name-reveal">Iqra</span>
+                    <span class="opening-amp-reveal">&amp;</span>
+                    <span class="opening-name groom-name-reveal">Hamid</span>
+                </div>
+
+                <!-- 2.0s: Cordially Invited Formal Title -->
+                <div class="opening-cordially-block" id="openingCordially">
+                    <span class="cordially-text">CORDIALLY INVITED</span>
+                </div>
+
+                <!-- Intentional Luxury Breathing Space -->
+                <div class="opening-breathing-space"></div>
+
+                <!-- 2.8s: The Physical Wax Seal -->
+                <div class="wax-seal-container" id="sealContainer">
+                    <div class="wax-seal" id="waxSeal" role="button" tabindex="0" aria-label="Break the wax seal to open invitation">
+                        <!-- Left Half of Seal -->
+                        <div class="seal-half seal-half-left">
+                            <div class="seal-body">
+                                <div class="seal-inner">
+                                    <span class="seal-monogram">H &amp; I</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Half of Seal -->
+                        <div class="seal-half seal-half-right">
+                            <div class="seal-body">
+                                <div class="seal-inner">
+                                    <span class="seal-monogram">H &amp; I</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Crack Fracture Path SVG -->
+                        <svg class="seal-crack-svg" viewBox="0 0 74 74" aria-hidden="true">
+                            <path class="seal-crack-path" d="M 37 3 Q 35 16 39 27 Q 34 40 40 51 Q 36 62 37 71" />
+                        </svg>
+                        <!-- Specular Gold Shimmer -->
+                        <div class="seal-shimmer-sheen" aria-hidden="true"></div>
+                    </div>
+
+                    <!-- 3.4s: Subtle Interaction Hint -->
+                    <div class="tap-instruction" id="tapInstruction">
+                        <p class="pulse-text">BREAK THE WAX SEAL</p>
+                        <span class="instruction-sub">Tap to open</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
